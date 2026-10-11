@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="28" fill="url(#grad)" />
+  <!-- Map Pin Shape -->
+  <path d="M50 20C38.9543 20 30 28.9543 30 40C30 54 46 72 48.5 74.8C49.3 75.7 50.7 75.7 51.5 74.8C54 72 70 54 70 40C70 28.9543 61.0457 20 50 20Z" fill="white" />
+  <!-- Inner Rest / Comfort / Toilet Icon -->
+  <circle cx="50" cy="36" r="6" fill="#059669" />
+  <path d="M42 46C42 44.3 43.3 43 45 43H55C56.7 43 58 44.3 58 46V50C58 53.3 55.3 56 52 56H48C44.7 56 42 53.3 42 50V46Z" fill="#059669" />
+  <path d="M47 56V62C47 62.6 46.6 63 46 63H44C43.4 63 43 62.6 43 62V56H47Z" fill="#059669" />
+  <path d="M57 56V62C57 62.6 56.6 63 56 63H54C53.4 63 53 62.6 53 62V56H57Z" fill="#059669" />
+</svg>
