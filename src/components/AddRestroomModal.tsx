@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, MapPin, CheckCircle2, ShieldCheck, Sparkles, Navigation } from 'lucide-react';
+import { X, MapPin, Navigation, Sparkles } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { RestroomPlace, FacilityCategory } from '../types';
 
@@ -22,7 +22,6 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
   const [province, setProvince] = useState('กรุงเทพมหานคร');
   const [lat, setLat] = useState('13.7563');
   const [lng, setLng] = useState('100.5018');
-  const [openingHours, setOpeningHours] = useState('เปิด 24 ชั่วโมง');
   const [priceType, setPriceType] = useState<'free' | 'paid'>('free');
   const [floorZone, setFloorZone] = useState('');
 
@@ -34,12 +33,8 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
   const [prayer, setPrayer] = useState(false);
   const [elderly, setElderly] = useState(true);
 
-  // Accessibility specs
-  const [hasRamp, setHasRamp] = useState(true);
-  const [hasGrabBars, setHasGrabBars] = useState(true);
-
-  // PDPA Consent
-  const [agreedPdpa, setAgreedPdpa] = useState(false);
+  // Privacy Agreement
+  const [agreed, setAgreed] = useState(false);
 
   if (!isOpen) return null;
 
@@ -59,7 +54,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !agreedPdpa) return;
+    if (!name.trim() || !agreed) return;
 
     const newPlace: RestroomPlace = {
       id: 'user-rest-' + Date.now(),
@@ -74,9 +69,9 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
         lng: parseFloat(lng) || 100.5018,
       },
       access_status: 'user_reported',
-      opening_hours: openingHours,
+      opening_hours: 'เปิดบริการตามปกติ',
       price_type: priceType,
-      floor_zone: floorZone || 'อาคารบริการหลัก',
+      floor_zone: floorZone || 'บริเวณอาคารหลัก',
       facilities: {
         bidetSprayer,
         genderSeparated: true,
@@ -95,15 +90,15 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
         toiletPaperAvailable: true,
       },
       accessibility: {
-        hasRamp,
+        hasRamp: wheelchair,
         hasElevator: false,
-        hasGrabBars,
+        hasGrabBars: elderly,
         doorWidthCm: 90,
         wheelchairTurningRadiusCm: 150,
         groundFloorOnly: true,
         accessibleParkingNearby: true,
         selfAccessible: true,
-        detailedNotes: 'ข้อมูลบันทึกจากสมาชิกชุมชน รอทีมงานสุ่มตรวจยืนยัน',
+        detailedNotes: 'ข้อมูลบันทึกจากผู้ใช้งาน',
       },
       overallRating: 5.0,
       reviewCount: 1,
@@ -121,11 +116,11 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
       verified_at: new Date().toISOString().replace('T', ' ').substring(0, 16),
       source_type: 'user',
       report_status: 'normal',
-      badges: ['Recently Verified', 'Cleanest'],
+      badges: ['Recently Added'],
       reviews: [
         {
           id: 'rev-init-' + Date.now(),
-          userName: 'ผู้ปักหมุดเริ่มต้น',
+          userName: 'ผู้ปักหมุด',
           date: new Date().toISOString().split('T')[0],
           overallRating: 5,
           ratings: {
@@ -136,7 +131,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
             convenience: 5,
             value: 5,
           },
-          comment: 'เพิ่มจุดห้องน้ำนี้เพื่อให้เพื่อนร่วมทางใช้งานได้สะดวกครับ',
+          comment: 'เพิ่มจุดห้องน้ำนี้เพื่อประโยชน์ในการเดินทาง',
           isVerifiedVisit: true,
         }
       ],
@@ -144,10 +139,9 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
 
     onAdd(newPlace);
 
-    // Launch confetti!
     try {
       confetti({
-        particleCount: 80,
+        particleCount: 70,
         spread: 60,
         origin: { y: 0.6 }
       });
@@ -159,42 +153,41 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/50 backdrop-blur-xs overflow-y-auto">
       <div 
-        className="relative w-full max-w-xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col border border-slate-100"
+        className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col border border-slate-100"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-5 sm:p-6 border-b border-slate-100 flex items-center justify-between bg-emerald-50/60">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-2xl bg-emerald-600 text-white shadow-xs">
+        <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-emerald-50/50">
+          <div className="flex items-center gap-2.5">
+            <div className="p-2 rounded-xl bg-emerald-600 text-white shadow-2xs">
               <MapPin className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-extrabold text-slate-900 text-lg sm:text-xl">
-                {lang === 'th' ? 'เพิ่มจุดห้องน้ำและจุดพักใหม่' : 'Add New Restroom'}
+              <h3 className="font-extrabold text-slate-900 text-base sm:text-lg">
+                {lang === 'th' ? 'ปักหมุดจุดห้องน้ำใหม่' : 'Add New Restroom'}
               </h3>
               <p className="text-xs text-slate-500">
-                ตามโครงสร้างข้อมูลภาคผนวก ก (Data Schema Specification)
+                แบ่งปันจุดพักและห้องน้ำสะอาดให้กับเพื่อนร่วมทาง
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 sm:p-6 overflow-y-auto space-y-4 flex-1 text-xs sm:text-sm">
+        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs sm:text-sm">
           
-          {/* Place Name */}
           <div>
             <label className="block font-bold text-slate-700 mb-1">
-              ชื่อสถานที่ / ปั๊มน้ำมัน / จุดพัก <span className="text-rose-500">*</span>
+              ชื่อสถานที่ / ปั๊มน้ำมัน <span className="text-rose-500">*</span>
             </label>
             <input 
               type="text"
@@ -206,21 +199,20 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
             />
           </div>
 
-          {/* Category & Price */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">ประเภทสถานที่</label>
+              <label className="block font-bold text-slate-700 mb-1">ประเภท</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as FacilityCategory)}
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
               >
-                <option value="gas_station">⛽ ปั๊มน้ำมัน / จุดพักรถ</option>
+                <option value="gas_station">⛽ ปั๊มน้ำมัน</option>
                 <option value="shopping_mall">🏬 ห้างสรรพสินค้า</option>
-                <option value="transit_hub">✈️ สถานีขนส่ง / สนามบิน</option>
-                <option value="public_park">🌳 สวนสาธารณะ / แหล่งท่องเที่ยว</option>
-                <option value="camping_nature">⛺ แคมป์ปิ้ง / จุดพักธรรมชาติ</option>
-                <option value="restaurant_cafe">☕ ร้านอาหาร / คาเฟ่</option>
+                <option value="transit_hub">✈️ ศูนย์การเดินทาง</option>
+                <option value="public_park">🌳 สวน / จุดชมวิว</option>
+                <option value="camping_nature">⛺ แคมป์ปิ้ง</option>
+                <option value="restaurant_cafe">☕ ร้านอาหาร/คาเฟ่</option>
               </select>
             </div>
 
@@ -229,24 +221,23 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
               <select
                 value={priceType}
                 onChange={(e) => setPriceType(e.target.value as 'free' | 'paid')}
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-emerald-500"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
               >
-                <option value="free">ฟรี (ไม่มีค่าใช้จ่าย)</option>
-                <option value="paid">มีค่าบริการ (ประมาณ 3-10 บาท)</option>
+                <option value="free">ฟรี</option>
+                <option value="paid">มีค่าบริการ</option>
               </select>
             </div>
           </div>
 
-          {/* Address & Province */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block font-bold text-slate-700 mb-1">ถนน / ที่ตั้ง</label>
               <input 
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                placeholder="เช่น ถนนพระราม 2 ต.บางเค็ม"
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-emerald-500"
+                placeholder="เช่น ถนนพระราม 2"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
               />
             </div>
             <div>
@@ -255,40 +246,40 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
                 type="text"
                 value={province}
                 onChange={(e) => setProvince(e.target.value)}
-                placeholder="เช่น เพชรบุรี, ชลบุรี, กรุงเทพฯ"
-                className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-emerald-500"
+                placeholder="เช่น เพชรบุรี"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
               />
             </div>
           </div>
 
-          {/* GPS Coordinates & Locate me */}
+          {/* GPS Coordinates */}
           <div>
             <div className="flex items-center justify-between mb-1">
-              <label className="font-bold text-slate-700">พิกัดภูมิศาสตร์ (GPS Lat/Lng)</label>
+              <label className="font-bold text-slate-700">พิกัด GPS</label>
               <button
                 type="button"
                 onClick={handleUseCurrentLocation}
                 className="text-xs text-emerald-600 font-semibold hover:underline flex items-center gap-1"
               >
                 <Navigation className="w-3 h-3" />
-                <span>ดึงพิกัดตำแหน่งปัจจุบัน</span>
+                <span>ใช้พิกัดปัจจุบัน</span>
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               <input 
                 type="text"
                 value={lat}
                 onChange={(e) => setLat(e.target.value)}
-                placeholder="Latitude (เช่น 13.5684)"
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 font-mono text-xs focus:outline-emerald-500"
+                placeholder="Latitude"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 text-xs"
                 required
               />
               <input 
                 type="text"
                 value={lng}
                 onChange={(e) => setLng(e.target.value)}
-                placeholder="Longitude (เช่น 101.0042)"
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 font-mono text-xs focus:outline-emerald-500"
+                placeholder="Longitude"
+                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 text-xs"
                 required
               />
             </div>
@@ -296,31 +287,31 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
 
           {/* Floor & Zone */}
           <div>
-            <label className="block font-bold text-slate-700 mb-1">ตำแหน่งภายในอาคาร / จุดสังเกต</label>
+            <label className="block font-bold text-slate-700 mb-1">จุดสังเกตในสถานที่</label>
             <input 
               type="text"
               value={floorZone}
               onChange={(e) => setFloorZone(e.target.value)}
-              placeholder="เช่น ด้านหลังร้านกาแฟ, ชั้น 1 ใกล้ทางออกทิศเหนือ"
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 focus:outline-emerald-500"
+              placeholder="เช่น ด้านหลังร้านกาแฟ, ฝั่งตรงข้ามร้านสะดวกซื้อ"
+              className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
             />
           </div>
 
-          {/* Facilities Checkboxes */}
+          {/* Facilities */}
           <div>
-            <label className="block font-bold text-slate-700 mb-2">สิ่งอำนวยความสะดวกที่มีจริง</label>
+            <label className="block font-bold text-slate-700 mb-1.5">สิ่งอำนวยความสะดวก</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {[
                 { label: '💦 สายฉีดชำระ', state: bidetSprayer, set: setBidetSprayer },
-                { label: '♿ ทางลาด/รถเข็น', state: wheelchair, set: setWheelchair },
+                { label: '♿ รองรับรถเข็น', state: wheelchair, set: setWheelchair },
                 { label: '🧓 ราวจับผู้สูงอายุ', state: elderly, set: setElderly },
-                { label: '👶 โต๊ะเปลี่ยนผ้าอ้อม', state: diaperTable, set: setDiaperTable },
+                { label: '👶 ที่เปลี่ยนผ้าอ้อม', state: diaperTable, set: setDiaperTable },
                 { label: '🚿 ห้องอาบน้ำ', state: shower, set: setShower },
                 { label: '🕌 ห้องละหมาด', state: prayer, set: setPrayer },
               ].map((item, idx) => (
                 <label 
                   key={idx} 
-                  className={`p-2.5 rounded-xl border cursor-pointer flex items-center gap-2 select-none transition-all ${
+                  className={`p-2 rounded-xl border cursor-pointer flex items-center gap-2 select-none text-xs transition-all ${
                     item.state ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold' : 'bg-slate-50 border-slate-200 text-slate-600'
                   }`}
                 >
@@ -328,7 +319,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
                     type="checkbox" 
                     checked={item.state} 
                     onChange={(e) => item.set(e.target.checked)}
-                    className="rounded text-emerald-600 focus:ring-emerald-500"
+                    className="rounded text-emerald-600"
                   />
                   <span>{item.label}</span>
                 </label>
@@ -336,38 +327,38 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
             </div>
           </div>
 
-          {/* PDPA & Guidelines Compliance */}
-          <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 space-y-2">
-            <label className="flex items-start gap-2.5 cursor-pointer select-none">
+          {/* Agreement */}
+          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700">
+            <label className="flex items-start gap-2 cursor-pointer select-none">
               <input 
                 type="checkbox"
-                checked={agreedPdpa}
-                onChange={(e) => setAgreedPdpa(e.target.checked)}
-                className="mt-1 rounded text-emerald-600 focus:ring-emerald-500"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-0.5 rounded text-emerald-600"
                 required
               />
               <span className="text-xs leading-relaxed">
-                <strong>รับทราบนโยบาย PDPA และจริยธรรมข้อมูล (PDF บทที่ 13):</strong> ข้าพเจ้ายืนยันว่าข้อมูลเป็นความจริง ไม่มีการถ่ายภาพหรือบันทึกข้อมูลที่ละเมิดสิทธิส่วนบุคคลในห้องน้ำ และยินยอมให้ระบบเผยแพร่เพื่อประโยชน์สาธารณะ
+                ยืนยันว่าข้อมูลเป็นความจริง และไม่มีการบันทึกภาพถ่ายที่ละเมิดความเป็นส่วนตัวในห้องน้ำ
               </span>
             </label>
           </div>
 
-          {/* Submit Buttons */}
-          <div className="flex justify-end gap-3 pt-3 border-t border-slate-100">
+          {/* Buttons */}
+          <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 rounded-xl text-slate-600 hover:text-slate-800 font-semibold"
+              className="px-4 py-2 rounded-xl text-slate-500 hover:text-slate-700 font-semibold text-xs"
             >
               ยกเลิก
             </button>
             <button
               type="submit"
-              disabled={!agreedPdpa || !name.trim()}
-              className="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold shadow-md shadow-emerald-600/30 flex items-center gap-2"
+              disabled={!agreed || !name.trim()}
+              className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center gap-1.5"
             >
-              <Sparkles className="w-4 h-4" />
-              <span>บันทึกและส่งข้อมูล</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>บันทึกจุดห้องน้ำ</span>
             </button>
           </div>
 

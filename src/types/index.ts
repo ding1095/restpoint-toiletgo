@@ -127,12 +127,3 @@ export interface FilterState {
   open24h: boolean;
   verifiedOnly: boolean;
 }
-
-export interface ProposalChapter {
-  id: string;
-  title: string;
-  titleEn: string;
-  chapterNumber: number | string;
-  summary: string;
-  content: string;
-}

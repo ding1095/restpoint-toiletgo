@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   X, Star, Navigation, Share2, Heart, ShieldCheck, 
   MapPin, Clock, AlertTriangle, MessageSquarePlus, 
-  User, CheckCircle2, ChevronRight, Eye, Flag, Sparkles
+  CheckCircle2, Sparkles, Flag
 } from 'lucide-react';
 import { RestroomPlace, ReviewItem } from '../types';
 
@@ -33,7 +33,6 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
   const [reviewName, setReviewName] = useState('');
   const [reviewComment, setReviewComment] = useState('');
   const [cleanRating, setCleanRating] = useState(5);
-  const [accessRating, setAccessRating] = useState(5);
 
   // Issue report form state
   const [showReportForm, setShowReportForm] = useState(false);
@@ -60,11 +59,11 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
       id: 'rev-' + Date.now(),
       userName: reviewName.trim(),
       date: new Date().toISOString().split('T')[0],
-      overallRating: Math.round((cleanRating + accessRating) / 2),
+      overallRating: cleanRating,
       ratings: {
         cleanliness: cleanRating,
         facilities: 5,
-        accessibility: accessRating,
+        accessibility: 5,
         safety_privacy: 5,
         convenience: 5,
         value: 5,
@@ -86,17 +85,17 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-xs overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/50 backdrop-blur-xs overflow-y-auto">
       <div 
-        className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[92vh] flex flex-col border border-slate-100 animate-in fade-in zoom-in-95 duration-200"
+        className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[90vh] flex flex-col border border-slate-100 animate-in fade-in zoom-in-95 duration-150"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header with image banner */}
-        <div className="relative h-48 sm:h-56 bg-slate-900 overflow-hidden shrink-0">
+        {/* Header Banner */}
+        <div className="relative h-44 sm:h-52 bg-slate-900 overflow-hidden shrink-0">
           <img 
             src={place.photos[0] || 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80'} 
             alt={place.name}
-            className="w-full h-full object-cover opacity-80"
+            className="w-full h-full object-cover opacity-85"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
 
@@ -110,28 +109,28 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
 
           {/* Top badges */}
           <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-            <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white shadow-md flex items-center gap-1">
+            <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500 text-white shadow-sm flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" />
-              {place.access_status === 'verified' ? 'ยืนยันข้อมูลแล้ว' : 'ผู้ใช้รายงาน'}
+              {place.access_status === 'verified' ? 'มีทีมงานยืนยันแล้ว' : 'ผู้ใช้แนะนำ'}
             </span>
-            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 text-slate-800 backdrop-blur-sm shadow-sm">
+            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white/90 text-slate-800 backdrop-blur-sm shadow-xs">
               {place.price_type === 'free' ? 'เข้าใช้ฟรี' : `มีค่าบริการ ${place.price_amount || 5} ฿`}
             </span>
           </div>
 
-          {/* Title & Rating in Banner */}
+          {/* Title & Info */}
           <div className="absolute bottom-4 left-4 right-4 text-white">
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-amber-400 flex items-center text-sm font-bold bg-slate-900/80 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                <Star className="w-4 h-4 fill-amber-400 mr-1" />
+              <span className="text-amber-400 flex items-center text-xs font-bold bg-slate-900/80 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                <Star className="w-3.5 h-3.5 fill-amber-400 mr-1" />
                 {place.overallRating.toFixed(1)}
               </span>
-              <span className="text-xs text-slate-300">({place.reviewCount} รีวิวจากชุมชน)</span>
+              <span className="text-xs text-slate-300">({place.reviewCount} รีวิว)</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white leading-tight">
               {lang === 'th' ? place.name : place.name_en}
             </h2>
-            <p className="text-xs sm:text-sm text-slate-300 flex items-center gap-1 mt-1 truncate">
+            <p className="text-xs text-slate-300 flex items-center gap-1 mt-1 truncate">
               <MapPin className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
               <span>{place.address}</span>
             </p>
@@ -139,30 +138,30 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
         </div>
 
         {/* Tab switcher */}
-        <div className="flex border-b border-slate-200 bg-slate-50/80 px-6 pt-2 shrink-0">
+        <div className="flex border-b border-slate-100 bg-slate-50/70 px-6 pt-2 shrink-0">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`pb-3 px-3 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-colors ${
               activeTab === 'overview'
                 ? 'border-emerald-600 text-emerald-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            {lang === 'th' ? 'สิ่งอำนวยความสะดวก' : 'Overview & Facilities'}
+            {lang === 'th' ? 'สิ่งอำนวยความสะดวก' : 'Facilities'}
           </button>
           <button
             onClick={() => setActiveTab('accessibility')}
-            className={`pb-3 px-3 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-colors ${
               activeTab === 'accessibility'
                 ? 'border-emerald-600 text-emerald-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
             }`}
           >
-            ♿ {lang === 'th' ? 'มาตรฐานการเข้าถึง (Universal Design)' : 'Accessibility Specs'}
+            ♿ {lang === 'th' ? 'ความสะดวกสำหรับรถเข็น/ผู้สูงอายุ' : 'Accessibility'}
           </button>
           <button
             onClick={() => setActiveTab('reviews')}
-            className={`pb-3 px-3 text-sm font-semibold border-b-2 transition-colors ${
+            className={`pb-3 px-3 text-xs sm:text-sm font-bold border-b-2 transition-colors ${
               activeTab === 'reviews'
                 ? 'border-emerald-600 text-emerald-700'
                 : 'border-transparent text-slate-500 hover:text-slate-800'
@@ -177,13 +176,13 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
 
           {/* TAB 1: OVERVIEW */}
           {activeTab === 'overview' && (
-            <div className="space-y-6">
-              {/* Badges bar */}
+            <div className="space-y-5">
+              {/* Feature Tags */}
               <div className="flex flex-wrap gap-1.5">
                 {place.badges.map((b, idx) => (
                   <span 
                     key={idx}
-                    className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200/60 flex items-center gap-1"
+                    className="px-2.5 py-1 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-100 flex items-center gap-1"
                   >
                     <Sparkles className="w-3 h-3 text-emerald-600" />
                     {b}
@@ -191,50 +190,35 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
                 ))}
               </div>
 
-              {/* Location Inside Venue */}
+              {/* Location inside Venue */}
               {place.floor_zone && (
-                <div className="p-3.5 bg-blue-50/70 border border-blue-200/60 rounded-2xl flex items-start gap-3">
-                  <div className="p-2 bg-blue-100 text-blue-700 rounded-xl">
+                <div className="p-3 bg-slate-50 border border-slate-200/80 rounded-2xl flex items-center gap-3">
+                  <div className="p-2 bg-emerald-100 text-emerald-700 rounded-xl">
                     <Navigation className="w-4 h-4" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-blue-900 uppercase tracking-wider">
-                      {lang === 'th' ? 'ตำแหน่งภายในอาคาร / จุดสังเกต' : 'Indoor Location / Landmark'}
-                    </h4>
-                    <p className="text-sm text-blue-800 font-medium mt-0.5">
-                      {place.floor_zone}
-                    </p>
+                    <span className="text-[11px] font-bold text-slate-400 block uppercase">จุดสังเกต / บริเวณที่ตั้ง</span>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-800">{place.floor_zone}</span>
                   </div>
                 </div>
               )}
 
-              {/* Opening Hours & Verification */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
-                  <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <div>
-                    <span className="text-xs text-slate-400 block font-medium">เวลาทำการ</span>
-                    <span className="font-semibold text-slate-800">{place.opening_hours}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200/70">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <div>
-                    <span className="text-xs text-slate-400 block font-medium">ตรวจสอบล่าสุด</span>
-                    <span className="font-semibold text-slate-800">{place.verified_at}</span>
-                  </div>
+              {/* Operating Hours */}
+              <div className="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-200/70 text-xs sm:text-sm">
+                <Clock className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-2">
+                  <span className="text-slate-500">เวลาเปิดให้บริการ:</span>
+                  <span className="font-bold text-slate-800">{place.opening_hours}</span>
                 </div>
               </div>
 
-              {/* Facilities Grid */}
+              {/* Facilities Checklist */}
               <div>
-                <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                  <span>สิ่งอำนวยความสะดวกที่ตรวจสอบแล้ว</span>
-                  <span className="text-xs text-slate-400 font-normal">(ตามมาตรฐาน PDF บทที่ 7.2)</span>
+                <h3 className="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2.5">
+                  สิ่งอำนวยความสะดวก
                 </h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs sm:text-sm">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs sm:text-sm">
                   {[
                     { label: 'สายฉีดชำระ', ok: place.facilities.bidetSprayer, icon: '💦' },
                     { label: 'แยกห้องน้ำชาย/หญิง', ok: place.facilities.genderSeparated, icon: '🚻' },
@@ -244,17 +228,17 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
                     { label: 'ห้องละหมาด', ok: place.facilities.prayerRoom, icon: '🕌' },
                     { label: 'ห้องอาบน้ำ', ok: place.facilities.showerRoom, icon: '🚿' },
                     { label: 'รองรับรถเข็น/วีลแชร์', ok: place.facilities.wheelchairAccessible, icon: '♿' },
-                    { label: 'เหมาะกับผู้สูงอายุ', ok: place.facilities.elderlyFriendly, icon: '🧓' },
+                    { label: 'ราวจับผู้สูงอายุ', ok: place.facilities.elderlyFriendly, icon: '🧓' },
                     { label: 'สบู่ล้างมือ', ok: place.facilities.soapAvailable, icon: '🧼' },
                     { label: 'กระดาษชำระ', ok: place.facilities.toiletPaperAvailable, icon: '🧻' },
                     { label: 'จุดเติมน้ำดื่ม', ok: place.facilities.waterRefill, icon: '💧' },
                   ].map((fac, idx) => (
                     <div 
                       key={idx}
-                      className={`p-2.5 rounded-xl border flex items-center justify-between transition-colors ${
+                      className={`p-2.5 rounded-xl border flex items-center justify-between ${
                         fac.ok 
-                          ? 'bg-emerald-50/50 border-emerald-200/80 text-emerald-950 font-medium' 
-                          : 'bg-slate-50 border-slate-200/50 text-slate-400'
+                          ? 'bg-emerald-50/40 border-emerald-200 text-emerald-950 font-medium' 
+                          : 'bg-slate-50/50 border-slate-200/60 text-slate-400'
                       }`}
                     >
                       <span className="flex items-center gap-1.5 truncate">
@@ -271,91 +255,61 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
                 </div>
               </div>
 
-              {/* 6-Dimension Ratings Breakdown */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <h3 className="text-sm font-bold text-slate-900 mb-3 flex items-center justify-between">
-                  <span>คะแนนประเมิน 6 มิติ (ตามมาตรฐาน PDF บทที่ 9)</span>
-                  <span className="text-emerald-700 font-bold">{place.overallRating.toFixed(1)} / 5.0</span>
-                </h3>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                  {[
-                    { label: 'ความสะอาด', val: place.ratingBreakdown.cleanliness },
-                    { label: 'อุปกรณ์ครบครัน', val: place.ratingBreakdown.facilities },
-                    { label: 'การเข้าถึง', val: place.ratingBreakdown.accessibility },
-                    { label: 'ความปลอดภัย/ส่วนตัว', val: place.ratingBreakdown.safety_privacy },
-                    { label: 'ความสะดวกในการหา', val: place.ratingBreakdown.convenience },
-                    { label: 'ความคุ้มค่า', val: place.ratingBreakdown.value },
-                  ].map((item, idx) => (
-                    <div key={idx} className="space-y-1">
-                      <div className="flex justify-between text-slate-600 font-medium">
-                        <span>{item.label}</span>
-                        <span className="font-bold text-slate-900">{item.val.toFixed(1)}</span>
-                      </div>
-                      <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                        <div 
-                          className="bg-emerald-500 h-full rounded-full" 
-                          style={{ width: `${(item.val / 5) * 100}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+              {/* Cleanliness Rating Summary */}
+              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/70 space-y-2">
+                <div className="flex items-center justify-between text-xs sm:text-sm">
+                  <span className="font-bold text-slate-700">คะแนนความสะอาดเฉลี่ย</span>
+                  <span className="font-extrabold text-emerald-700">{place.ratingBreakdown.cleanliness.toFixed(1)} / 5.0 ดาว</span>
+                </div>
+                <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                  <div 
+                    className="bg-emerald-500 h-full rounded-full" 
+                    style={{ width: `${(place.ratingBreakdown.cleanliness / 5) * 100}%` }}
+                  />
                 </div>
               </div>
             </div>
           )}
 
-          {/* TAB 2: ACCESSIBILITY DEEP-DIVE */}
+          {/* TAB 2: ACCESSIBILITY */}
           {activeTab === 'accessibility' && (
-            <div className="space-y-5 text-sm">
-              <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl">
-                <h4 className="font-bold text-emerald-900 flex items-center gap-2">
-                  <ShieldCheck className="w-5 h-5 text-emerald-600" />
-                  <span>เกณฑ์ตรวจสอบการใช้งานจริง (Universal Design Audit)</span>
-                </h4>
-                <p className="text-xs text-emerald-800 mt-1">
-                  ระบบแยกการมีป้ายสัญลักษณ์ออกจากการใช้งานได้จริง ตรวจวัดความกว้างประตู ทางลาด และพื้นที่หมุนรถเข็น
-                </p>
-              </div>
-
+            <div className="space-y-4 text-xs sm:text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs">
-                  <span className="text-xs text-slate-400 block font-medium">ความกว้างประตูห้องน้ำ</span>
+                <div className="p-3.5 rounded-2xl border border-slate-200 bg-white">
+                  <span className="text-xs text-slate-400 block font-medium">ความกว้างประตู</span>
                   <span className="text-base font-bold text-slate-800">
-                    {place.accessibility.doorWidthCm ? `${place.accessibility.doorWidthCm} ซม.` : 'ไม่ระบุ'}
+                    {place.accessibility.doorWidthCm ? `${place.accessibility.doorWidthCm} ซม.` : 'ขนาดมาตรฐาน'}
                   </span>
-                  <span className="text-xs text-emerald-600 block mt-0.5">✓ กว้างกว่าเกณฑ์มาตรฐาน 80 ซม.</span>
+                  <span className="text-[11px] text-emerald-600 block mt-0.5">✓ รถเข็นเข้า-ออกสะดวก</span>
                 </div>
 
-                <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs">
-                  <span className="text-xs text-slate-400 block font-medium">รัศมีพื้นที่หมุนรถเข็น (Turning Space)</span>
+                <div className="p-3.5 rounded-2xl border border-slate-200 bg-white">
+                  <span className="text-xs text-slate-400 block font-medium">พื้นที่หมุนตัวในห้องน้ำ</span>
                   <span className="text-base font-bold text-slate-800">
-                    {place.accessibility.wheelchairTurningRadiusCm ? `${place.accessibility.wheelchairTurningRadiusCm} ซม.` : 'ไม่ระบุ'}
+                    {place.accessibility.wheelchairTurningRadiusCm ? `${place.accessibility.wheelchairTurningRadiusCm} ซม.` : 'กว้างขวาง'}
                   </span>
-                  <span className="text-xs text-emerald-600 block mt-0.5">✓ หมุนตัวได้ 360 องศา สะดวก</span>
+                  <span className="text-[11px] text-emerald-600 block mt-0.5">✓ หมุนรถเข็น 360 องศาได้</span>
                 </div>
 
-                <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs">
-                  <span className="text-xs text-slate-400 block font-medium">การเข้าถึงด้วยตนเอง</span>
+                <div className="p-3.5 rounded-2xl border border-slate-200 bg-white">
+                  <span className="text-xs text-slate-400 block font-medium">ทางลาด & ลิฟต์</span>
                   <span className="text-base font-bold text-slate-800">
-                    {place.accessibility.selfAccessible ? 'เข้าได้ด้วยตนเอง' : 'ต้องมีผู้ช่วย'}
+                    {place.accessibility.hasRamp ? 'มีทางลาดขึ้นสะดวก' : 'ไม่มีทางลาด'}
                   </span>
                 </div>
 
-                <div className="p-3.5 rounded-xl border border-slate-200 bg-white shadow-2xs">
-                  <span className="text-xs text-slate-400 block font-medium">ที่จอดรถคนพิการใกล้เคียง</span>
+                <div className="p-3.5 rounded-2xl border border-slate-200 bg-white">
+                  <span className="text-xs text-slate-400 block font-medium">ราวจับช่วยพยุงตัว</span>
                   <span className="text-base font-bold text-slate-800">
-                    {place.accessibility.accessibleParkingNearby ? 'มีที่จอดใกล้ทางเข้า' : 'ไม่มีที่จอดเฉพาะ'}
+                    {place.accessibility.hasGrabBars ? 'มีราวจับข้างโถชักโครก' : 'ไม่มีราวจับ'}
                   </span>
                 </div>
               </div>
 
               {place.accessibility.detailedNotes && (
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200">
-                  <h5 className="font-bold text-slate-800 text-xs uppercase tracking-wider mb-1">
-                    บันทึกจากทีมสำรวจภาคสนาม
-                  </h5>
-                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200">
+                  <span className="font-bold text-slate-700 text-xs block mb-1">ข้อมูลเพิ่มเติม</span>
+                  <p className="text-slate-600 text-xs leading-relaxed">
                     {place.accessibility.detailedNotes}
                   </p>
                 </div>
@@ -363,18 +317,14 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
             </div>
           )}
 
-          {/* TAB 3: REVIEWS & COMMUNITY */}
+          {/* TAB 3: REVIEWS */}
           {activeTab === 'reviews' && (
-            <div className="space-y-5">
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-slate-900">รีวิวและความคิดเห็นจากชุมชน</h3>
-                  <p className="text-xs text-slate-500">ข้อมูลจริงจากผู้ใช้ที่แวะพัก</p>
-                </div>
-
+                <span className="text-xs font-bold text-slate-700 uppercase">รีวิวจากผู้ใช้จริง</span>
                 <button
                   onClick={() => setShowReviewForm(!showReviewForm)}
-                  className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-700 flex items-center gap-1.5 shadow-2xs"
+                  className="px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 flex items-center gap-1 shadow-2xs"
                 >
                   <MessageSquarePlus className="w-3.5 h-3.5" />
                   <span>เขียนรีวิว</span>
@@ -384,142 +334,99 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
               {/* Review form */}
               {showReviewForm && (
                 <form onSubmit={handleSubmitReview} className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200 space-y-3">
-                  <h4 className="font-bold text-emerald-900 text-sm">แบ่งปันประสบการณ์การใช้ห้องน้ำ</h4>
-
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                     <div>
-                      <label className="block font-medium text-slate-700 mb-1">ชื่อหรือนามแฝงของคุณ</label>
+                      <label className="block font-medium text-slate-700 mb-1">ชื่อของคุณ</label>
                       <input 
                         type="text"
                         value={reviewName}
                         onChange={(e) => setReviewName(e.target.value)}
-                        placeholder="เช่น สมศักดิ์ คนชอบเที่ยว"
-                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 focus:outline-emerald-500"
+                        placeholder="เช่น สมชาย"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800"
                         required
                       />
                     </div>
 
                     <div>
-                      <label className="block font-medium text-slate-700 mb-1">คะแนนความสะอาด (1-5)</label>
+                      <label className="block font-medium text-slate-700 mb-1">ความสะอาด</label>
                       <select
                         value={cleanRating}
                         onChange={(e) => setCleanRating(Number(e.target.value))}
-                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 focus:outline-emerald-500"
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800"
                       >
-                        <option value={5}>⭐⭐⭐⭐⭐ ดีเยี่ยม (5)</option>
-                        <option value={4}>⭐⭐⭐⭐ สะอาดดี (4)</option>
-                        <option value={3}>⭐⭐⭐ พอใช้ (3)</option>
-                        <option value={2}>⭐⭐ ควรปรับปรุง (2)</option>
-                        <option value={1}>⭐ สกปรกมาก (1)</option>
+                        <option value={5}>⭐⭐⭐⭐⭐ ดีมาก สะอาดมาก</option>
+                        <option value={4}>⭐⭐⭐⭐ สะอาดดี</option>
+                        <option value={3}>⭐⭐⭐ พอใช้ได้</option>
+                        <option value={2}>⭐⭐ ควรปรับปรุง</option>
+                        <option value={1}>⭐ สกปรก</option>
                       </select>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block font-medium text-slate-700 mb-1 text-xs">ข้อความรีวิว / สภาพจริง</label>
+                    <label className="block font-medium text-slate-700 mb-1 text-xs">บอกเล่าสภาพจริง</label>
                     <textarea 
                       value={reviewComment}
                       onChange={(e) => setReviewComment(e.target.value)}
-                      placeholder="บอกเล่าสภาพความสะอาด น้ำไหลแรงหรือไม่ สายฉีดชำระ หรือความสะดวก..."
-                      rows={3}
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 focus:outline-emerald-500 text-xs"
+                      placeholder="น้ำไหลแรงไหม มีสบู่ไหม หรือห้องน้ำกลิ่นเป็นอย่างไร..."
+                      rows={2}
+                      className="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-slate-800 text-xs"
                       required
                     />
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200/80 text-[11px] text-amber-800 flex items-start gap-2">
-                    <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                    <span>
-                      <strong>PDPA Privacy Reminder:</strong> ตามข้อกำหนดโครงการ ห้ามถ่ายติดบุคคลหรือละเมิดความเป็นส่วนตัวในห้องน้ำโดยเด็ดขาด
-                    </span>
                   </div>
 
                   <div className="flex justify-end gap-2">
                     <button
                       type="button"
                       onClick={() => setShowReviewForm(false)}
-                      className="px-3 py-1.5 text-xs text-slate-600 hover:text-slate-800"
+                      className="px-3 py-1.5 text-xs text-slate-500 hover:text-slate-800"
                     >
                       ยกเลิก
                     </button>
                     <button
                       type="submit"
-                      className="px-4 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 shadow-2xs"
+                      className="px-4 py-1.5 text-xs font-bold rounded-xl bg-emerald-600 text-white hover:bg-emerald-700"
                     >
-                      ส่งรีวิว
+                      โพสต์รีวิว
                     </button>
                   </div>
                 </form>
               )}
 
               {/* Reviews List */}
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {place.reviews.map((rev) => (
-                  <div key={rev.id} className="p-4 rounded-2xl border border-slate-200/80 bg-white shadow-2xs space-y-2">
+                  <div key={rev.id} className="p-3.5 rounded-2xl border border-slate-200/80 bg-white space-y-1.5">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 font-bold text-xs">
-                          {rev.userName[0]}
-                        </div>
-                        <div>
-                          <span className="font-bold text-slate-800 text-xs sm:text-sm block">{rev.userName}</span>
-                          <span className="text-[11px] text-slate-400">{rev.date}</span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-1 text-amber-500 font-bold text-xs bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200/50">
-                        <Star className="w-3.5 h-3.5 fill-amber-400" />
-                        <span>{rev.overallRating} / 5</span>
-                      </div>
+                      <span className="font-bold text-slate-800 text-xs">{rev.userName}</span>
+                      <span className="text-amber-500 font-bold text-xs">★ {rev.overallRating}</span>
                     </div>
-
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                      {rev.comment}
-                    </p>
-
-                    {rev.isVerifiedVisit && (
-                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 font-semibold">
-                        <CheckCircle2 className="w-3 h-3" />
-                        <span>ผู้ใช้งานจริงที่ได้รับการยืนยัน</span>
-                      </span>
-                    )}
+                    <p className="text-xs text-slate-600 leading-relaxed">{rev.comment}</p>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Report Issue Box */}
+          {/* Report issue box */}
           {showReportForm && (
-            <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-xs space-y-3">
-              <h4 className="font-bold text-rose-900 flex items-center gap-1.5">
+            <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-xs space-y-2.5">
+              <span className="font-bold text-rose-900 block flex items-center gap-1.5">
                 <AlertTriangle className="w-4 h-4 text-rose-600" />
-                <span>แจ้งข้อมูลผิดพลาด / อุปกรณ์ชำรุด (PDF บทที่ 7.4)</span>
-              </h4>
+                <span>แจ้งข้อมูลผิดพลาดหรืออุปกรณ์ชำรุด</span>
+              </span>
               <select
                 value={reportReason}
                 onChange={(e) => setReportReason(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl border border-rose-300 bg-white text-slate-800 focus:outline-rose-500"
+                className="w-full px-3 py-2 rounded-xl border border-rose-300 bg-white text-slate-800"
               >
                 <option value="อุปกรณ์ชำรุด / ไม่มีน้ำ / ไม่มีสบู่">อุปกรณ์ชำรุด / ไม่มีน้ำ / ไม่มีสบู่</option>
                 <option value="ห้องน้ำปิดปรับปรุงชั่วคราว">ห้องน้ำปิดปรับปรุงชั่วคราว</option>
-                <option value="ข้อมูลการเข้าถึงไม่ตรงความจริง (ไม่มีทางลาด/ประตูปิดล็อก)">ข้อมูลการเข้าถึงไม่ตรงความจริง (ไม่มีทางลาด/ประตูปิดล็อก)</option>
                 <option value="พิกัดบนแผนที่คลาดเคลื่อน">พิกัดบนแผนที่คลาดเคลื่อน</option>
-                <option value="มีค่าบริการ แต่ระบุว่าฟรี">มีค่าบริการ แต่ระบุว่าฟรี</option>
               </select>
               <div className="flex justify-end gap-2">
-                <button
-                  onClick={() => setShowReportForm(false)}
-                  className="px-3 py-1.5 text-slate-600 hover:text-slate-800"
-                >
-                  ยกเลิก
-                </button>
-                <button
-                  onClick={handleSubmitReport}
-                  className="px-4 py-1.5 font-bold rounded-xl bg-rose-600 text-white hover:bg-rose-700 shadow-2xs"
-                >
-                  ส่งรายงานปัญหา
-                </button>
+                <button onClick={() => setShowReportForm(false)} className="px-3 py-1 text-slate-500">ยกเลิก</button>
+                <button onClick={handleSubmitReport} className="px-3 py-1 font-bold rounded-lg bg-rose-600 text-white">ส่งรายงาน</button>
               </div>
             </div>
           )}
@@ -527,26 +434,22 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
         </div>
 
         {/* Footer actions */}
-        <div className="p-4 sm:p-5 border-t border-slate-200 bg-slate-50 flex items-center justify-between gap-3 shrink-0">
+        <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3 shrink-0">
           <div className="flex items-center gap-2">
-            {/* Favorite toggle */}
             <button
               onClick={() => onToggleFavorite(place.id)}
-              className={`p-2.5 rounded-xl border transition-colors ${
-                isFavorite 
-                  ? 'bg-rose-50 border-rose-200 text-rose-600' 
-                  : 'bg-white border-slate-200 text-slate-600 hover:text-rose-600 hover:border-rose-100'
+              className={`p-2.5 rounded-2xl border transition-colors ${
+                isFavorite ? 'bg-rose-50 border-rose-200 text-rose-600' : 'bg-white border-slate-200 text-slate-600 hover:text-rose-600'
               }`}
               title="บันทึกรายการโปรด"
             >
               <Heart className={`w-5 h-5 ${isFavorite ? 'fill-rose-500 text-rose-500' : ''}`} />
             </button>
 
-            {/* Share link */}
             <button
               onClick={handleShare}
-              className="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 transition-colors relative"
-              title="แชร์จุดพักนี้"
+              className="p-2.5 rounded-2xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 transition-colors relative"
+              title="แชร์จุดพัก"
             >
               <Share2 className="w-5 h-5" />
               {copied && (
@@ -556,23 +459,21 @@ export const RestroomDetailModal: React.FC<RestroomDetailModalProps> = ({
               )}
             </button>
 
-            {/* Report issue */}
             <button
               onClick={() => setShowReportForm(!showReportForm)}
-              className="p-2.5 rounded-xl border border-slate-200 bg-white text-slate-500 hover:text-rose-600 transition-colors"
-              title="แจ้งข้อมูลผิดหรือชำรุด"
+              className="p-2.5 rounded-2xl border border-slate-200 bg-white text-slate-400 hover:text-rose-600 transition-colors"
+              title="แจ้งปัญหา"
             >
               <Flag className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Open Google Maps Direction CTA */}
           <button
             onClick={openGoogleMaps}
-            className="flex-1 max-w-xs flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md shadow-emerald-600/30 transition-all active:scale-98"
+            className="flex-1 max-w-xs flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/30 transition-all active:scale-98"
           >
             <Navigation className="w-4 h-4 fill-white" />
-            <span>{lang === 'th' ? 'นำทางด้วย Google Maps' : 'Open Directions'}</span>
+            <span>{lang === 'th' ? 'นำทางทันที (Google Maps)' : 'Open in Maps'}</span>
           </button>
         </div>
 
