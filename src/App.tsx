@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
+import { RouteRestFinder } from './components/RouteRestFinder';
 import { MapRestroomFinder } from './components/MapRestroomFinder';
-import { RoutePlannerModal } from './components/RoutePlannerModal';
 import { RestroomDetailModal } from './components/RestroomDetailModal';
 import { AddRestroomModal } from './components/AddRestroomModal';
 import { Footer } from './components/Footer';
 import { INITIAL_RESTROOMS } from './data/mockRestrooms';
 import { RestroomPlace, ReviewItem } from './types';
 import { Heart, X, Check } from 'lucide-react';
+import { PooPooMascot } from './components/PooPooMascot';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'map' | 'route'>('map');
+  const [activeTab, setActiveTab] = useState<'route' | 'map'>('route');
   const [lang, setLang] = useState<'th' | 'en'>('th');
   const [restrooms, setRestrooms] = useState<RestroomPlace[]>(INITIAL_RESTROOMS);
   const [selectedPlace, setSelectedPlace] = useState<RestroomPlace | null>(null);
@@ -96,12 +97,12 @@ export function App() {
   const favoritePlaces = restrooms.filter((r) => favorites.includes(r.id));
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
       
-      {/* Toast Notification */}
+      {/* Toast Notification with Mascot */}
       {toastMessage && (
-        <div className="fixed top-20 right-4 z-50 bg-slate-900 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-150 border border-slate-700">
-          <Check className="w-4 h-4 text-emerald-400" />
+        <div className="fixed top-20 right-4 z-50 bg-slate-900 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2.5 animate-in fade-in slide-in-from-top-2 duration-150 border border-slate-700">
+          <PooPooMascot size={24} mood="relieved" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -120,7 +121,19 @@ export function App() {
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4">
         
-        {/* Tab 1: Finder & Interactive Map */}
+        {/* Tab 1: Route Rest Finder (Start -> Destination -> Scan Restrooms) */}
+        {activeTab === 'route' && (
+          <RouteRestFinder
+            restrooms={restrooms}
+            onSelectRestroom={(p) => setSelectedPlace(p)}
+            selectedPlace={selectedPlace}
+            lang={lang}
+            userLocation={userLocation}
+            onRequestUserLocation={handleRequestUserLocation}
+          />
+        )}
+
+        {/* Tab 2: Free Exploration & Interactive Map */}
         {activeTab === 'map' && (
           <MapRestroomFinder
             restrooms={restrooms}
@@ -131,16 +144,6 @@ export function App() {
             onRequestUserLocation={handleRequestUserLocation}
             favorites={favorites}
             onToggleFavorite={handleToggleFavorite}
-          />
-        )}
-
-        {/* Tab 2: Route Rest Planner */}
-        {activeTab === 'route' && (
-          <RoutePlannerModal
-            lang={lang}
-            onSelectRestroom={(p) => {
-              setSelectedPlace(p);
-            }}
           />
         )}
 

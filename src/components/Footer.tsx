@@ -1,5 +1,6 @@
 import React from 'react';
-import { MapPin, ExternalLink, Heart } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { PooPooMascot } from './PooPooMascot';
 
 interface FooterProps {
   lang?: 'th' | 'en';
@@ -11,13 +12,11 @@ export const Footer: React.FC<FooterProps> = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         
         {/* Brand */}
-        <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
-            <MapPin className="w-3.5 h-3.5" />
-          </div>
-          <span className="font-extrabold text-slate-800 text-sm">RESTPOINT / ToiletGo</span>
+        <div className="flex items-center gap-2.5">
+          <PooPooMascot size={32} mood="happy" />
+          <span className="font-extrabold text-slate-900 text-sm">Poo Poo (ปู้ปู้)</span>
           <span className="text-slate-400 hidden sm:inline">•</span>
-          <span className="text-slate-400 hidden sm:inline">Your Journey. Your Comfort. Your Rest Stop.</span>
+          <span className="text-slate-400 hidden sm:inline">ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดตลอดการเดินทาง 💩✨</span>
         </div>
 
         {/* GitHub & Vercel */}

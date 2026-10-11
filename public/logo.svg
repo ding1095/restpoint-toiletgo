@@ -1,16 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
   <defs>
-    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#10b981" />
-      <stop offset="100%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="pooGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
     </linearGradient>
   </defs>
-  <rect width="100" height="100" rx="28" fill="url(#grad)" />
-  <!-- Map Pin Shape -->
-  <path d="M50 20C38.9543 20 30 28.9543 30 40C30 54 46 72 48.5 74.8C49.3 75.7 50.7 75.7 51.5 74.8C54 72 70 54 70 40C70 28.9543 61.0457 20 50 20Z" fill="white" />
-  <!-- Inner Rest / Comfort / Toilet Icon -->
-  <circle cx="50" cy="36" r="6" fill="#059669" />
-  <path d="M42 46C42 44.3 43.3 43 45 43H55C56.7 43 58 44.3 58 46V50C58 53.3 55.3 56 52 56H48C44.7 56 42 53.3 42 50V46Z" fill="#059669" />
-  <path d="M47 56V62C47 62.6 46.6 63 46 63H44C43.4 63 43 62.6 43 62V56H47Z" fill="#059669" />
-  <path d="M57 56V62C57 62.6 56.6 63 56 63H54C53.4 63 53 62.6 53 62V56H57Z" fill="#059669" />
+  <!-- Background Badge -->
+  <rect width="120" height="120" rx="34" fill="url(#bgGrad)" />
+  <circle cx="60" cy="62" r="46" fill="white" fill-opacity="0.18" />
+
+  <!-- Poo Poo Mascot -->
+  <ellipse cx="60" cy="98" rx="28" ry="4" fill="#047857" fill-opacity="0.3" />
+  
+  <!-- Body Swirls -->
+  <path d="M30 86C30 74 44 70 60 70C76 70 90 74 90 86C90 95 78 96 60 96C42 96 30 95 30 86Z" fill="url(#pooGrad)" />
+  <path d="M35 66C35 54 47 50 60 50C73 50 85 54 85 66C85 75 74 76 60 76C46 76 35 75 35 66Z" fill="url(#pooGrad)" />
+  <path d="M43 48C43 38 51 34 60 34C69 34 77 38 77 48C77 55 70 56 60 56C50 56 43 55 43 48Z" fill="url(#pooGrad)" />
+  <!-- Swirl tip -->
+  <path d="M60 36C56 30 54 22 62 18C70 14 72 24 64 32" stroke="url(#pooGrad)" stroke-width="8" stroke-linecap="round" />
+
+  <!-- Eyes with Kawaii Glare -->
+  <circle cx="50" cy="58" r="5" fill="#1e1b4b" />
+  <circle cx="48.5" cy="56.5" r="1.8" fill="white" />
+  <circle cx="70" cy="58" r="5" fill="#1e1b4b" />
+  <circle cx="68.5" cy="56.5" r="1.8" fill="white" />
+
+  <!-- Blushing Cheeks -->
+  <ellipse cx="42" cy="63" rx="4" ry="2.5" fill="#f43f5e" fill-opacity="0.45" />
+  <ellipse cx="78" cy="63" rx="4" ry="2.5" fill="#f43f5e" fill-opacity="0.45" />
+
+  <!-- Happy Smile -->
+  <path d="M54 64C54 68 66 68 66 64Z" fill="#881337" />
+  <path d="M57 66C58.5 65 61.5 65 63 66Z" fill="#fb7185" />
 </svg>
