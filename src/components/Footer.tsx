@@ -4,9 +4,10 @@ import { PooPooMascot } from './PooPooMascot';
 
 interface FooterProps {
   lang?: 'th' | 'en';
+  onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = () => {
+export const Footer: React.FC<FooterProps> = ({ onOpenAdmin }) => {
   return (
     <footer className="mt-12 bg-white border-t border-slate-100 py-8 text-xs text-slate-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -19,8 +20,17 @@ export const Footer: React.FC<FooterProps> = () => {
           <span className="text-slate-400 hidden sm:inline">ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดตลอดการเดินทาง 💩✨</span>
         </div>
 
-        {/* GitHub & Vercel */}
+        {/* GitHub & Admin link */}
         <div className="flex items-center gap-4">
+          {onOpenAdmin && (
+            <button
+              onClick={onOpenAdmin}
+              className="text-slate-400 hover:text-amber-700 transition-colors font-medium flex items-center gap-1"
+            >
+              <span>จัดการข้อมูล (Admin)</span>
+            </button>
+          )}
+          {onOpenAdmin && <span>•</span>}
           <a
             href="https://github.com/ding1095/restpoint-toiletgo"
             target="_blank"

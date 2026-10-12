@@ -1,10 +1,9 @@
-import React from 'react';
-import { MapPin, Plus, Navigation, Globe, Heart } from 'lucide-react';
+import { MapPin, Plus, Navigation, Globe, Heart, ShieldCheck } from 'lucide-react';
 import { PooPooMascot } from './PooPooMascot';
 
 interface NavbarProps {
-  activeTab: 'route' | 'map';
-  setActiveTab: (tab: 'route' | 'map') => void;
+  activeTab: 'route' | 'map' | 'admin';
+  setActiveTab: (tab: 'route' | 'map' | 'admin') => void;
   lang: 'th' | 'en';
   setLang: (lang: 'th' | 'en') => void;
   onOpenAddModal: () => void;
@@ -99,6 +98,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <Globe className="w-3.5 h-3.5 text-slate-400" />
               <span>{lang === 'th' ? 'TH' : 'EN'}</span>
+            </button>
+
+            {/* Admin Portal Button */}
+            <button
+              onClick={() => setActiveTab('admin')}
+              className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-2 text-xs font-bold rounded-2xl border transition-all ${
+                activeTab === 'admin'
+                  ? 'bg-amber-600 text-white border-amber-600 shadow-xs'
+                  : 'bg-white text-slate-700 border-slate-200/70 hover:bg-amber-50 hover:text-amber-800 hover:border-amber-200'
+              }`}
+              title={lang === 'th' ? 'ระบบผู้ดูแล (Admin Portal)' : 'Admin Portal'}
+            >
+              <ShieldCheck className={`w-3.5 h-3.5 ${activeTab === 'admin' ? 'text-white' : 'text-amber-600'}`} />
+              <span className="hidden sm:inline">{lang === 'th' ? 'จัดการ' : 'Admin'}</span>
             </button>
 
             {/* Add Restroom Button */}

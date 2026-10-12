@@ -4,6 +4,7 @@ import { RouteRestFinder } from './components/RouteRestFinder';
 import { MapRestroomFinder } from './components/MapRestroomFinder';
 import { ToiletBottomSheet } from './components/ToiletBottomSheet';
 import { AddRestroomModal } from './components/AddRestroomModal';
+import { AdminPortal } from './components/AdminPortal';
 import { Footer } from './components/Footer';
 import { INITIAL_RESTROOMS } from './data/mockRestrooms';
 import { RestroomPlace, ReviewItem } from './types';
@@ -13,7 +14,7 @@ import { useNearbyToilets } from './hooks/useNearbyToilets';
 import { isSupabaseConfigured } from './lib/supabase';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'route' | 'map'>('route');
+  const [activeTab, setActiveTab] = useState<'route' | 'map' | 'admin'>('route');
   const [lang, setLang] = useState<'th' | 'en'>('th');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
 
@@ -167,6 +168,27 @@ export function App() {
           />
         )}
 
+        {/* Tab 3: Admin Portal System */}
+        {activeTab === 'admin' && (
+          <AdminPortal
+            restrooms={restrooms}
+            onBackToApp={() => setActiveTab('route')}
+            onRefreshData={refetchToilets}
+            onPlaceUpdated={(updated) => {
+              setRestrooms((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+              showToast('อัปเดตข้อมูลห้องน้ำสำเร็จ');
+            }}
+            onPlaceDeleted={(id) => {
+              setRestrooms((prev) => prev.filter((p) => p.id !== id));
+              showToast('ลบจุดห้องน้ำเรียบร้อย');
+            }}
+            onPlaceAdded={(created) => {
+              setRestrooms((prev) => [created, ...prev]);
+              showToast('เพิ่มจุดห้องน้ำใหม่เรียบร้อย');
+            }}
+          />
+        )}
+
       </main>
 
       {/* Toilet Bottom Sheet (Mobile-First Detail Modal) */}
@@ -249,7 +271,10 @@ export function App() {
       )}
 
       {/* Footer */}
-      <Footer lang={lang} />
+      <Footer 
+        lang={lang} 
+        onOpenAdmin={() => setActiveTab('admin')} 
+      />
 
     </div>
   );
