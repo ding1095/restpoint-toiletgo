@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { RestroomPlace } from '../types';
+import { THAILAND_REGIONS, ThailandRegion } from '../lib/thailandRegions';
+import { Crosshair, Globe, Compass, X } from 'lucide-react';
 
 interface LeafletMapProps {
   restrooms: RestroomPlace[];
@@ -12,7 +14,12 @@ interface LeafletMapProps {
   destPoint?: { lat: number; lng: number; name: string } | null;
   mapPickingMode?: 'start' | 'dest' | null;
   onMapClickCoord?: (coords: { lat: number; lng: number }) => void;
+  onCancelPickingMode?: () => void;
+  onMarkerDragEnd?: (type: 'start' | 'dest', coords: { lat: number; lng: number }) => void;
   highlightedRestroomIds?: string[];
+  activeRegion?: string;
+  onSelectRegion?: (regionId: string) => void;
+  showRegionBar?: boolean;
 }
 
 export const LeafletMap: React.FC<LeafletMapProps> = ({
@@ -25,7 +32,12 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
   destPoint,
   mapPickingMode,
   onMapClickCoord,
+  onCancelPickingMode,
+  onMarkerDragEnd,
   highlightedRestroomIds = [],
+  activeRegion = 'all',
+  onSelectRegion,
+  showRegionBar = true,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -34,16 +46,26 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
   const startMarkerRef = useRef<L.Marker | null>(null);
   const destMarkerRef = useRef<L.Marker | null>(null);
   const routePolylineRef = useRef<L.Polyline | null>(null);
+  const initialFitDoneRef = useRef<boolean>(false);
 
-  // Initialize Leaflet Map
+  const [currentRegion, setCurrentRegion] = useState<string>(activeRegion);
+
+  // Sync internal state with prop
+  useEffect(() => {
+    setCurrentRegion(activeRegion);
+  }, [activeRegion]);
+
+  // Initialize Leaflet Map centered across Thailand
   useEffect(() => {
     if (!mapContainerRef.current) return;
     if (mapInstanceRef.current) return;
 
+    // Center on Thailand nationwide (lat: 13.5, lng: 100.9, zoom: 6)
     const map = L.map(mapContainerRef.current, {
-      center: [13.7563, 100.5018],
-      zoom: 9,
+      center: [13.2, 101.0],
+      zoom: 6,
       zoomControl: false,
+      preferCanvas: true,
     });
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -81,6 +103,42 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
     });
   }, [onMapClickCoord]);
 
+  // Jump to region helper
+  const handleJumpToRegion = (region: ThailandRegion) => {
+    setCurrentRegion(region.id);
+    if (onSelectRegion) {
+      onSelectRegion(region.id);
+    }
+
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    if (region.id === 'all') {
+      // Fit all restrooms if available
+      if (restrooms.length > 0) {
+        const bounds = L.latLngBounds(restrooms.map((r) => [r.coordinates.lat, r.coordinates.lng]));
+        map.fitBounds(bounds.pad(0.1), { animate: true, duration: 1.0 });
+      } else {
+        map.flyTo(region.center, region.zoom, { duration: 1.0 });
+      }
+    } else {
+      map.flyTo(region.center, region.zoom, { duration: 1.0 });
+    }
+  };
+
+  // Fit bounds when restrooms load initially (if not on a specific route)
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map || restrooms.length === 0 || initialFitDoneRef.current) return;
+
+    // Only auto-fit once on mount if no route exists
+    if (!routeCoordinates || routeCoordinates.length === 0) {
+      initialFitDoneRef.current = true;
+      // Fit to all Thailand with nationwide view
+      map.setView([13.2, 101.0], 6);
+    }
+  }, [restrooms, routeCoordinates]);
+
   // Update restroom markers
   useEffect(() => {
     const map = mapInstanceRef.current;
@@ -114,7 +172,7 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
         className: 'custom-map-marker',
         html: `
           <div style="
-            transform: translate(-50%, -100%) ${isSelected ? 'scale(1.25)' : isHighlightedOnRoute ? 'scale(1.1)' : 'scale(1)'};
+            transform: translate(-50%, -100%) ${isSelected ? 'scale(1.28)' : isHighlightedOnRoute ? 'scale(1.12)' : 'scale(1)'};
             transition: transform 0.2s ease;
             cursor: pointer;
             filter: drop-shadow(0 4px 6px rgba(0,0,0,0.25));
@@ -198,7 +256,7 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
     }
   }, [routeCoordinates]);
 
-  // Handle Start & Destination Markers
+  // Handle Start & Destination Markers (Draggable!)
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map) return;
@@ -212,7 +270,7 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
       destMarkerRef.current = null;
     }
 
-    // Start Marker (Green Flag)
+    // Start Marker (Green Flag - Draggable)
     if (startPoint) {
       const startIcon = L.divIcon({
         className: 'start-point-marker',
@@ -221,16 +279,17 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
             transform: translate(-50%, -100%);
             background: #10b981;
             color: white;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 9999px;
             font-size: 11px;
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             border: 2px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.45);
             white-space: nowrap;
+            cursor: grab;
           ">
             <span>🚩 เริ่มต้น: ${startPoint.name}</span>
           </div>
@@ -238,10 +297,23 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
         iconSize: [0, 0],
       });
 
-      startMarkerRef.current = L.marker([startPoint.lat, startPoint.lng], { icon: startIcon }).addTo(map);
+      const marker = L.marker([startPoint.lat, startPoint.lng], { 
+        icon: startIcon,
+        draggable: true,
+        title: 'ลากหมุดเพื่อเปลี่ยนจุดเริ่มต้น',
+      }).addTo(map);
+
+      marker.on('dragend', (e) => {
+        const latlng = e.target.getLatLng();
+        if (onMarkerDragEnd) {
+          onMarkerDragEnd('start', { lat: latlng.lat, lng: latlng.lng });
+        }
+      });
+
+      startMarkerRef.current = marker;
     }
 
-    // Dest Marker (Checkered Flag)
+    // Dest Marker (Red Flag - Draggable)
     if (destPoint) {
       const destIcon = L.divIcon({
         className: 'dest-point-marker',
@@ -250,16 +322,17 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
             transform: translate(-50%, -100%);
             background: #ef4444;
             color: white;
-            padding: 4px 10px;
+            padding: 5px 12px;
             border-radius: 9999px;
             font-size: 11px;
             font-weight: 800;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
             border: 2px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.45);
             white-space: nowrap;
+            cursor: grab;
           ">
             <span>🏁 ปลายทาง: ${destPoint.name}</span>
           </div>
@@ -267,9 +340,22 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
         iconSize: [0, 0],
       });
 
-      destMarkerRef.current = L.marker([destPoint.lat, destPoint.lng], { icon: destIcon }).addTo(map);
+      const marker = L.marker([destPoint.lat, destPoint.lng], { 
+        icon: destIcon,
+        draggable: true,
+        title: 'ลากหมุดเพื่อเปลี่ยนจุดหมาย',
+      }).addTo(map);
+
+      marker.on('dragend', (e) => {
+        const latlng = e.target.getLatLng();
+        if (onMarkerDragEnd) {
+          onMarkerDragEnd('dest', { lat: latlng.lat, lng: latlng.lng });
+        }
+      });
+
+      destMarkerRef.current = marker;
     }
-  }, [startPoint, destPoint]);
+  }, [startPoint, destPoint, onMarkerDragEnd]);
 
   // Handle user location marker
   useEffect(() => {
@@ -284,16 +370,16 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
           className: 'user-location-marker',
           html: `
             <div style="
-              width: 16px; 
-              height: 16px; 
+              width: 18px; 
+              height: 18px; 
               background: #3b82f6; 
               border: 3px solid white; 
               border-radius: 50%; 
-              box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.35);
+              box-shadow: 0 0 0 6px rgba(59, 130, 246, 0.35);
             "></div>
           `,
-          iconSize: [16, 16],
-          iconAnchor: [8, 8],
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
         });
 
         userMarkerRef.current = L.marker([userLocation.lat, userLocation.lng], { icon: userIcon })
@@ -304,19 +390,98 @@ export const LeafletMap: React.FC<LeafletMapProps> = ({
   }, [userLocation]);
 
   return (
-    <div className={`relative w-full h-full min-h-[420px] rounded-3xl overflow-hidden border border-slate-200/80 shadow-inner ${
+    <div className={`relative w-full h-full min-h-[440px] sm:min-h-[520px] rounded-3xl overflow-hidden border border-slate-200/80 shadow-inner select-none ${
       mapPickingMode ? 'cursor-crosshair' : ''
     }`}>
-      {/* Map picking banner */}
-      {mapPickingMode && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[400] bg-slate-900/90 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg border border-emerald-400 flex items-center gap-2 backdrop-blur-sm animate-pulse">
-          <span>
-            {mapPickingMode === 'start' ? '🚩 คลิกบนแผนที่เพื่อเลือกจุดเริ่มต้น' : '🏁 คลิกบนแผนที่เพื่อเลือกจุดหมายปลายทาง'}
-          </span>
+      
+      {/* 🧭 Top Region Jump Bar (Instant navigation to North, Isan, South, Central, East, West) */}
+      {showRegionBar && (
+        <div className="absolute top-3 left-3 right-3 sm:right-auto z-[400] flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none max-w-[calc(100%-24px)] pointer-events-auto">
+          {THAILAND_REGIONS.map((region) => {
+            const isActive = currentRegion === region.id;
+            return (
+              <button
+                key={region.id}
+                type="button"
+                onClick={() => handleJumpToRegion(region)}
+                className={`whitespace-nowrap px-3 py-1.5 rounded-full text-xs font-bold transition-all backdrop-blur-md shadow-md border shrink-0 flex items-center gap-1 cursor-pointer active:scale-95 ${
+                  isActive
+                    ? 'bg-emerald-600 text-white border-emerald-500 shadow-emerald-700/30 ring-2 ring-emerald-400/40'
+                    : 'bg-white/90 text-slate-700 border-white/80 hover:bg-white hover:text-slate-900'
+                }`}
+                title={`กระโดดไปดูห้องน้ำใน ${region.name}`}
+              >
+                <span>{region.icon}</span>
+                <span>{region.shortName}</span>
+              </button>
+            );
+          })}
         </div>
       )}
 
-      <div ref={mapContainerRef} className="w-full h-full min-h-[420px]" />
+      {/* 📍 Map Picking Mode Banner (Prominent interactive feedback) */}
+      {mapPickingMode && (
+        <div className="absolute top-14 left-1/2 -translate-x-1/2 z-[400] w-[90%] sm:w-auto max-w-md bg-slate-950/95 text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-2xl border border-emerald-400 flex items-center justify-between gap-3 backdrop-blur-md animate-bounce">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0" />
+            <span>
+              {mapPickingMode === 'start' 
+                ? '🚩 แตะตำแหน่งบนแผนที่ เพื่อปักหมุดจุดเริ่มต้น' 
+                : '🏁 แตะตำแหน่งบนแผนที่ เพื่อปักหมุดจุดหมายปลายทาง'}
+            </span>
+          </div>
+          {onCancelPickingMode && (
+            <button
+              type="button"
+              onClick={onCancelPickingMode}
+              className="p-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+              title="ยกเลิกการปักหมุด"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Floating Action Buttons (Fit Thailand & GPS) */}
+      <div className="absolute bottom-5 left-4 z-[400] flex flex-col gap-2">
+        {/* Whole Thailand Button */}
+        <button
+          type="button"
+          onClick={() => {
+            const map = mapInstanceRef.current;
+            if (!map) return;
+            setCurrentRegion('all');
+            if (onSelectRegion) onSelectRegion('all');
+            map.flyTo([13.2, 101.0], 6, { duration: 1.0 });
+          }}
+          className="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/90 hover:bg-white text-slate-800 text-xs font-bold shadow-lg border border-slate-200/80 backdrop-blur-md flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+          title="ดูทั่วประเทศไทย"
+        >
+          <Globe className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span className="hidden sm:inline">ดูทั่วไทย 🇹🇭</span>
+        </button>
+
+        {/* Fly to User GPS */}
+        {userLocation && (
+          <button
+            type="button"
+            onClick={() => {
+              const map = mapInstanceRef.current;
+              if (!map) return;
+              map.flyTo([userLocation.lat, userLocation.lng], 14, { duration: 1.0 });
+            }}
+            className="p-2.5 sm:px-3 sm:py-2 rounded-2xl bg-white/90 hover:bg-white text-slate-800 text-xs font-bold shadow-lg border border-slate-200/80 backdrop-blur-md flex items-center gap-1.5 transition-all active:scale-95 cursor-pointer"
+            title="พิกัดของฉัน"
+          >
+            <Crosshair className="w-4 h-4 text-blue-600 shrink-0" />
+            <span className="hidden sm:inline">ตำแหน่งฉัน</span>
+          </button>
+        )}
+      </div>
+
+      {/* Underlying Leaflet Map Canvas */}
+      <div ref={mapContainerRef} className="w-full h-full min-h-[440px] sm:min-h-[520px]" />
     </div>
   );
 };

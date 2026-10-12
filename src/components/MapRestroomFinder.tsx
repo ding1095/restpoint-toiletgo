@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { 
-  MapPin, Star, ShieldCheck, Heart, Navigation
+  MapPin, Star, ShieldCheck, Heart, Navigation, Compass, List, X
 } from 'lucide-react';
 import { RestroomPlace } from '../types';
 import { LeafletMap } from './LeafletMap';
 import { FloatingSearchBar, FilterOptions } from './FloatingSearchBar';
 import { PooPooMascot } from './PooPooMascot';
+import { THAILAND_REGIONS, getRegionIdByProvince } from '../lib/thailandRegions';
 
 interface MapRestroomFinderProps {
   restrooms: RestroomPlace[];
@@ -28,6 +29,9 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
   favorites,
   onToggleFavorite,
 }) => {
+  const [selectedRegion, setSelectedRegion] = useState<string>('all');
+  const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
+
   const [filters, setFilters] = useState<FilterOptions>({
     searchQuery: '',
     category: 'all',
@@ -45,6 +49,15 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
 
   // Filter restrooms
   const filteredRestrooms = restrooms.filter((place) => {
+    // 1. Regional Filter
+    if (selectedRegion !== 'all') {
+      const placeRegion = getRegionIdByProvince(place.province);
+      if (placeRegion !== selectedRegion) {
+        return false;
+      }
+    }
+
+    // 2. Search query
     if (filters.searchQuery.trim()) {
       const q = filters.searchQuery.toLowerCase();
       const matchName = place.name.toLowerCase().includes(q) || place.name_en.toLowerCase().includes(q);
@@ -52,6 +65,7 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
       if (!matchName && !matchAddr) return false;
     }
 
+    // 3. Category & Amenities
     if (filters.category !== 'all' && place.category !== filters.category) {
       return false;
     }
@@ -67,9 +81,9 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 animate-in fade-in duration-300">
       
-      {/* Floating Minimalist Search & Horizontal Filter Pills */}
+      {/* 🔍 Floating Minimalist Search & Filter Pills */}
       <FloatingSearchBar
         filters={filters}
         onUpdateFilters={handleUpdateFilters}
@@ -78,26 +92,124 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
         lang={lang}
       />
 
-      {/* Main Area: Map + Restroom Cards List */}
+      {/* 🧭 Regional Selector Pills (Jump to North, Isan, Central, South, East, West) */}
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none select-none">
+        <span className="text-[11px] font-bold text-slate-400 shrink-0 mr-1">เลือกภูมิภาค:</span>
+        {THAILAND_REGIONS.map((region) => {
+          const isActive = selectedRegion === region.id;
+          return (
+            <button
+              key={region.id}
+              type="button"
+              onClick={() => setSelectedRegion(region.id)}
+              className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 cursor-pointer active:scale-95 ${
+                isActive
+                  ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-500/20'
+                  : 'bg-white text-slate-700 border border-slate-200/80 hover:bg-slate-50 hover:border-emerald-300'
+              }`}
+            >
+              <span>{region.icon}</span>
+              <span>{region.shortName}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* 📱 Mobile Segmented Tab Switcher (Visible only on screens < lg) */}
+      <div className="flex lg:hidden bg-slate-200/80 p-1 rounded-2xl border border-slate-200 select-none">
+        <button
+          type="button"
+          onClick={() => setMobileView('map')}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
+            mobileView === 'map'
+              ? 'bg-white text-emerald-800 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          <Compass className="w-4 h-4 text-emerald-600" />
+          <span>แผนที่ ({filteredRestrooms.length} แห่ง)</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setMobileView('list')}
+          className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
+            mobileView === 'list'
+              ? 'bg-white text-emerald-800 shadow-sm'
+              : 'text-slate-600 hover:text-slate-900'
+          }`}
+        >
+          <List className="w-4 h-4 text-emerald-600" />
+          <span>รายชื่อ ({filteredRestrooms.length} แห่ง)</span>
+        </button>
+      </div>
+
+      {/* 🗺️ Main Area: Map + Restroom Cards List */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
         {/* Left Column: Interactive Map */}
-        <div className="lg:col-span-7 h-[460px] sm:h-[620px] rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-xs relative">
+        <div className={`lg:col-span-7 h-[500px] sm:h-[620px] rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-xs relative ${
+          mobileView === 'map' ? 'block' : 'hidden lg:block'
+        }`}>
           <LeafletMap 
             restrooms={filteredRestrooms}
             selectedPlace={selectedPlace}
             onSelectPlace={onSelectPlace}
             userLocation={userLocation}
+            activeRegion={selectedRegion}
+            onSelectRegion={(regId) => setSelectedRegion(regId)}
+            showRegionBar={false} // Shown above already
           />
+
+          {/* Mobile Bottom Floating Card when place is selected */}
+          {selectedPlace && (
+            <div className="absolute bottom-4 inset-x-4 z-[400] lg:hidden bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl border border-slate-200 flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2">
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
+                    {selectedPlace.category === 'gas_station' ? '⛽ ปั๊ม' : '🏬 ห้าง'}
+                  </span>
+                  <span className="text-amber-500 font-bold text-xs">★ {selectedPlace.overallRating}</span>
+                </div>
+                <h4 className="font-extrabold text-slate-900 text-xs sm:text-sm truncate mt-0.5">
+                  {selectedPlace.name}
+                </h4>
+                <p className="text-[10px] text-slate-400 truncate">{selectedPlace.address}</p>
+              </div>
+
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const url = `https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coordinates.lat},${selectedPlace.coordinates.lng}`;
+                    window.open(url, '_blank');
+                  }}
+                  className="px-3 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl flex items-center gap-1 shadow-xs"
+                >
+                  <Navigation className="w-3.5 h-3.5 fill-white" />
+                  <span>นำทาง</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onSelectPlace(null as any)}
+                  className="p-2 text-slate-400 hover:text-slate-600 rounded-xl"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Right Column: Restroom Cards List */}
-        <div className="lg:col-span-5 flex flex-col h-[460px] sm:h-[620px] bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+        <div className={`lg:col-span-5 flex flex-col h-[500px] sm:h-[620px] bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden ${
+          mobileView === 'list' ? 'block' : 'hidden lg:flex'
+        }`}>
           
           {/* List Header */}
           <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
             <span className="font-extrabold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
-              <span>สถานที่ใกล้เคียง</span>
+              <span>สถานที่ในภูมิภาคที่เลือก</span>
               <span className="px-2.5 py-0.5 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-bold">
                 {filteredRestrooms.length} แห่ง
               </span>
@@ -110,8 +222,8 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
             {filteredRestrooms.length === 0 ? (
               <div className="text-center py-20 px-4 space-y-2.5">
                 <PooPooMascot size={60} mood="urgent" />
-                <p className="text-sm font-bold text-slate-700">ไม่พบจุดห้องน้ำที่ตรงตามเงื่อนไข</p>
-                <p className="text-xs text-slate-400 max-w-xs mx-auto">ลองล้างตัวกรองหรือค้นหาด้วยคำอื่นดูนะครับ</p>
+                <p className="text-sm font-bold text-slate-700">ไม่พบจุดห้องน้ำที่ตรงตามเงื่อนไขในภูมินี้</p>
+                <p className="text-xs text-slate-400 max-w-xs mx-auto">ลองเปลี่ยนภูมิภาคหรือล้างตัวกรองดูนะครับ</p>
               </div>
             ) : (
               filteredRestrooms.map((place) => {
@@ -121,7 +233,10 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
                 return (
                   <div
                     key={place.id}
-                    onClick={() => onSelectPlace(place)}
+                    onClick={() => {
+                      onSelectPlace(place);
+                      setMobileView('map');
+                    }}
                     className={`p-4 rounded-2xl border transition-all cursor-pointer relative ${
                       isSelected
                         ? 'border-emerald-500 bg-emerald-50/30 shadow-xs ring-2 ring-emerald-500/20'
@@ -206,7 +321,7 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
                             const url = `https://www.google.com/maps/dir/?api=1&destination=${place.coordinates.lat},${place.coordinates.lng}`;
                             window.open(url, '_blank');
                           }}
-                          className="flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 hover:bg-emerald-100 px-2 py-0.5 rounded-lg transition-colors active:scale-95"
+                          className="flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-xl transition-colors active:scale-95 shadow-2xs"
                           title="นำทางด้วย Google Maps"
                         >
                           <Navigation className="w-3 h-3 fill-emerald-600 text-emerald-600" />
