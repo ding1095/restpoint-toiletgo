@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Navigation, MapPin, Flag, Crosshair, ArrowRight, 
-  Sparkles, Star, ShieldCheck, Clock, ExternalLink, RotateCcw
+  Sparkles, Star, ShieldCheck, Clock, ExternalLink, RotateCcw, Database, Loader2
 } from 'lucide-react';
 import { RestroomPlace } from '../types';
 import { LeafletMap } from './LeafletMap';
 import { PooPooMascot, MascotMood } from './PooPooMascot';
+import { useRouteToilets } from '../hooks/useRouteToilets';
+import { isSupabaseConfigured } from '../lib/supabase';
 
 interface RouteRestFinderProps {
   restrooms: RestroomPlace[];
@@ -86,6 +88,10 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
   const [destQuery, setDestQuery] = useState(POPULAR_DEST_POINTS[0].name);
   const [destPoint, setDestPoint] = useState<LocationPoint | null>(POPULAR_DEST_POINTS[0]);
 
+  // PostGIS route scanner hook
+  const { scanRouteToilets, loading: isScanningRouteToilets } = useRouteToilets();
+  const [activeScanEngine, setActiveScanEngine] = useState<'postgis' | 'local'>('local');
+
   // Map picking mode ('start' | 'dest' | null)
   const [mapPickingMode, setMapPickingMode] = useState<'start' | 'dest' | null>(null);
 
@@ -119,9 +125,11 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
       let coords: [number, number][] = [];
       let totalDist = 0;
       let totalDur = 0;
+      let routeGeo: any = null;
 
       if (data && data.code === 'Ok' && data.routes && data.routes.length > 0) {
         const route = data.routes[0];
+        routeGeo = route.geometry;
         // OSRM coordinates are [lng, lat], Leaflet needs [lat, lng]
         coords = route.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]]);
         totalDist = Math.round(route.distance / 1000);
@@ -144,44 +152,78 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
       setRouteDistanceKm(totalDist);
       setRouteDurationMin(totalDur);
 
-      // Match restrooms along the route corridor (within 18 km of the route line)
+      let candidateToilets: RestroomPlace[] = restrooms;
+      let usedPostgis = false;
+
+      // Try PostGIS Route Corridor RPC if Supabase credentials exist
+      if (isSupabaseConfigured && routeGeo) {
+        try {
+          const pgResults = await scanRouteToilets({
+            routeGeoJson: routeGeo,
+            corridorBufferMeters: 18000,
+            localFallbackToilets: restrooms,
+          });
+
+          if (pgResults && pgResults.length > 0) {
+            candidateToilets = pgResults;
+            usedPostgis = true;
+          }
+        } catch (e) {
+          console.warn('PostGIS corridor scan error, using local fallback:', e);
+        }
+      }
+
+      setActiveScanEngine(usedPostgis ? 'postgis' : 'local');
+
+      // Match and order restrooms along the route from start to destination
       const matches: Array<{ restroom: RestroomPlace; distFromStartKm: number }> = [];
 
-      restrooms.forEach((r) => {
-        let minDistToRoute = Infinity;
-        // Sample every few points to quickly test segment proximity
-        for (let i = 0; i < coords.length - 1; i += 2) {
-          const d = distToSegment(
-            r.coordinates.lat,
-            r.coordinates.lng,
-            coords[i][0],
-            coords[i][1],
-            coords[i + 1][0],
-            coords[i + 1][1]
-          );
-          if (d < minDistToRoute) minDistToRoute = d;
-        }
-
-        // Also check direct distance from start/end
-        const dStart = getDistanceKm(r.coordinates.lat, r.coordinates.lng, start.lat, start.lng);
-        const dDest = getDistanceKm(r.coordinates.lat, r.coordinates.lng, dest.lat, dest.lng);
-        const totalDirect = getDistanceKm(start.lat, start.lng, dest.lat, dest.lng);
-
-        // If close to route corridor (<= 20 km) and within trip span
-        if (minDistToRoute <= 20 || (dStart + dDest <= totalDirect * 1.3 && dStart <= totalDist)) {
+      if (usedPostgis) {
+        candidateToilets.forEach((r) => {
+          const dStart = getDistanceKm(r.coordinates.lat, r.coordinates.lng, start.lat, start.lng);
           matches.push({
             restroom: r,
             distFromStartKm: Math.round(dStart),
           });
-        }
-      });
+        });
+      } else {
+        candidateToilets.forEach((r) => {
+          let minDistToRoute = Infinity;
+          for (let i = 0; i < coords.length - 1; i += 2) {
+            const d = distToSegment(
+              r.coordinates.lat,
+              r.coordinates.lng,
+              coords[i][0],
+              coords[i][1],
+              coords[i + 1][0],
+              coords[i + 1][1]
+            );
+            if (d < minDistToRoute) minDistToRoute = d;
+          }
+
+          const dStart = getDistanceKm(r.coordinates.lat, r.coordinates.lng, start.lat, start.lng);
+          const dDest = getDistanceKm(r.coordinates.lat, r.coordinates.lng, dest.lat, dest.lng);
+          const totalDirect = getDistanceKm(start.lat, start.lng, dest.lat, dest.lng);
+
+          if (minDistToRoute <= 20 || (dStart + dDest <= totalDirect * 1.3 && dStart <= totalDist)) {
+            matches.push({
+              restroom: r,
+              distFromStartKm: Math.round(dStart),
+            });
+          }
+        });
+      }
 
       // Sort restrooms along route from start to destination
       matches.sort((a, b) => a.distFromStartKm - b.distFromStartKm);
 
       setMatchedRestrooms(matches);
       setMascotMood('relieved');
-      setMascotSpeech(`เย้! เจอน้องห้องน้ำสะอาด ${matches.length} จุดตลอดเส้นทาง 💩✨`);
+      setMascotSpeech(
+        usedPostgis
+          ? `เย้! สแกนผ่าน PostGIS พบห้องน้ำ ${matches.length} จุดตลอดแนวเส้นทาง ⚡💩`
+          : `เย้! เจอน้องห้องน้ำสะอาด ${matches.length} จุดตลอดเส้นทาง 💩✨`
+      );
     } catch (err) {
       console.error(err);
       setMascotMood('happy');
@@ -435,13 +477,23 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
         <div className="lg:col-span-5 flex flex-col h-[460px] sm:h-[600px] bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
           
           {/* Header Summary */}
-          <div className="p-4 border-b border-slate-100 bg-slate-50/70 space-y-1">
+          <div className="p-4 border-b border-slate-100 bg-slate-50/70 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
                 <span>ห้องน้ำบนเส้นทางนี้</span>
                 <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
                   {matchedRestrooms.length} แห่ง
                 </span>
+                {activeScanEngine === 'postgis' ? (
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-teal-100 text-teal-800 flex items-center gap-1">
+                    <Database className="w-2.5 h-2.5 text-teal-600" />
+                    <span>PostGIS</span>
+                  </span>
+                ) : (
+                  <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600">
+                    Offline
+                  </span>
+                )}
               </span>
 
               <div className="flex items-center gap-2 text-xs font-bold text-slate-700">

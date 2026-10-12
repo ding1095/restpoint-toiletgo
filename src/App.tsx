@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { RouteRestFinder } from './components/RouteRestFinder';
 import { MapRestroomFinder } from './components/MapRestroomFinder';
@@ -7,17 +7,34 @@ import { AddRestroomModal } from './components/AddRestroomModal';
 import { Footer } from './components/Footer';
 import { INITIAL_RESTROOMS } from './data/mockRestrooms';
 import { RestroomPlace, ReviewItem } from './types';
-import { Heart, X, Check } from 'lucide-react';
+import { Heart, X, Check, Database } from 'lucide-react';
 import { PooPooMascot } from './components/PooPooMascot';
+import { useNearbyToilets } from './hooks/useNearbyToilets';
+import { isSupabaseConfigured } from './lib/supabase';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<'route' | 'map'>('route');
   const [lang, setLang] = useState<'th' | 'en'>('th');
+  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Supabase PostGIS Hook
+  const { toilets: fetchedToilets, loading: isLoadingToilets, refetch: refetchToilets } = useNearbyToilets({
+    lat: userLocation?.lat || 13.7563,
+    lng: userLocation?.lng || 100.5018,
+    radiusMeters: 60000,
+  });
+
   const [restrooms, setRestrooms] = useState<RestroomPlace[]>(INITIAL_RESTROOMS);
   const [selectedPlace, setSelectedPlace] = useState<RestroomPlace | null>(null);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
-  const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
+
+  // Sync fetched database records whenever available
+  useEffect(() => {
+    if (fetchedToilets && fetchedToilets.length > 0) {
+      setRestrooms(fetchedToilets);
+    }
+  }, [fetchedToilets]);
   
   // Favorites stored in state
   const [favorites, setFavorites] = useState<string[]>(['rest-001', 'rest-002']);
@@ -45,6 +62,9 @@ export function App() {
     setRestrooms((prev) => [newPlace, ...prev]);
     setSelectedPlace(newPlace);
     showToast('เพิ่มจุดห้องน้ำเรียบร้อยแล้ว!');
+    if (isSupabaseConfigured) {
+      refetchToilets();
+    }
   };
 
   const handleAddReview = (placeId: string, review: ReviewItem) => {

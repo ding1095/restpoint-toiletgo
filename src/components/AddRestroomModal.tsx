@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, MapPin, Navigation, Sparkles } from 'lucide-react';
+import { X, MapPin, Navigation, Sparkles, Loader2, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { RestroomPlace, FacilityCategory } from '../types';
+import { useSubmitToilet } from '../hooks/useSubmitToilet';
 
 interface AddRestroomModalProps {
   isOpen: boolean;
@@ -16,6 +17,8 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
   onAdd,
   lang,
 }) => {
+  const { submitToilet, isSubmitting, error: submitError } = useSubmitToilet();
+
   const [name, setName] = useState('');
   const [category, setCategory] = useState<FacilityCategory>('gas_station');
   const [address, setAddress] = useState('');
@@ -52,104 +55,44 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !agreed) return;
+    if (!name.trim() || !agreed || isSubmitting) return;
 
-    const newPlace: RestroomPlace = {
-      id: 'user-rest-' + Date.now(),
+    const createdPlace = await submitToilet({
       name: name.trim(),
-      name_en: name.trim(),
       category,
       address: address.trim() || 'ริมถนนสายหลัก',
-      address_en: address.trim() || 'Main Highway Route',
-      province,
-      coordinates: {
-        lat: parseFloat(lat) || 13.7563,
-        lng: parseFloat(lng) || 100.5018,
-      },
-      access_status: 'user_reported',
-      opening_hours: 'เปิดบริการตามปกติ',
-      price_type: priceType,
-      floor_zone: floorZone || 'บริเวณอาคารหลัก',
-      facilities: {
-        bidetSprayer,
-        genderSeparated: true,
-        familyRestroom: diaperTable,
-        diaperChangingTable: diaperTable,
-        nursingRoom: false,
-        showerRoom: shower,
-        prayerRoom: prayer,
-        wheelchairAccessible: wheelchair,
-        elderlyFriendly: elderly,
-        wifi: true,
-        parkingAvailable: true,
-        campingSpot: false,
-        waterRefill: true,
-        soapAvailable: true,
-        toiletPaperAvailable: true,
-      },
-      accessibility: {
-        hasRamp: wheelchair,
-        hasElevator: false,
-        hasGrabBars: elderly,
-        doorWidthCm: 90,
-        wheelchairTurningRadiusCm: 150,
-        groundFloorOnly: true,
-        accessibleParkingNearby: true,
-        selfAccessible: true,
-        detailedNotes: 'ข้อมูลบันทึกจากผู้ใช้งาน',
-      },
-      overallRating: 5.0,
-      reviewCount: 1,
-      ratingBreakdown: {
-        cleanliness: 5.0,
-        facilities: 5.0,
-        accessibility: 4.8,
-        safety_privacy: 5.0,
-        convenience: 5.0,
-        value: 5.0,
-      },
-      photos: [
-        'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
-      ],
-      verified_at: new Date().toISOString().replace('T', ' ').substring(0, 16),
-      source_type: 'user',
-      report_status: 'normal',
-      badges: ['Recently Added'],
-      reviews: [
-        {
-          id: 'rev-init-' + Date.now(),
-          userName: 'ผู้ปักหมุด',
-          date: new Date().toISOString().split('T')[0],
-          overallRating: 5,
-          ratings: {
-            cleanliness: 5,
-            facilities: 5,
-            accessibility: 5,
-            safety_privacy: 5,
-            convenience: 5,
-            value: 5,
-          },
-          comment: 'เพิ่มจุดห้องน้ำนี้เพื่อประโยชน์ในการเดินทาง',
-          isVerifiedVisit: true,
-        }
-      ],
-    };
+      province: province.trim() || 'กรุงเทพมหานคร',
+      lat: parseFloat(lat) || 13.7563,
+      lng: parseFloat(lng) || 100.5018,
+      floorZone: floorZone.trim(),
+      hasBidet: bidetSprayer,
+      wheelchairAccessible: wheelchair,
+      elderlySupport: elderly,
+      babyStation: diaperTable,
+      hasShower: shower,
+      hasPrayerRoom: prayer,
+      open24h: true,
+      isFree: priceType === 'free',
+      priceAmount: 0,
+    });
 
-    onAdd(newPlace);
+    if (createdPlace) {
+      onAdd(createdPlace);
 
-    try {
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.6 }
-      });
-    } catch (e) {
-      // ignore
+      try {
+        confetti({
+          particleCount: 70,
+          spread: 60,
+          origin: { y: 0.6 }
+        });
+      } catch (e) {
+        // ignore
+      }
+
+      onClose();
     }
-
-    onClose();
   };
 
   return (
@@ -343,22 +286,40 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
             </label>
           </div>
 
+          {/* Error Banner if any */}
+          {submitError && (
+            <div className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
+              <span>{submitError}</span>
+            </div>
+          )}
+
           {/* Buttons */}
           <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl text-slate-500 hover:text-slate-700 font-semibold text-xs"
+              disabled={isSubmitting}
+              className="px-4 py-2 rounded-xl text-slate-500 hover:text-slate-700 font-semibold text-xs disabled:opacity-50"
             >
               ยกเลิก
             </button>
             <button
               type="submit"
-              disabled={!agreed || !name.trim()}
-              className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center gap-1.5"
+              disabled={!agreed || !name.trim() || isSubmitting}
+              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center gap-1.5 transition-all"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>บันทึกจุดห้องน้ำ</span>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>กำลังบันทึกข้อมูล...</span>
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>บันทึกจุดห้องน้ำ</span>
+                </>
+              )}
             </button>
           </div>
 

@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { 
   X, Star, Navigation, Share2, Heart, ShieldCheck, 
   MapPin, Clock, MessageSquarePlus, CheckCircle2, 
-  Sparkles, Flag, ChevronDown
+  Sparkles, Flag, ChevronDown, Loader2
 } from 'lucide-react';
 import { RestroomPlace, ReviewItem } from '../types';
 import { PooPooMascot } from './PooPooMascot';
+import { useSubmitReview } from '../hooks/useSubmitReview';
 
 interface ToiletBottomSheetProps {
   place: RestroomPlace | null;
@@ -24,6 +25,8 @@ export const ToiletBottomSheet: React.FC<ToiletBottomSheetProps> = ({
   onToggleFavorite,
   onAddReview,
 }) => {
+  const { submitReview, isSubmitting: isSubmittingReview } = useSubmitReview();
+
   const [copied, setCopied] = useState(false);
   const [showReviewInput, setShowReviewInput] = useState(false);
   const [reviewerName, setReviewerName] = useState('');
@@ -43,31 +46,23 @@ export const ToiletBottomSheet: React.FC<ToiletBottomSheetProps> = ({
     window.open(url, '_blank');
   };
 
-  const handleReviewSubmit = (e: React.FormEvent) => {
+  const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reviewerName.trim()) return;
+    if (!reviewerName.trim() || isSubmittingReview) return;
 
-    const newReview: ReviewItem = {
-      id: 'rev-' + Date.now(),
+    const created = await submitReview({
+      toiletId: place.id,
       userName: reviewerName.trim(),
-      date: new Date().toISOString().split('T')[0],
-      overallRating: cleanlinessScore,
-      ratings: {
-        cleanliness: cleanlinessScore,
-        facilities: 5,
-        accessibility: 5,
-        safety_privacy: 5,
-        convenience: 5,
-        value: 5,
-      },
-      comment: reviewComment.trim() || 'สะอาด สะดวก สบายใจ',
-      isVerifiedVisit: true,
-    };
+      cleanlinessRating: cleanlinessScore,
+      comment: reviewComment.trim(),
+    });
 
-    onAddReview(place.id, newReview);
-    setShowReviewInput(false);
-    setReviewerName('');
-    setReviewComment('');
+    if (created) {
+      onAddReview(place.id, created);
+      setShowReviewInput(false);
+      setReviewerName('');
+      setReviewComment('');
+    }
   };
 
   return (
@@ -293,8 +288,11 @@ export const ToiletBottomSheet: React.FC<ToiletBottomSheetProps> = ({
                   className="w-full px-3 py-2 rounded-xl bg-white border border-amber-200 text-slate-800"
                 />
                 <div className="flex justify-end gap-2">
-                  <button type="button" onClick={() => setShowReviewInput(false)} className="px-3 py-1 text-slate-500">ยกเลิก</button>
-                  <button type="submit" className="px-4 py-1 font-bold rounded-xl bg-amber-500 text-white hover:bg-amber-600">ส่งรีวิว</button>
+                  <button type="button" onClick={() => setShowReviewInput(false)} disabled={isSubmittingReview} className="px-3 py-1 text-slate-500">ยกเลิก</button>
+                  <button type="submit" disabled={isSubmittingReview || !reviewerName.trim()} className="px-4 py-1.5 font-bold rounded-xl bg-amber-500 text-white hover:bg-amber-600 disabled:opacity-50 flex items-center gap-1.5">
+                    {isSubmittingReview ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : null}
+                    <span>{isSubmittingReview ? 'กำลังส่ง...' : 'ส่งรีวิว'}</span>
+                  </button>
                 </div>
               </form>
             )}
