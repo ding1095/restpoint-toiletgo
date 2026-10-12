@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Navigation, MapPin, Flag, Crosshair, ArrowRight, 
+  Navigation, MapPin, Flag, Crosshair, ArrowRight, ArrowUpDown, X,
   Sparkles, Star, ShieldCheck, Clock, ExternalLink, RotateCcw, Database, Loader2
 } from 'lucide-react';
 import { RestroomPlace } from '../types';
@@ -279,55 +279,75 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
     }
   };
 
+  // Swap start & destination points
+  const handleSwapPoints = () => {
+    if (!startPoint || !destPoint) return;
+    const oldStart = startPoint;
+    const oldStartQuery = startQuery;
+    setStartPoint(destPoint);
+    setStartQuery(destQuery);
+    setDestPoint(oldStart);
+    setDestQuery(oldStartQuery);
+    handleCalculateRoute(destPoint, oldStart);
+  };
+
   const highlightedIds = matchedRestrooms.map((m) => m.restroom.id);
 
   return (
-    <div className="flex flex-col gap-5 animate-in fade-in duration-200">
+    <div className="flex flex-col gap-5 animate-in fade-in duration-300">
       
-      {/* Top Banner with Mascot */}
-      <div className="bg-gradient-to-r from-amber-500 via-emerald-600 to-teal-700 rounded-3xl p-4 sm:p-6 text-white shadow-md flex items-center justify-between gap-4">
-        <div className="space-y-1 max-w-xl">
-          <div className="inline-flex items-center gap-1.5 bg-black/20 px-2.5 py-0.5 rounded-full text-xs font-bold backdrop-blur-xs">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>Poo Poo Route Navigator</span>
+      {/* 🌟 1. Modern Minimalist Hero Banner */}
+      <div className="relative overflow-hidden bg-white/95 rounded-3xl p-5 sm:p-7 border border-slate-200/70 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-5">
+        {/* Soft Ambient Light Glows */}
+        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-56 h-56 bg-emerald-100/50 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-56 h-56 bg-amber-100/50 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10 space-y-2 text-center sm:text-left max-w-xl">
+          <div className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200/60 px-3 py-1 rounded-full text-xs font-bold shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Poo Poo Navigator • ค้นหาห้องน้ำสะอาดตลอดเส้นทาง</span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-extrabold tracking-tight">
-            ปักหมุดเส้นทาง ค้นหาห้องน้ำสะอาดตลอดทาง 💩✨
-          </h2>
-          <p className="text-xs sm:text-sm text-emerald-100 font-medium">
-            พิมพ์หรือคลิกปักหมุดจุดเริ่มต้นและปลายทาง น้องปู้ปู้จะคำนวณและแสดงห้องน้ำทุกจุดบนเส้นทางให้ทันที!
+          
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+            ปวดเมื่อไหร่บอก <span className="text-amber-500">ปู้ปู้</span> สบายใจตลอดทาง 💩✨
+          </h1>
+          
+          <p className="text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+            ระบุจุดเริ่มต้นและปลายทาง น้องปู้ปู้จะสแกนจุดแวะพัก ปั๊มน้ำมัน และห้องน้ำสะอาดพร้อมข้อมูลสายฉีดชำระและทางลาดวีลแชร์ให้ทันที
           </p>
         </div>
 
         {/* Mascot Avatar in Banner */}
-        <div className="shrink-0 hidden sm:block">
-          <PooPooMascot mood={mascotMood} size={84} showSpeech speechText={mascotSpeech} />
+        <div className="relative z-10 shrink-0">
+          <PooPooMascot mood={mascotMood} size={88} showSpeech speechText={mascotSpeech} />
         </div>
       </div>
 
-      {/* Inputs Card */}
-      <div className="bg-white p-4 sm:p-6 rounded-3xl border border-slate-100 shadow-2xs space-y-4">
+      {/* 🧭 2. Route Planner Inputs Card (Clean, Ample Whitespace) */}
+      <div className="bg-white p-5 sm:p-6 rounded-3xl border border-slate-200/70 shadow-xs space-y-4">
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr,auto,1fr] gap-3 items-center">
           
-          {/* 1. START POINT */}
+          {/* Start Point Section */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
-                <span>🚩 1. จุดเริ่มต้น (Start Point)</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-xs"></span>
+                <span>🚩 1. จุดเริ่มต้น</span>
               </label>
 
               <div className="flex items-center gap-1">
                 <button
+                  type="button"
                   onClick={handleUseMyLocationAsStart}
-                  className="text-[11px] font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 px-2 py-0.5 rounded-lg flex items-center gap-1"
+                  className="text-[11px] font-semibold text-blue-600 hover:text-blue-700 bg-blue-50/80 hover:bg-blue-100 px-2 py-0.5 rounded-lg flex items-center gap-1 transition-colors"
                 >
                   <Crosshair className="w-3 h-3" />
                   <span>ตำแหน่งฉัน</span>
                 </button>
 
                 <button
+                  type="button"
                   onClick={() => setMapPickingMode(mapPickingMode === 'start' ? null : 'start')}
                   className={`text-[11px] font-semibold px-2 py-0.5 rounded-lg flex items-center gap-1 transition-all ${
                     mapPickingMode === 'start'
@@ -336,7 +356,7 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                   }`}
                 >
                   <MapPin className="w-3 h-3" />
-                  <span>{mapPickingMode === 'start' ? 'กำลังปักหมุด...' : 'ปักหมุดบนแผนที่'}</span>
+                  <span>{mapPickingMode === 'start' ? 'กำลังเลือก...' : 'ปักหมุด'}</span>
                 </button>
               </div>
             </div>
@@ -346,17 +366,18 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                 type="text"
                 value={startQuery}
                 onChange={(e) => setStartQuery(e.target.value)}
-                placeholder="พิมพ์จุดเริ่มต้น เช่น กรุงเทพฯ, รังสิต..."
-                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-emerald-500"
+                placeholder="พิมพ์จุดเริ่มต้น เช่น กรุงเทพฯ, สยาม..."
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               />
             </div>
 
             {/* Quick Presets for Start */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-              <span className="text-[10px] text-slate-400 shrink-0">แนะนำ:</span>
+              <span className="text-[10px] text-slate-400 shrink-0 font-medium">แนะนำ:</span>
               {POPULAR_START_POINTS.map((p, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={() => {
                     setStartPoint(p);
                     setStartQuery(p.name);
@@ -364,8 +385,8 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                   }}
                   className={`whitespace-nowrap px-2.5 py-1 rounded-xl text-[11px] font-medium transition-all ${
                     startPoint?.name === p.name
-                      ? 'bg-emerald-600 text-white font-bold'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-emerald-600 text-white font-bold shadow-2xs'
+                      : 'bg-slate-100/80 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
                   {p.name.split(' ')[0]}
@@ -374,15 +395,28 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
             </div>
           </div>
 
-          {/* 2. DESTINATION */}
+          {/* Swap Button (Middle) */}
+          <div className="flex justify-center py-1 lg:py-0">
+            <button
+              type="button"
+              onClick={handleSwapPoints}
+              className="p-2.5 rounded-2xl bg-slate-100/80 hover:bg-emerald-50 text-slate-500 hover:text-emerald-700 border border-slate-200/50 hover:border-emerald-200 transition-all active:scale-90"
+              title="สลับจุดเริ่มต้นและจุดหมาย"
+            >
+              <ArrowUpDown className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Destination Point Section */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block"></span>
-                <span>🏁 2. จุดหมายปลายทาง (Destination)</span>
+                <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-xs"></span>
+                <span>🏁 2. จุดหมายปลายทาง</span>
               </label>
 
               <button
+                type="button"
                 onClick={() => setMapPickingMode(mapPickingMode === 'dest' ? null : 'dest')}
                 className={`text-[11px] font-semibold px-2 py-0.5 rounded-lg flex items-center gap-1 transition-all ${
                   mapPickingMode === 'dest'
@@ -391,7 +425,7 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                 }`}
               >
                 <Flag className="w-3 h-3" />
-                <span>{mapPickingMode === 'dest' ? 'กำลังปักหมุด...' : 'ปักหมุดบนแผนที่'}</span>
+                <span>{mapPickingMode === 'dest' ? 'กำลังเลือก...' : 'ปักหมุด'}</span>
               </button>
             </div>
 
@@ -400,17 +434,18 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                 type="text"
                 value={destQuery}
                 onChange={(e) => setDestQuery(e.target.value)}
-                placeholder="พิมพ์จุดหมาย เช่น พัทยา, หัวหิน, เชียงใหม่..."
-                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 text-xs sm:text-sm font-medium focus:outline-emerald-500"
+                placeholder="พิมพ์จุดหมาย เช่น พัทยา, หัวหิน, เขาใหญ่..."
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               />
             </div>
 
             {/* Quick Presets for Dest */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-              <span className="text-[10px] text-slate-400 shrink-0">ยอดนิยม:</span>
+              <span className="text-[10px] text-slate-400 shrink-0 font-medium">ยอดนิยม:</span>
               {POPULAR_DEST_POINTS.map((p, idx) => (
                 <button
                   key={idx}
+                  type="button"
                   onClick={() => {
                     setDestPoint(p);
                     setDestQuery(p.name);
@@ -418,8 +453,8 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                   }}
                   className={`whitespace-nowrap px-2.5 py-1 rounded-xl text-[11px] font-medium transition-all ${
                     destPoint?.name === p.name
-                      ? 'bg-rose-600 text-white font-bold'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-rose-600 text-white font-bold shadow-2xs'
+                      : 'bg-slate-100/80 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
                   {p.name.split(' ')[0]}
@@ -430,19 +465,23 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
 
         </div>
 
-        {/* Action Button */}
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
-          <div className="text-xs text-slate-500 flex items-center gap-2">
-            <span>💡 คลิกปุ่ม <strong>"ปักหมุดบนแผนที่"</strong> แล้วแตะบนแผนที่เพื่อระบุจุดได้ตามใจชอบ</span>
+        {/* Action Button Row */}
+        <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
+          <div className="text-xs text-slate-400 flex items-center gap-2">
+            <span>💡 คลิกปุ่ม <strong>"ปักหมุด"</strong> เพื่อแตะเลือกตำแหน่งบนแผนที่ได้อย่างอิสระ</span>
           </div>
 
           <button
+            type="button"
             onClick={() => handleCalculateRoute(startPoint, destPoint)}
             disabled={isLoadingRoute}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all active:scale-95"
+            className="w-full sm:w-auto px-7 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all active:scale-95 disabled:opacity-60 cursor-pointer"
           >
             {isLoadingRoute ? (
-              <span>กำลังคำนวณเส้นทาง...</span>
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>กำลังคำนวณเส้นทาง...</span>
+              </>
             ) : (
               <>
                 <Navigation className="w-4 h-4 fill-white" />
@@ -455,10 +494,30 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
       </div>
 
       {/* Main Grid: Map & Restrooms Along Route */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
         
         {/* Left Column: Interactive Map with Route & Markers */}
-        <div className="lg:col-span-7 h-[460px] sm:h-[600px] rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-2xs relative">
+        <div className="lg:col-span-7 h-[460px] sm:h-[620px] rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-xs relative group">
+          {/* Floating Pill when picking mode is active */}
+          {mapPickingMode && (
+            <div className="absolute top-4 inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 z-20 bg-slate-900/95 backdrop-blur-md text-white text-xs font-semibold px-4 py-2.5 rounded-2xl shadow-xl flex items-center justify-between sm:justify-center gap-3 border border-slate-700/60 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-emerald-400 animate-bounce" />
+                <span>
+                  แตะบนแผนที่เพื่อระบุตำแหน่ง <strong>{mapPickingMode === 'start' ? 'จุดเริ่มต้น' : 'จุดหมาย'}</strong>
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMapPickingMode(null)}
+                className="p-1 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors"
+                title="ยกเลิก"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
           <LeafletMap 
             restrooms={restrooms}
             selectedPlace={selectedPlace}
@@ -474,48 +533,48 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
         </div>
 
         {/* Right Column: Restrooms list along this route */}
-        <div className="lg:col-span-5 flex flex-col h-[460px] sm:h-[600px] bg-white rounded-3xl border border-slate-200/80 shadow-2xs overflow-hidden">
+        <div className="lg:col-span-5 flex flex-col h-[460px] sm:h-[620px] bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
           
           {/* Header Summary */}
-          <div className="p-4 border-b border-slate-100 bg-slate-50/70 space-y-1.5">
+          <div className="p-4 sm:p-5 border-b border-slate-100 bg-slate-50/60 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="font-extrabold text-slate-900 text-sm flex items-center gap-1.5">
                 <span>ห้องน้ำบนเส้นทางนี้</span>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-bold">
                   {matchedRestrooms.length} แห่ง
                 </span>
                 {activeScanEngine === 'postgis' ? (
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-teal-100 text-teal-800 flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 flex items-center gap-1">
                     <Database className="w-2.5 h-2.5 text-teal-600" />
-                    <span>PostGIS</span>
+                    <span>PostGIS ⚡</span>
                   </span>
                 ) : (
-                  <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-600">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-200/70 text-slate-700">
                     Offline
                   </span>
                 )}
               </span>
 
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 bg-white px-2.5 py-1 rounded-xl border border-slate-200/60 shadow-2xs">
                 <span>{routeDistanceKm} กม.</span>
-                <span>•</span>
+                <span className="text-slate-300">•</span>
                 <span>~{routeDurationMin} นาที</span>
               </div>
             </div>
 
-            <p className="text-[11px] text-slate-500">
-              เรียงลำดับจากจุดเริ่มต้นไปหาจุดหมายปลายทาง แวะจุดไหนก็มั่นใจความสะอาด
+            <p className="text-[11px] text-slate-400 font-medium">
+              เรียงลำดับจากจุดเริ่มต้นไปหาจุดหมาย แตะการ์ดเพื่อดูรายละเอียดหรือกดนำทาง
             </p>
           </div>
 
           {/* Restroom Cards along route */}
-          <div className="p-3 overflow-y-auto space-y-2.5 flex-1">
+          <div className="p-3.5 overflow-y-auto space-y-2.5 flex-1 scrollbar-none">
             {matchedRestrooms.length === 0 ? (
-              <div className="text-center py-16 px-4 space-y-3">
-                <PooPooMascot mood="urgent" size={64} />
-                <p className="text-sm font-bold text-slate-700">กำลังสแกนหาจุดห้องน้ำ...</p>
-                <p className="text-xs text-slate-400">
-                  ลองเลือกเส้นทางยอดนิยม เช่น กรุงเทพฯ - พัทยา หรือ หัวหิน
+              <div className="text-center py-20 px-4 space-y-3">
+                <PooPooMascot mood="urgent" size={68} />
+                <p className="text-sm font-bold text-slate-700">กำลังสแกนหาจุดห้องน้ำตลอดเส้นทาง...</p>
+                <p className="text-xs text-slate-400 max-w-xs mx-auto">
+                  ลองเลือกจุดหมายยอดนิยม เช่น พัทยา, หัวหิน หรือเขาใหญ่ เพื่อดูจุดแวะพักแนะนำ
                 </p>
               </div>
             ) : (
@@ -526,63 +585,64 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
                   <div
                     key={restroom.id}
                     onClick={() => onSelectRestroom(restroom)}
-                    className={`p-3.5 rounded-2xl border transition-all cursor-pointer relative ${
+                    className={`p-4 rounded-2xl border transition-all cursor-pointer relative ${
                       isSelected
-                        ? 'border-emerald-500 bg-emerald-50/40 shadow-xs ring-1 ring-emerald-500/20'
-                        : 'border-slate-200/80 hover:border-emerald-300 bg-white'
+                        ? 'border-emerald-500 bg-emerald-50/30 shadow-xs ring-2 ring-emerald-500/20'
+                        : 'border-slate-200/70 hover:border-emerald-300 bg-white hover:shadow-2xs'
                     }`}
                   >
                     {/* Top Row: Milestone & Rating */}
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-extrabold bg-emerald-100/90 text-emerald-800 flex items-center gap-1">
                         <span>จุดแวะที่ {idx + 1}</span>
-                        <span>•</span>
+                        <span className="opacity-40">•</span>
                         <span>กม. ที่ {distFromStartKm}</span>
                       </span>
 
-                      <div className="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200/40">
-                        <Star className="w-3.5 h-3.5 fill-amber-400" />
+                      <div className="flex items-center gap-1 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200/50">
+                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                         <span>{restroom.overallRating.toFixed(1)}</span>
                         <span className="text-[10px] text-slate-400 font-normal">({restroom.reviewCount})</span>
                       </div>
                     </div>
 
                     {/* Name & Address */}
-                    <h4 className="font-bold text-slate-900 text-xs sm:text-sm">
+                    <h4 className="font-extrabold text-slate-900 text-sm tracking-tight leading-snug">
                       {lang === 'th' ? restroom.name : restroom.name_en}
                     </h4>
-                    <p className="text-[11px] text-slate-400 mt-0.5 truncate flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-slate-300 shrink-0" />
+                    <p className="text-[11px] text-slate-400 mt-1 truncate flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 text-slate-300 shrink-0" />
                       <span>{restroom.address}</span>
                     </p>
 
                     {/* Amenities Tag Row */}
-                    <div className="flex items-center gap-1.5 mt-2.5 pt-2 border-t border-slate-100 text-[10px] text-slate-600">
+                    <div className="flex items-center gap-1.5 mt-3 pt-2.5 border-t border-slate-100 text-[10px]">
                       {restroom.facilities.bidetSprayer && (
-                        <span className="text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md font-semibold">
                           💦 สายฉีด
                         </span>
                       )}
                       {restroom.facilities.wheelchairAccessible && (
-                        <span className="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-semibold">
                           ♿ วีลแชร์
                         </span>
                       )}
                       {restroom.facilities.diaperChangingTable && (
-                        <span className="text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded font-medium">
+                        <span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md font-semibold">
                           👶 ผ้าอ้อม
                         </span>
                       )}
 
                       <button
+                        type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           const url = `https://www.google.com/maps/dir/?api=1&destination=${restroom.coordinates.lat},${restroom.coordinates.lng}`;
                           window.open(url, '_blank');
                         }}
-                        className="ml-auto flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 hover:bg-emerald-100 px-2 py-0.5 rounded-lg transition-colors"
+                        className="ml-auto flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-xl transition-colors active:scale-95 shadow-2xs"
                       >
-                        <Navigation className="w-3 h-3" />
+                        <Navigation className="w-3 h-3 fill-emerald-600 text-emerald-600" />
                         <span>นำทาง</span>
                       </button>
                     </div>

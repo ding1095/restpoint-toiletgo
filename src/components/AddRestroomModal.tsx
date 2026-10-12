@@ -129,7 +129,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
         <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-3.5 flex-1 text-xs sm:text-sm">
           
           <div>
-            <label className="block font-bold text-slate-700 mb-1">
+            <label className="block font-bold text-slate-700 mb-1.5">
               ชื่อสถานที่ / ปั๊มน้ำมัน <span className="text-rose-500">*</span>
             </label>
             <input 
@@ -137,18 +137,18 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="เช่น ปั๊ม ปตท. วังมะนาว เพชรบุรี ขาออก"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-slate-800 focus:outline-emerald-500"
+              className="w-full px-4 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">ประเภท</label>
+              <label className="block font-bold text-slate-700 mb-1.5">ประเภทสถานที่</label>
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as FacilityCategory)}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               >
                 <option value="gas_station">⛽ ปั๊มน้ำมัน</option>
                 <option value="shopping_mall">🏬 ห้างสรรพสินค้า</option>
@@ -160,13 +160,13 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">ค่าบริการ</label>
+              <label className="block font-bold text-slate-700 mb-1.5">ค่าบริการ</label>
               <select
                 value={priceType}
                 onChange={(e) => setPriceType(e.target.value as 'free' | 'paid')}
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               >
-                <option value="free">ฟรี</option>
+                <option value="free">เข้าใช้ฟรี</option>
                 <option value="paid">มีค่าบริการ</option>
               </select>
             </div>
@@ -174,37 +174,37 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">ถนน / ที่ตั้ง</label>
+              <label className="block font-bold text-slate-700 mb-1.5">ถนน / ที่ตั้ง</label>
               <input 
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                placeholder="เช่น ถนนพระราม 2"
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
+                placeholder="เช่น ถนนพระราม 2 กม. 35"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               />
             </div>
             <div>
-              <label className="block font-bold text-slate-700 mb-1">จังหวัด</label>
+              <label className="block font-bold text-slate-700 mb-1.5">จังหวัด</label>
               <input 
                 type="text"
                 value={province}
                 onChange={(e) => setProvince(e.target.value)}
                 placeholder="เช่น เพชรบุรี"
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all"
               />
             </div>
           </div>
 
           {/* GPS Coordinates */}
           <div>
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center justify-between mb-1.5">
               <label className="font-bold text-slate-700">พิกัด GPS</label>
               <button
                 type="button"
                 onClick={handleUseCurrentLocation}
-                className="text-xs text-emerald-600 font-semibold hover:underline flex items-center gap-1"
+                className="text-xs text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-0.5 rounded-lg font-bold flex items-center gap-1 transition-colors"
               >
-                <Navigation className="w-3 h-3" />
+                <Navigation className="w-3 h-3 fill-emerald-600" />
                 <span>ใช้พิกัดปัจจุบัน</span>
               </button>
             </div>
@@ -214,7 +214,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
                 value={lat}
                 onChange={(e) => setLat(e.target.value)}
                 placeholder="Latitude"
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 text-xs"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs font-mono font-medium focus:bg-white focus:outline-emerald-500 transition-all"
                 required
               />
               <input 
@@ -222,7 +222,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
                 value={lng}
                 onChange={(e) => setLng(e.target.value)}
                 placeholder="Longitude"
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800 text-xs"
+                className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs font-mono font-medium focus:bg-white focus:outline-emerald-500 transition-all"
                 required
               />
             </div>
@@ -230,19 +230,19 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
 
           {/* Floor & Zone */}
           <div>
-            <label className="block font-bold text-slate-700 mb-1">จุดสังเกตในสถานที่</label>
+            <label className="block font-bold text-slate-700 mb-1.5">จุดสังเกตในสถานที่</label>
             <input 
               type="text"
               value={floorZone}
               onChange={(e) => setFloorZone(e.target.value)}
-              placeholder="เช่น ด้านหลังร้านกาแฟ, ฝั่งตรงข้ามร้านสะดวกซื้อ"
-              className="w-full px-3 py-2 rounded-xl border border-slate-300 text-slate-800"
+              placeholder="เช่น ด้านหลังร้านกาแฟ, โซนอาคารหลัก"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-slate-50/70 border border-slate-200/80 text-slate-800 text-xs sm:text-sm font-medium focus:bg-white focus:outline-emerald-500 transition-all"
             />
           </div>
 
           {/* Facilities */}
           <div>
-            <label className="block font-bold text-slate-700 mb-1.5">สิ่งอำนวยความสะดวก</label>
+            <label className="block font-bold text-slate-700 mb-2">สิ่งอำนวยความสะดวก</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {[
                 { label: '💦 สายฉีดชำระ', state: bidetSprayer, set: setBidetSprayer },
@@ -254,15 +254,17 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
               ].map((item, idx) => (
                 <label 
                   key={idx} 
-                  className={`p-2 rounded-xl border cursor-pointer flex items-center gap-2 select-none text-xs transition-all ${
-                    item.state ? 'bg-emerald-50 border-emerald-300 text-emerald-900 font-bold' : 'bg-slate-50 border-slate-200 text-slate-600'
+                  className={`p-2.5 rounded-2xl border cursor-pointer flex items-center gap-2 select-none text-xs transition-all ${
+                    item.state 
+                      ? 'bg-emerald-50/80 border-emerald-300 text-emerald-950 font-bold shadow-2xs' 
+                      : 'bg-slate-50/70 border-slate-200/70 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   <input 
                     type="checkbox" 
                     checked={item.state} 
                     onChange={(e) => item.set(e.target.checked)}
-                    className="rounded text-emerald-600"
+                    className="rounded text-emerald-600 focus:ring-emerald-500"
                   />
                   <span>{item.label}</span>
                 </label>
@@ -271,16 +273,16 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
           </div>
 
           {/* Agreement */}
-          <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700">
-            <label className="flex items-start gap-2 cursor-pointer select-none">
+          <div className="p-3.5 rounded-2xl bg-slate-50/80 border border-slate-200/70 text-slate-700">
+            <label className="flex items-start gap-2.5 cursor-pointer select-none">
               <input 
                 type="checkbox"
                 checked={agreed}
                 onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5 rounded text-emerald-600"
+                className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500"
                 required
               />
-              <span className="text-xs leading-relaxed">
+              <span className="text-xs leading-relaxed text-slate-600 font-medium">
                 ยืนยันว่าข้อมูลเป็นความจริง และไม่มีการบันทึกภาพถ่ายที่ละเมิดความเป็นส่วนตัวในห้องน้ำ
               </span>
             </label>
