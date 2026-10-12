@@ -14,6 +14,18 @@ interface UseNearbyToiletsParams {
   filter24h?: boolean;
 }
 
+function calculateDistanceKm(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Number((R * c).toFixed(1));
+}
+
 export function useNearbyToilets(params: UseNearbyToiletsParams = {}) {
   const {
     lat = 13.7563,
@@ -41,20 +53,44 @@ export function useNearbyToilets(params: UseNearbyToiletsParams = {}) {
     setError(null);
 
     try {
-      // Call PostGIS Stored Procedure (RPC)
-      const { data, error: rpcError } = await supabase.rpc('get_nearby_toilets', {
-        user_lat: lat,
-        user_lng: lng,
-        radius_meters: radiusMeters,
-        filter_bidet: filterBidet,
-        filter_wheelchair: filterWheelchair,
-        filter_baby: filterBaby,
-        filter_free: filterFree,
-        filter_24h: filter24h,
-      });
+      let data: any[] | null = null;
 
-      if (rpcError) {
-        throw rpcError;
+      // When exploring nationwide (radius > 80km), load all toilets from database
+      if (radiusMeters > 80000) {
+        let query = supabase
+          .from('toilets')
+          .select('*')
+          .order('overall_rating', { ascending: false })
+          .limit(1000);
+
+        if (filterBidet) query = query.eq('has_bidet', true);
+        if (filterWheelchair) query = query.eq('wheelchair_accessible', true);
+        if (filterBaby) query = query.eq('baby_station', true);
+        if (filterFree) query = query.eq('is_free', true);
+        if (filter24h) query = query.eq('open_24h', true);
+
+        const { data: dbData, error: dbError } = await query;
+        if (dbError) throw dbError;
+
+        data = (dbData || []).map((t: any) => ({
+          ...t,
+          distance_meters: calculateDistanceKm(lat, lng, t.lat, t.lng) * 1000
+        })).sort((a: any, b: any) => (a.distance_meters || 0) - (b.distance_meters || 0));
+      } else {
+        // Call PostGIS Stored Procedure (RPC) for focused local radius
+        const { data: rpcData, error: rpcError } = await supabase.rpc('get_nearby_toilets', {
+          user_lat: lat,
+          user_lng: lng,
+          radius_meters: radiusMeters,
+          filter_bidet: filterBidet,
+          filter_wheelchair: filterWheelchair,
+          filter_baby: filterBaby,
+          filter_free: filterFree,
+          filter_24h: filter24h,
+        });
+
+        if (rpcError) throw rpcError;
+        data = rpcData;
       }
 
       if (data && Array.isArray(data)) {

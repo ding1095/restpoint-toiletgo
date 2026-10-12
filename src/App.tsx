@@ -18,11 +18,11 @@ export function App() {
   const [lang, setLang] = useState<'th' | 'en'>('th');
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
 
-  // Supabase PostGIS Hook
+  // Supabase Nationwide Hook (Loads all 400+ rest stops across 77 provinces)
   const { toilets: fetchedToilets, loading: isLoadingToilets, refetch: refetchToilets } = useNearbyToilets({
     lat: userLocation?.lat || 13.7563,
     lng: userLocation?.lng || 100.5018,
-    radiusMeters: 60000,
+    radiusMeters: 1000000,
   });
 
   const [restrooms, setRestrooms] = useState<RestroomPlace[]>(INITIAL_RESTROOMS);
