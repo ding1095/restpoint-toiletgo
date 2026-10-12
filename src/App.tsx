@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { RouteRestFinder } from './components/RouteRestFinder';
 import { MapRestroomFinder } from './components/MapRestroomFinder';
-import { RestroomDetailModal } from './components/RestroomDetailModal';
+import { ToiletBottomSheet } from './components/ToiletBottomSheet';
 import { AddRestroomModal } from './components/AddRestroomModal';
 import { Footer } from './components/Footer';
 import { INITIAL_RESTROOMS } from './data/mockRestrooms';
@@ -149,15 +149,14 @@ export function App() {
 
       </main>
 
-      {/* Restroom Detail Modal */}
-      <RestroomDetailModal
+      {/* Toilet Bottom Sheet (Mobile-First Detail Modal) */}
+      <ToiletBottomSheet
         place={selectedPlace}
         onClose={() => setSelectedPlace(null)}
         lang={lang}
         isFavorite={selectedPlace ? favorites.includes(selectedPlace.id) : false}
         onToggleFavorite={handleToggleFavorite}
         onAddReview={handleAddReview}
-        onReportIssue={handleReportIssue}
       />
 
       {/* Add Restroom Modal */}
