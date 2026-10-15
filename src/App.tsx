@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { Navbar } from './components/Navbar';
+import { useState, useEffect } from 'react';
+import { Navbar, AppTab } from './components/Navbar';
 import { RouteRestFinder } from './components/RouteRestFinder';
 import { MapRestroomFinder } from './components/MapRestroomFinder';
 import { ToiletBottomSheet } from './components/ToiletBottomSheet';
 import { AddRestroomModal } from './components/AddRestroomModal';
 import { AdminPortal } from './components/AdminPortal';
-import { Footer } from './components/Footer';
+import { PlaceRow } from './components/PlaceRow';
 import { INITIAL_RESTROOMS } from './data/mockRestrooms';
 import { RestroomPlace, ReviewItem } from './types';
-import { Heart, X, Check, Database } from 'lucide-react';
-import { PooPooMascot } from './components/PooPooMascot';
+import { X } from 'lucide-react';
 import { useNearbyToilets } from './hooks/useNearbyToilets';
 import { isSupabaseConfigured } from './lib/supabase';
 
+const FAVORITES_KEY = 'poopoo:favorites';
+
 export function App() {
-  const [activeTab, setActiveTab] = useState<'route' | 'map' | 'admin'>('route');
-  const [lang, setLang] = useState<'th' | 'en'>('th');
+  const [activeTab, setActiveTab] = useState<AppTab>('route');
+  const lang: 'th' | 'en' = 'th';
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
 
-  // Supabase Nationwide Hook (Loads all 400+ rest stops across 77 provinces)
-  const { toilets: fetchedToilets, loading: isLoadingToilets, refetch: refetchToilets } = useNearbyToilets({
+  // Supabase nationwide hook (loads all rest stops across 77 provinces)
+  const { toilets: fetchedToilets, refetch: refetchToilets } = useNearbyToilets({
     lat: userLocation?.lat || 13.7563,
     lng: userLocation?.lng || 100.5018,
     radiusMeters: 1000000,
@@ -30,123 +31,102 @@ export function App() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isFavoritesModalOpen, setIsFavoritesModalOpen] = useState(false);
 
-  // Sync fetched database records whenever available
   useEffect(() => {
     if (fetchedToilets && fetchedToilets.length > 0) {
       setRestrooms(fetchedToilets);
     }
   }, [fetchedToilets]);
-  
-  // Favorites stored in state
-  const [favorites, setFavorites] = useState<string[]>(['rest-001', 'rest-002']);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // Favorites persisted locally
+  const [favorites, setFavorites] = useState<string[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem(FAVORITES_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  });
+  useEffect(() => {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+  }, [favorites]);
+
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const showToast = (msg: string) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 2500);
+    setTimeout(() => setToastMessage(null), 2200);
   };
 
   const handleToggleFavorite = (id: string) => {
     setFavorites((prev) => {
-      const exists = prev.includes(id);
-      if (exists) {
+      if (prev.includes(id)) {
         showToast('ลบออกจากรายการโปรดแล้ว');
         return prev.filter((item) => item !== id);
-      } else {
-        showToast('บันทึกในรายการโปรดเรียบร้อย');
-        return [...prev, id];
       }
+      showToast('บันทึกในรายการโปรดแล้ว');
+      return [...prev, id];
     });
   };
 
   const handleAddRestroom = (newPlace: RestroomPlace) => {
     setRestrooms((prev) => [newPlace, ...prev]);
     setSelectedPlace(newPlace);
-    showToast('เพิ่มจุดห้องน้ำเรียบร้อยแล้ว!');
-    if (isSupabaseConfigured) {
-      refetchToilets();
-    }
+    showToast('เพิ่มห้องน้ำเรียบร้อยแล้ว');
+    if (isSupabaseConfigured) refetchToilets();
   };
 
   const handleAddReview = (placeId: string, review: ReviewItem) => {
     setRestrooms((prev) =>
       prev.map((place) => {
-        if (place.id === placeId) {
-          const updatedReviews = [review, ...place.reviews];
-          const updatedReviewCount = updatedReviews.length;
-          const avgClean = updatedReviews.reduce((acc, r) => acc + r.ratings.cleanliness, 0) / updatedReviewCount;
-          return {
-            ...place,
-            reviews: updatedReviews,
-            reviewCount: updatedReviewCount,
-            overallRating: Number(avgClean.toFixed(1)),
-          };
-        }
-        return place;
+        if (place.id !== placeId) return place;
+        const reviews = [review, ...place.reviews];
+        const avg = reviews.reduce((acc, r) => acc + r.ratings.cleanliness, 0) / reviews.length;
+        return { ...place, reviews, reviewCount: reviews.length, overallRating: Number(avg.toFixed(1)) };
       })
     );
-    showToast('ขอบคุณสำหรับรีวิวของคุณ!');
-  };
-
-  const handleReportIssue = (placeId: string, reason: string) => {
-    setRestrooms((prev) =>
-      prev.map((p) => (p.id === placeId ? { ...p, report_status: 'reported_issue' } : p))
-    );
-    showToast(`ส่งรายงานปัญหาเรียบร้อย`);
+    showToast('ขอบคุณสำหรับรีวิว!');
   };
 
   const handleRequestUserLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setUserLocation({
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude,
-          });
-          showToast('ระบุพิกัดตำแหน่งของคุณแล้ว');
-        },
-        () => {
-          setUserLocation({ lat: 13.7563, lng: 100.5018 });
-          showToast('ใช้พิกัดกรุงเทพฯ เป็นค่าเริ่มต้น');
-        }
-      );
-    } else {
-      setUserLocation({ lat: 13.7563, lng: 100.5018 });
+    if (!navigator.geolocation) {
+      showToast('อุปกรณ์นี้ไม่รองรับการระบุตำแหน่ง');
+      return;
     }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+      () => showToast('ไม่สามารถระบุตำแหน่งได้ กรุณาอนุญาตการเข้าถึงตำแหน่ง'),
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   };
 
   const favoritePlaces = restrooms.filter((r) => favorites.includes(r.id));
+  const isMapView = activeTab !== 'admin';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800 font-sans">
-      
-      {/* Toast Notification with Mascot */}
+    <div className="h-[100dvh] flex flex-col bg-white text-slate-800 overflow-hidden">
+      {/* Toast */}
       {toastMessage && (
-        <div className="fixed top-20 right-4 z-50 bg-slate-900 text-white text-xs sm:text-sm font-semibold px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2.5 animate-in fade-in slide-in-from-top-2 duration-150 border border-slate-700">
-          <PooPooMascot size={24} mood="relieved" />
-          <span>{toastMessage}</span>
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[60] fade-up">
+          <div className="bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-full shadow-xl whitespace-nowrap">
+            {toastMessage}
+          </div>
         </div>
       )}
 
-      {/* Clean Navbar */}
       <Navbar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        lang={lang}
-        setLang={setLang}
+        setActiveTab={(t) => {
+          setSelectedPlace(null);
+          setActiveTab(t);
+        }}
         onOpenAddModal={() => setIsAddModalOpen(true)}
         favoritesCount={favorites.length}
         onOpenFavorites={() => setIsFavoritesModalOpen(true)}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 space-y-4">
-        
-        {/* Tab 1: Route Rest Finder (Start -> Destination -> Scan Restrooms) */}
+      <main className={`flex-1 min-h-0 relative ${isMapView ? 'overflow-hidden' : 'overflow-y-auto bg-slate-50'}`}>
         {activeTab === 'route' && (
           <RouteRestFinder
             restrooms={restrooms}
-            onSelectRestroom={(p) => setSelectedPlace(p)}
+            onSelectRestroom={setSelectedPlace}
             selectedPlace={selectedPlace}
             lang={lang}
             userLocation={userLocation}
@@ -154,44 +134,41 @@ export function App() {
           />
         )}
 
-        {/* Tab 2: Free Exploration & Interactive Map */}
         {activeTab === 'map' && (
           <MapRestroomFinder
             restrooms={restrooms}
             selectedPlace={selectedPlace}
-            onSelectPlace={(p) => setSelectedPlace(p)}
+            onSelectPlace={setSelectedPlace}
             lang={lang}
             userLocation={userLocation}
             onRequestUserLocation={handleRequestUserLocation}
-            favorites={favorites}
-            onToggleFavorite={handleToggleFavorite}
           />
         )}
 
-        {/* Tab 3: Admin Portal System */}
         {activeTab === 'admin' && (
-          <AdminPortal
-            restrooms={restrooms}
-            onBackToApp={() => setActiveTab('route')}
-            onRefreshData={refetchToilets}
-            onPlaceUpdated={(updated) => {
-              setRestrooms((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
-              showToast('อัปเดตข้อมูลห้องน้ำสำเร็จ');
-            }}
-            onPlaceDeleted={(id) => {
-              setRestrooms((prev) => prev.filter((p) => p.id !== id));
-              showToast('ลบจุดห้องน้ำเรียบร้อย');
-            }}
-            onPlaceAdded={(created) => {
-              setRestrooms((prev) => [created, ...prev]);
-              showToast('เพิ่มจุดห้องน้ำใหม่เรียบร้อย');
-            }}
-          />
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6">
+            <AdminPortal
+              restrooms={restrooms}
+              onBackToApp={() => setActiveTab('route')}
+              onRefreshData={refetchToilets}
+              onPlaceUpdated={(updated) => {
+                setRestrooms((prev) => prev.map((p) => (p.id === updated.id ? updated : p)));
+                showToast('อัปเดตข้อมูลสำเร็จ');
+              }}
+              onPlaceDeleted={(id) => {
+                setRestrooms((prev) => prev.filter((p) => p.id !== id));
+                showToast('ลบเรียบร้อย');
+              }}
+              onPlaceAdded={(created) => {
+                setRestrooms((prev) => [created, ...prev]);
+                showToast('เพิ่มห้องน้ำใหม่เรียบร้อย');
+              }}
+            />
+          </div>
         )}
-
       </main>
 
-      {/* Toilet Bottom Sheet (Mobile-First Detail Modal) */}
+      {/* Place detail */}
       <ToiletBottomSheet
         place={selectedPlace}
         onClose={() => setSelectedPlace(null)}
@@ -201,7 +178,6 @@ export function App() {
         onAddReview={handleAddReview}
       />
 
-      {/* Add Restroom Modal */}
       <AddRestroomModal
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
@@ -209,73 +185,52 @@ export function App() {
         lang={lang}
       />
 
-      {/* Favorites Modal */}
+      {/* Favorites */}
       {isFavoritesModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
-          <div 
-            className="w-full max-w-md bg-white rounded-3xl p-5 shadow-2xl border border-slate-100 space-y-3.5 max-h-[80vh] flex flex-col"
+        <div
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-slate-900/40 fade-in"
+          onClick={() => setIsFavoritesModalOpen(false)}
+        >
+          <div
+            className="w-full sm:max-w-md bg-white rounded-t-[28px] sm:rounded-[28px] shadow-2xl max-h-[80dvh] flex flex-col fade-up"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-              <h3 className="font-extrabold text-slate-900 text-base flex items-center gap-2">
-                <Heart className="w-4 h-4 text-rose-500 fill-rose-500" />
-                <span>จุดพักในรายการโปรด ({favoritePlaces.length})</span>
-              </h3>
-              <button 
+            <div className="flex items-center justify-between px-5 pt-5 pb-3">
+              <h3 className="text-lg font-semibold text-slate-900">รายการโปรด</h3>
+              <button
+                type="button"
                 onClick={() => setIsFavoritesModalOpen(false)}
-                className="p-1 rounded-full text-slate-400 hover:text-slate-600"
+                className="w-9 h-9 rounded-full flex items-center justify-center text-slate-500 hover:bg-slate-100"
+                aria-label="ปิด"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="overflow-y-auto space-y-2 flex-1 pr-1">
+            <div className="overflow-y-auto px-2 pb-safe">
               {favoritePlaces.length === 0 ? (
-                <div className="text-center py-10 text-slate-400 text-xs">
-                  ยังไม่มีจุดพักในรายการโปรด กดไอคอนหัวใจที่จุดพักเพื่อบันทึกไว้ดูได้ทันที
+                <div className="text-center py-12 px-6">
+                  <p className="text-4xl mb-3">🤍</p>
+                  <p className="text-sm text-slate-500">ยังไม่มีรายการโปรด กดหัวใจในหน้ารายละเอียดเพื่อบันทึก</p>
                 </div>
               ) : (
                 favoritePlaces.map((p) => (
-                  <div
+                  <PlaceRow
                     key={p.id}
+                    place={p}
+                    lang={lang}
+                    subtitle={p.province}
                     onClick={() => {
                       setSelectedPlace(p);
                       setIsFavoritesModalOpen(false);
                     }}
-                    className="p-3 rounded-2xl border border-slate-200/80 hover:border-emerald-300 bg-white hover:bg-emerald-50/20 transition-all cursor-pointer flex items-center justify-between"
-                  >
-                    <div>
-                      <h4 className="font-bold text-slate-900 text-xs sm:text-sm">{p.name}</h4>
-                      <p className="text-[11px] text-slate-400 mt-0.5 truncate">{p.address}</p>
-                      <div className="flex items-center gap-2 text-[10px] text-slate-500 mt-1">
-                        <span className="text-amber-500 font-bold">★ {p.overallRating}</span>
-                        <span>•</span>
-                        <span>{p.opening_hours}</span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleToggleFavorite(p.id);
-                      }}
-                      className="p-1.5 text-rose-500 hover:text-rose-700"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
+                  />
                 ))
               )}
             </div>
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <Footer 
-        lang={lang} 
-        onOpenAdmin={() => setActiveTab('admin')} 
-      />
-
     </div>
   );
 }

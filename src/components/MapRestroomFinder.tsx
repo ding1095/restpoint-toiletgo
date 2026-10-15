@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { 
-  MapPin, Star, ShieldCheck, Heart, Navigation, Compass, List, X
-} from 'lucide-react';
+import React, { useMemo, useState } from 'react';
+import { Search, X, ChevronDown, Check } from 'lucide-react';
 import { RestroomPlace } from '../types';
-import { LeafletMap } from './LeafletMap';
-import { FloatingSearchBar, FilterOptions } from './FloatingSearchBar';
-import { PooPooMascot } from './PooPooMascot';
+import { LeafletMap, MapFlyTarget } from './LeafletMap';
+import { SheetLayout, SheetSnap } from './SheetLayout';
+import { PlaceRow } from './PlaceRow';
 import { THAILAND_REGIONS, getRegionIdByProvince } from '../lib/thailandRegions';
+import { distanceKm, formatDistance } from '../lib/categories';
 
 interface MapRestroomFinderProps {
   restrooms: RestroomPlace[];
@@ -15,9 +14,25 @@ interface MapRestroomFinderProps {
   lang: 'th' | 'en';
   userLocation: { lat: number; lng: number } | null;
   onRequestUserLocation: () => void;
-  favorites: string[];
-  onToggleFavorite: (id: string) => void;
 }
+
+const CATEGORY_CHIPS = [
+  { id: 'all', label: 'ทั้งหมด' },
+  { id: 'gas_station', label: '⛽ ปั๊ม' },
+  { id: 'shopping_mall', label: '🛍️ ห้าง' },
+  { id: 'restaurant_cafe', label: '☕ ร้านอาหาร' },
+];
+
+const FEATURE_CHIPS = [
+  { id: 'bidet', label: 'สายฉีด' },
+  { id: 'wheelchair', label: 'วีลแชร์' },
+  { id: 'open24h', label: '24 ชม.' },
+  { id: 'free', label: 'ฟรี' },
+] as const;
+
+type FeatureId = (typeof FEATURE_CHIPS)[number]['id'];
+
+const PAGE_SIZE = 60;
 
 export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
   restrooms,
@@ -26,319 +41,194 @@ export const MapRestroomFinder: React.FC<MapRestroomFinderProps> = ({
   lang,
   userLocation,
   onRequestUserLocation,
-  favorites,
-  onToggleFavorite,
 }) => {
-  const [selectedRegion, setSelectedRegion] = useState<string>('all');
-  const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState('all');
+  const [features, setFeatures] = useState<Set<FeatureId>>(new Set());
+  const [region, setRegion] = useState('all');
+  const [snap, setSnap] = useState<SheetSnap>('peek');
+  const [flyTarget, setFlyTarget] = useState<MapFlyTarget | null>(null);
+  const [limit, setLimit] = useState(PAGE_SIZE);
 
-  const [filters, setFilters] = useState<FilterOptions>({
-    searchQuery: '',
-    category: 'all',
-    hasBidet: false,
-    wheelchair: false,
-    elderly: false,
-    babyStation: false,
-    open24h: false,
-    isFree: false,
-  });
-
-  const handleUpdateFilters = (updates: Partial<FilterOptions>) => {
-    setFilters((prev) => ({ ...prev, ...updates }));
+  const toggleFeature = (id: FeatureId) => {
+    setFeatures((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+    setLimit(PAGE_SIZE);
   };
 
-  // Filter restrooms
-  const filteredRestrooms = restrooms.filter((place) => {
-    // 1. Regional Filter
-    if (selectedRegion !== 'all') {
-      const placeRegion = getRegionIdByProvince(place.province);
-      if (placeRegion !== selectedRegion) {
-        return false;
-      }
-    }
+  const handleRegion = (id: string) => {
+    setRegion(id);
+    setLimit(PAGE_SIZE);
+    const r = THAILAND_REGIONS.find((x) => x.id === id);
+    if (r) setFlyTarget({ center: r.center, zoom: r.zoom, key: Date.now(), fitThailand: id === 'all' });
+  };
 
-    // 2. Search query
-    if (filters.searchQuery.trim()) {
-      const q = filters.searchQuery.toLowerCase();
-      const matchName = place.name.toLowerCase().includes(q) || place.name_en.toLowerCase().includes(q);
-      const matchAddr = place.address.toLowerCase().includes(q) || place.province.toLowerCase().includes(q);
-      if (!matchName && !matchAddr) return false;
-    }
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const list = restrooms
+      .filter((p) => {
+        if (region !== 'all' && getRegionIdByProvince(p.province) !== region) return false;
+        if (category !== 'all' && p.category !== category) return false;
+        if (features.has('bidet') && !p.facilities.bidetSprayer) return false;
+        if (features.has('wheelchair') && !p.facilities.wheelchairAccessible) return false;
+        if (features.has('open24h') && !p.opening_hours?.includes('24')) return false;
+        if (features.has('free') && p.price_type !== 'free') return false;
+        if (q) {
+          const hay = `${p.name} ${p.name_en} ${p.address} ${p.province}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      })
+      .map((p) => ({
+        place: p,
+        dist: userLocation ? distanceKm(userLocation.lat, userLocation.lng, p.coordinates.lat, p.coordinates.lng) : null,
+      }));
 
-    // 3. Category & Amenities
-    if (filters.category !== 'all' && place.category !== filters.category) {
-      return false;
-    }
+    list.sort((a, b) =>
+      a.dist !== null && b.dist !== null ? a.dist - b.dist : b.place.overallRating - a.place.overallRating
+    );
+    return list;
+  }, [restrooms, query, category, features, region, userLocation]);
 
-    if (filters.hasBidet && !place.facilities.bidetSprayer) return false;
-    if (filters.wheelchair && !place.facilities.wheelchairAccessible) return false;
-    if (filters.elderly && !place.facilities.elderlyFriendly) return false;
-    if (filters.babyStation && !place.facilities.diaperChangingTable) return false;
-    if (filters.open24h && !place.opening_hours.includes('24')) return false;
-    if (filters.isFree && place.price_type !== 'free') return false;
+  const regionName = THAILAND_REGIONS.find((r) => r.id === region)?.name ?? 'ทั่วประเทศ';
 
-    return true;
-  });
+  const chip = (active: boolean) =>
+    `shrink-0 h-9 px-3.5 rounded-full text-[13px] font-medium transition-colors whitespace-nowrap inline-flex items-center gap-1 ${
+      active ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+    }`;
+
+  const header = (
+    <div className="space-y-3">
+      {/* Search */}
+      <div className="flex items-center gap-2 h-12 px-4 rounded-2xl bg-slate-100 focus-within:bg-white focus-within:ring-2 focus-within:ring-emerald-500/40 transition">
+        <Search className="w-5 h-5 text-slate-400 shrink-0" />
+        <input
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setLimit(PAGE_SIZE);
+          }}
+          onFocus={() => setSnap('full')}
+          placeholder="ค้นหาห้องน้ำ ปั๊ม ห้าง หรือจังหวัด"
+          className="flex-1 min-w-0 bg-transparent text-[15px] text-slate-900 placeholder-slate-400 outline-none"
+        />
+        {query && (
+          <button type="button" onClick={() => setQuery('')} className="p-1 text-slate-400" aria-label="ล้าง">
+            <X className="w-4 h-4" />
+          </button>
+        )}
+      </div>
+
+      {/* Filters: region + category + features in one row */}
+      <div className="flex items-center gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 lg:-mx-5 lg:px-5">
+        <label className={`${chip(region !== 'all')} relative pr-8`}>
+          <span>📍 {region === 'all' ? 'ทั่วไทย' : regionName}</span>
+          <ChevronDown className="w-4 h-4 absolute right-2.5 pointer-events-none" />
+          <select
+            value={region}
+            onChange={(e) => handleRegion(e.target.value)}
+            className="absolute inset-0 opacity-0 cursor-pointer"
+            aria-label="เลือกภูมิภาค"
+          >
+            {THAILAND_REGIONS.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <span className="w-px h-5 bg-slate-200 shrink-0" />
+
+        {CATEGORY_CHIPS.map((c) => (
+          <button key={c.id} type="button" onClick={() => setCategory(c.id)} className={chip(category === c.id)}>
+            {c.label}
+          </button>
+        ))}
+
+        <span className="w-px h-5 bg-slate-200 shrink-0" />
+
+        {FEATURE_CHIPS.map((f) => (
+          <button key={f.id} type="button" onClick={() => toggleFeature(f.id)} className={chip(features.has(f.id))}>
+            {features.has(f.id) && <Check className="w-3.5 h-3.5" />}
+            {f.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 
   return (
-    <div className="flex flex-col gap-4 animate-in fade-in duration-300">
-      
-      {/* 🔍 Floating Minimalist Search & Filter Pills */}
-      <FloatingSearchBar
-        filters={filters}
-        onUpdateFilters={handleUpdateFilters}
-        onRequestUserLocation={onRequestUserLocation}
-        userLocation={userLocation}
-        lang={lang}
-      />
+    <SheetLayout
+      snap={snap}
+      onSnapChange={setSnap}
+      header={header}
+      minContent={
+        <div className="flex items-center justify-between w-full">
+          <span className="text-[15px] font-semibold text-slate-900">{results.length} ห้องน้ำ</span>
+          <span className="text-sm text-slate-500">{regionName}</span>
+        </div>
+      }
+      map={
+        <LeafletMap
+          restrooms={results.map((r) => r.place)}
+          selectedPlace={selectedPlace}
+          onSelectPlace={(p) => {
+            onSelectPlace(p);
+            setSnap('min');
+          }}
+          userLocation={userLocation}
+          onLocate={onRequestUserLocation}
+          flyTarget={flyTarget}
+        />
+      }
+    >
+      <div className="px-2 pt-1 pb-2 flex items-center justify-between">
+        <p className="text-[13px] text-slate-500">
+          {userLocation ? 'เรียงตามระยะทาง' : 'เรียงตามคะแนน'} · <span className="text-slate-900 font-medium">{results.length} แห่ง</span>
+        </p>
+        {!userLocation && (
+          <button type="button" onClick={onRequestUserLocation} className="text-[13px] font-medium text-emerald-700">
+            ใช้ตำแหน่งฉัน
+          </button>
+        )}
+      </div>
 
-      {/* 🧭 Regional Selector Pills (Jump to North, Isan, Central, South, East, West) */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none select-none">
-        <span className="text-[11px] font-bold text-slate-400 shrink-0 mr-1">เลือกภูมิภาค:</span>
-        {THAILAND_REGIONS.map((region) => {
-          const isActive = selectedRegion === region.id;
-          return (
+      {results.length === 0 ? (
+        <div className="text-center py-16 px-6">
+          <p className="text-4xl mb-3">🔍</p>
+          <p className="font-semibold text-slate-900">ไม่พบห้องน้ำที่ตรงเงื่อนไข</p>
+          <p className="text-sm text-slate-500 mt-1">ลองลดตัวกรองหรือเปลี่ยนภูมิภาค</p>
+        </div>
+      ) : (
+        <div className="space-y-0.5">
+          {results.slice(0, limit).map(({ place, dist }) => (
+            <PlaceRow
+              key={place.id}
+              place={place}
+              lang={lang}
+              selected={selectedPlace?.id === place.id}
+              onClick={() => {
+                onSelectPlace(place);
+                setSnap('min');
+              }}
+              subtitle={dist !== null ? `${formatDistance(dist)} · ${place.province}` : place.province}
+            />
+          ))}
+          {results.length > limit && (
             <button
-              key={region.id}
               type="button"
-              onClick={() => setSelectedRegion(region.id)}
-              className={`whitespace-nowrap px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shrink-0 flex items-center gap-1.5 cursor-pointer active:scale-95 ${
-                isActive
-                  ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-500/20'
-                  : 'bg-white text-slate-700 border border-slate-200/80 hover:bg-slate-50 hover:border-emerald-300'
-              }`}
+              onClick={() => setLimit((l) => l + PAGE_SIZE)}
+              className="w-full h-12 my-2 rounded-2xl text-sm font-medium text-slate-700 bg-slate-50 hover:bg-slate-100"
             >
-              <span>{region.icon}</span>
-              <span>{region.shortName}</span>
+              แสดงเพิ่ม ({results.length - limit})
             </button>
-          );
-        })}
-      </div>
-
-      {/* 📱 Mobile Segmented Tab Switcher (Visible only on screens < lg) */}
-      <div className="flex lg:hidden bg-slate-200/80 p-1 rounded-2xl border border-slate-200 select-none">
-        <button
-          type="button"
-          onClick={() => setMobileView('map')}
-          className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-            mobileView === 'map'
-              ? 'bg-white text-emerald-800 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <Compass className="w-4 h-4 text-emerald-600" />
-          <span>แผนที่ ({filteredRestrooms.length} แห่ง)</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setMobileView('list')}
-          className={`flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all ${
-            mobileView === 'list'
-              ? 'bg-white text-emerald-800 shadow-sm'
-              : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <List className="w-4 h-4 text-emerald-600" />
-          <span>รายชื่อ ({filteredRestrooms.length} แห่ง)</span>
-        </button>
-      </div>
-
-      {/* 🗺️ Main Area: Map + Restroom Cards List */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
-        
-        {/* Left Column: Interactive Map */}
-        <div className={`lg:col-span-7 h-[500px] sm:h-[620px] rounded-3xl overflow-hidden border border-slate-200/80 bg-white shadow-xs relative ${
-          mobileView === 'map' ? 'block' : 'hidden lg:block'
-        }`}>
-          <LeafletMap 
-            restrooms={filteredRestrooms}
-            selectedPlace={selectedPlace}
-            onSelectPlace={onSelectPlace}
-            userLocation={userLocation}
-            activeRegion={selectedRegion}
-            onSelectRegion={(regId) => setSelectedRegion(regId)}
-            showRegionBar={false} // Shown above already
-          />
-
-          {/* Mobile Bottom Floating Card when place is selected */}
-          {selectedPlace && (
-            <div className="absolute bottom-4 inset-x-4 z-[400] lg:hidden bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl border border-slate-200 flex items-center justify-between gap-3 animate-in slide-in-from-bottom-2">
-              <div className="min-w-0 flex-1">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800">
-                    {selectedPlace.category === 'gas_station' ? '⛽ ปั๊ม' : '🏬 ห้าง'}
-                  </span>
-                  <span className="text-amber-500 font-bold text-xs">★ {selectedPlace.overallRating}</span>
-                </div>
-                <h4 className="font-extrabold text-slate-900 text-xs sm:text-sm truncate mt-0.5">
-                  {selectedPlace.name}
-                </h4>
-                <p className="text-[10px] text-slate-400 truncate">{selectedPlace.address}</p>
-              </div>
-
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const url = `https://www.google.com/maps/dir/?api=1&destination=${selectedPlace.coordinates.lat},${selectedPlace.coordinates.lng}`;
-                    window.open(url, '_blank');
-                  }}
-                  className="px-3 py-2 bg-emerald-600 text-white text-xs font-bold rounded-xl flex items-center gap-1 shadow-xs"
-                >
-                  <Navigation className="w-3.5 h-3.5 fill-white" />
-                  <span>นำทาง</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onSelectPlace(null as any)}
-                  className="p-2 text-slate-400 hover:text-slate-600 rounded-xl"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
           )}
         </div>
-
-        {/* Right Column: Restroom Cards List */}
-        <div className={`lg:col-span-5 flex flex-col h-[500px] sm:h-[620px] bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden ${
-          mobileView === 'list' ? 'block' : 'hidden lg:flex'
-        }`}>
-          
-          {/* List Header */}
-          <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/60">
-            <span className="font-extrabold text-slate-800 text-xs sm:text-sm flex items-center gap-1.5">
-              <span>สถานที่ในภูมิภาคที่เลือก</span>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100/80 text-emerald-800 text-xs font-bold">
-                {filteredRestrooms.length} แห่ง
-              </span>
-            </span>
-            <span className="text-[11px] text-slate-400 font-medium">แตะการ์ดเพื่อดูรายละเอียด</span>
-          </div>
-
-          {/* Cards Scrollable Container */}
-          <div className="p-3.5 overflow-y-auto space-y-2.5 flex-1 scrollbar-none">
-            {filteredRestrooms.length === 0 ? (
-              <div className="text-center py-20 px-4 space-y-2.5">
-                <PooPooMascot size={60} mood="urgent" />
-                <p className="text-sm font-bold text-slate-700">ไม่พบจุดห้องน้ำที่ตรงตามเงื่อนไขในภูมินี้</p>
-                <p className="text-xs text-slate-400 max-w-xs mx-auto">ลองเปลี่ยนภูมิภาคหรือล้างตัวกรองดูนะครับ</p>
-              </div>
-            ) : (
-              filteredRestrooms.map((place) => {
-                const isSelected = selectedPlace?.id === place.id;
-                const isFav = favorites.includes(place.id);
-
-                return (
-                  <div
-                    key={place.id}
-                    onClick={() => {
-                      onSelectPlace(place);
-                      setMobileView('map');
-                    }}
-                    className={`p-4 rounded-2xl border transition-all cursor-pointer relative ${
-                      isSelected
-                        ? 'border-emerald-500 bg-emerald-50/30 shadow-xs ring-2 ring-emerald-500/20'
-                        : 'border-slate-200/70 hover:border-emerald-300 bg-white hover:shadow-2xs'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-1.5">
-                        <span className="px-2.5 py-0.5 rounded-lg text-[10px] font-bold bg-slate-100 text-slate-600">
-                          {place.category === 'gas_station' && '⛽ ปั๊มน้ำมัน'}
-                          {place.category === 'shopping_mall' && '🏬 ห้างสรรพสินค้า'}
-                          {place.category === 'transit_hub' && '✈️ ศูนย์การเดินทาง'}
-                          {place.category === 'public_park' && '🌳 สวนสาธารณะ'}
-                          {place.category === 'camping_nature' && '⛺ แคมป์ปิ้ง'}
-                        </span>
-                        {place.access_status === 'verified' && (
-                          <span className="px-2 py-0.5 rounded-lg text-[10px] font-bold bg-emerald-100 text-emerald-800 flex items-center gap-0.5">
-                            <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                            ยืนยันแล้ว
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="flex items-center gap-1 text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-lg border border-amber-200/50">
-                          <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                          {place.overallRating.toFixed(1)}
-                        </span>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onToggleFavorite(place.id);
-                          }}
-                          className={`p-1.5 rounded-xl border border-transparent transition-colors ${
-                            isFav 
-                              ? 'text-rose-500 bg-rose-50 border-rose-100' 
-                              : 'text-slate-300 hover:text-rose-500 hover:bg-slate-50'
-                          }`}
-                          title="บันทึกรายการโปรด"
-                        >
-                          <Heart className={`w-3.5 h-3.5 ${isFav ? 'fill-rose-500' : ''}`} />
-                        </button>
-                      </div>
-                    </div>
-
-                    <h4 className="font-extrabold text-slate-900 text-sm tracking-tight leading-snug">
-                      {lang === 'th' ? place.name : place.name_en}
-                    </h4>
-                    <p className="text-[11px] text-slate-400 mt-1 truncate flex items-center gap-1">
-                      <MapPin className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-                      <span>{place.address}</span>
-                    </p>
-
-                    {/* Quick Facility Indicators */}
-                    <div className="flex items-center gap-1.5 mt-3 pt-2.5 border-t border-slate-100 text-[10px]">
-                      {place.facilities.bidetSprayer && (
-                        <span className="text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md font-semibold">
-                          💦 สายฉีด
-                        </span>
-                      )}
-                      {place.facilities.wheelchairAccessible && (
-                        <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-semibold">
-                          ♿ วีลแชร์
-                        </span>
-                      )}
-                      {place.facilities.diaperChangingTable && (
-                        <span className="text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md font-semibold">
-                          👶 ผ้าอ้อม
-                        </span>
-                      )}
-
-                      <div className="ml-auto flex items-center gap-2">
-                        <span className="font-bold text-slate-600 text-[11px]">
-                          {place.price_type === 'free' ? 'ฟรี' : `${place.price_amount} ฿`}
-                        </span>
-
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const url = `https://www.google.com/maps/dir/?api=1&destination=${place.coordinates.lat},${place.coordinates.lng}`;
-                            window.open(url, '_blank');
-                          }}
-                          className="flex items-center gap-1 text-emerald-700 hover:text-emerald-800 font-bold bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-xl transition-colors active:scale-95 shadow-2xs"
-                          title="นำทางด้วย Google Maps"
-                        >
-                          <Navigation className="w-3 h-3 fill-emerald-600 text-emerald-600" />
-                          <span>นำทาง</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
+      )}
+    </SheetLayout>
   );
 };

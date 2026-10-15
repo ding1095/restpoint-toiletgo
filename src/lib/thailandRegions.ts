@@ -163,3 +163,36 @@ export async function reverseGeocodeCoord(lat: number, lng: number): Promise<str
     return fallback;
   }
 }
+
+export interface PlaceSuggestion {
+  name: string;
+  detail: string;
+  lat: number;
+  lng: number;
+}
+
+/**
+ * Forward geocoding (place search) restricted to Thailand via OpenStreetMap Nominatim
+ */
+export async function searchPlaces(query: string, signal?: AbortSignal): Promise<PlaceSuggestion[]> {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&countrycodes=th&limit=6&accept-language=th`;
+    const res = await fetch(url, { signal, headers: { Accept: 'application/json' } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    if (!Array.isArray(data)) return [];
+    return data.map((d: any) => {
+      const parts = String(d.display_name || '').split(',').map((s: string) => s.trim());
+      return {
+        name: d.name || parts[0] || q,
+        detail: parts.slice(1, 4).join(', '),
+        lat: parseFloat(d.lat),
+        lng: parseFloat(d.lon),
+      };
+    });
+  } catch {
+    return [];
+  }
+}
