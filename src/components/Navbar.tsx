@@ -101,6 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               {menuItem(<Heart className="w-5 h-5" />, 'รายการโปรด', onOpenFavorites, favoritesCount)}
               <div className="my-1 h-px bg-slate-100" />
               {menuItem(<ShieldCheck className="w-5 h-5" />, 'ผู้ดูแลระบบ', () => setActiveTab('admin'))}
+              <p className="px-3 pt-1 pb-1.5 text-[11px] text-slate-400">เวอร์ชัน v{__APP_VERSION__}</p>
             </div>
           )}
         </div>
