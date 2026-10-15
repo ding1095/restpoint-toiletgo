@@ -28,6 +28,7 @@ import { THAILAND_RESTROOMS_DATASET } from '../data/thailandRestroomsDataset';
 import { EditRestroomModal } from './EditRestroomModal';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { PooPooMascot } from './PooPooMascot';
+import { verifyAdminPasscode, sanitizeText, validateCoordinates } from '../lib/apiSecurity';
 
 interface AdminPortalProps {
   restrooms: RestroomPlace[];
@@ -38,8 +39,6 @@ interface AdminPortalProps {
   onPlaceAdded: (created: RestroomPlace) => void;
 }
 
-const DEFAULT_ADMIN_PIN = '8888';
-
 export const AdminPortal: React.FC<AdminPortalProps> = ({
   restrooms,
   onBackToApp,
@@ -48,12 +47,14 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   onPlaceDeleted,
   onPlaceAdded,
 }) => {
-  // Authentication State
+  // Authentication State with secure sessionStorage
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('poopoo_admin_auth') === 'true';
+    return sessionStorage.getItem('poopoo_admin_session') === 'true';
   });
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState(false);
+  const [lockoutMsg, setLockoutMsg] = useState<string | null>(null);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   // Active Admin Sub-tab
   const [adminTab, setAdminTab] = useState<'dashboard' | 'directory' | 'add' | 'crawler'>('dashboard');
@@ -92,21 +93,37 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   const [ingestLog, setIngestLog] = useState<string[]>([]);
   const [selectedCrawlerRegion, setSelectedCrawlerRegion] = useState('bangkok');
 
-  // Handle PIN Login
-  const handleLogin = (e: React.FormEvent) => {
+  // Handle Secure Crypto Passcode Login
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pinInput === DEFAULT_ADMIN_PIN) {
-      setIsAuthenticated(true);
-      localStorage.setItem('poopoo_admin_auth', 'true');
-      setPinError(false);
-    } else {
-      setPinError(true);
+    if (!pinInput.trim() || isVerifying) return;
+
+    setIsVerifying(true);
+    setPinError(false);
+    setLockoutMsg(null);
+
+    try {
+      const result = await verifyAdminPasscode(pinInput);
+      if (result.valid) {
+        setIsAuthenticated(true);
+        sessionStorage.setItem('poopoo_admin_session', 'true');
+        setPinInput('');
+      } else {
+        setPinError(true);
+        if (result.lockedOut) {
+          setLockoutMsg(`ระงับการเข้าสู่ระบบชั่วคราว ${Math.ceil((result.remainingSeconds || 0) / 60)} นาที เนื่องจากใส่รหัสผิดเกินกำหนด`);
+        } else if (result.attemptsLeft !== undefined) {
+          setLockoutMsg(`รหัส PIN ไม่ถูกต้อง (เหลือโอกาสอีก ${result.attemptsLeft} ครั้ง)`);
+        }
+      }
+    } finally {
+      setIsVerifying(false);
     }
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('poopoo_admin_auth');
+    sessionStorage.removeItem('poopoo_admin_session');
     setPinInput('');
   };
 
@@ -194,6 +211,23 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
     setIsAddingNew(true);
 
     try {
+      if (!validateCoordinates(newPlaceForm.lat, newPlaceForm.lng)) {
+        alert('พิกัดตำแหน่งไม่อยู่ในเขตประเทศไทย หรือรูปแบบไม่ถูกต้อง');
+        setIsAddingNew(false);
+        return;
+      }
+
+      const cleanName = sanitizeText(newPlaceForm.name, 100);
+      if (!cleanName) {
+        alert('กรุณาระบุชื่อสถานที่');
+        setIsAddingNew(false);
+        return;
+      }
+
+      const cleanNameEn = sanitizeText(newPlaceForm.name_en, 100);
+      const cleanAddress = sanitizeText(newPlaceForm.address, 200);
+      const cleanProvince = sanitizeText(newPlaceForm.province, 50);
+
       const wktPoint = `POINT(${newPlaceForm.lng} ${newPlaceForm.lat})`;
       let createdId = 'admin-' + Date.now();
 
@@ -201,11 +235,11 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
         const { data, error } = await supabase
           .from('toilets')
           .insert({
-            name: newPlaceForm.name,
-            name_en: newPlaceForm.name_en || null,
+            name: cleanName,
+            name_en: cleanNameEn || null,
             category: newPlaceForm.category,
-            address: newPlaceForm.address,
-            province: newPlaceForm.province,
+            address: cleanAddress,
+            province: cleanProvince,
             location: wktPoint,
             has_bidet: newPlaceForm.has_bidet,
             wheelchair_accessible: newPlaceForm.wheelchair_accessible,
@@ -394,18 +428,23 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                   pinError ? 'border-rose-400 bg-rose-50 text-rose-700' : 'border-slate-200 bg-slate-50 text-slate-900'
                 } focus:outline-hidden focus:border-amber-500`}
               />
-              {pinError && (
+              {lockoutMsg ? (
+                <p className="text-[11px] font-bold text-rose-500 mt-2 bg-rose-50 p-2 rounded-xl border border-rose-200">
+                  {lockoutMsg}
+                </p>
+              ) : pinError ? (
                 <p className="text-[11px] font-bold text-rose-500 mt-1">
                   รหัส PIN ไม่ถูกต้อง ลองอีกครั้ง (เริ่มต้นคือ 8888)
                 </p>
-              )}
+              ) : null}
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-sm shadow-md shadow-amber-600/20 transition-all active:scale-98"
+              disabled={isVerifying || Boolean(lockoutMsg?.includes('ระงับ'))}
+              className="w-full py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-extrabold text-sm shadow-md shadow-amber-600/20 transition-all active:scale-98"
             >
-              ปลดล็อกเข้าระบบ
+              {isVerifying ? 'กำลังตรวจสอบ...' : 'ปลดล็อกเข้าระบบ'}
             </button>
           </form>
 

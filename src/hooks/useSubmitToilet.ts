@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { RestroomPlace } from '../types';
+import { 
+  sanitizeText, 
+  sanitizeUrl, 
+  validateCoordinates, 
+  toiletRateLimiter 
+} from '../lib/apiSecurity';
 
 export interface SubmitToiletPayload {
   name: string;
@@ -22,12 +28,49 @@ export interface SubmitToiletPayload {
   photoUrl?: string;
 }
 
+const ALLOWED_CATEGORIES = new Set([
+  'gas_station',
+  'shopping_mall',
+  'transit_hub',
+  'restaurant_cafe',
+  'public_park',
+  'camping_nature',
+  'other',
+]);
+
 export function useSubmitToilet() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const submitToilet = async (payload: SubmitToiletPayload): Promise<RestroomPlace | null> => {
+    // 1. Rate limiting check
+    if (!toiletRateLimiter.tryAcquire()) {
+      const waitSec = Math.ceil(toiletRateLimiter.getTimeUntilNextSlot() / 1000);
+      const errMsg = `ส่งข้อมูลถี่เกินไป กรุณารอ ${waitSec} วินาทีก่อนส่งอีกครั้ง`;
+      setError(errMsg);
+      return null;
+    }
+
+    // 2. Coordinate validation
+    if (!validateCoordinates(payload.lat, payload.lng)) {
+      setError('พิกัดตำแหน่งไม่อยู่ในเขตประเทศไทย หรือรูปแบบไม่ถูกต้อง');
+      return null;
+    }
+
+    // 3. Input sanitization
+    const cleanName = sanitizeText(payload.name, 100);
+    if (!cleanName || cleanName.length < 2) {
+      setError('กรุณาระบุชื่อสถานที่ให้ถูกต้อง (อย่างน้อย 2 ตัวอักษร)');
+      return null;
+    }
+
+    const cleanCategory = ALLOWED_CATEGORIES.has(payload.category) ? payload.category : 'other';
+    const cleanAddress = sanitizeText(payload.address, 200) || 'จุดพักริมทาง';
+    const cleanProvince = sanitizeText(payload.province, 50) || '';
+    const cleanFloorZone = sanitizeText(payload.floorZone, 50);
+    const cleanPhotoUrl = sanitizeUrl(payload.photoUrl);
+
     setIsSubmitting(true);
     setError(null);
     setIsSuccess(false);
@@ -37,18 +80,18 @@ export function useSubmitToilet() {
         // Fallback for local demo when Supabase credentials are not connected
         const localCreated: RestroomPlace = {
           id: 'local-' + Date.now(),
-          name: payload.name,
-          name_en: payload.name,
-          category: payload.category as any,
-          address: payload.address || 'จุดพักริมทาง',
-          address_en: payload.address || '',
-          province: payload.province || '',
+          name: cleanName,
+          name_en: cleanName,
+          category: cleanCategory as any,
+          address: cleanAddress,
+          address_en: cleanAddress,
+          province: cleanProvince,
           coordinates: { lat: payload.lat, lng: payload.lng },
           access_status: 'user_reported',
           opening_hours: payload.open24h ? 'เปิด 24 ชั่วโมง' : 'เปิดบริการตามปกติ',
           price_type: payload.isFree ? 'free' : 'paid',
           price_amount: payload.priceAmount || 0,
-          floor_zone: payload.floorZone || '',
+          floor_zone: cleanFloorZone,
           facilities: {
             bidetSprayer: payload.hasBidet,
             genderSeparated: true,
@@ -61,7 +104,7 @@ export function useSubmitToilet() {
             elderlyFriendly: payload.elderlySupport,
             wifi: true,
             parkingAvailable: true,
-            campingSpot: payload.category === 'camping_nature',
+            campingSpot: cleanCategory === 'camping_nature',
             waterRefill: true,
             soapAvailable: true,
             toiletPaperAvailable: true,
@@ -84,7 +127,7 @@ export function useSubmitToilet() {
             convenience: 5.0,
             value: 5.0,
           },
-          photos: payload.photoUrl ? [payload.photoUrl] : [
+          photos: cleanPhotoUrl ? [cleanPhotoUrl] : [
             'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80'
           ],
           verified_at: 'เพิ่งเพิ่ม',
@@ -104,11 +147,11 @@ export function useSubmitToilet() {
       const { data, error: insertError } = await supabase
         .from('toilets')
         .insert({
-          name: payload.name,
-          category: payload.category,
-          address: payload.address,
-          province: payload.province,
-          floor_zone: payload.floorZone || '',
+          name: cleanName,
+          category: cleanCategory,
+          address: cleanAddress,
+          province: cleanProvince,
+          floor_zone: cleanFloorZone,
           location: wktPoint,
           has_bidet: payload.hasBidet,
           wheelchair_accessible: payload.wheelchairAccessible,
@@ -119,8 +162,9 @@ export function useSubmitToilet() {
           open_24h: payload.open24h,
           is_free: payload.isFree,
           price_amount: payload.priceAmount || 0,
-          photos: payload.photoUrl ? [payload.photoUrl] : [],
+          photos: cleanPhotoUrl ? [cleanPhotoUrl] : [],
           verification_status: 'user_reported',
+          is_verified: false, // Enforce false for crowdsourced submissions
           overall_rating: 5.0,
           review_count: 1,
         })

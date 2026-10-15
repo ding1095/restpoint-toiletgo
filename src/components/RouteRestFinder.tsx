@@ -8,6 +8,7 @@ import { useRouteToilets } from '../hooks/useRouteToilets';
 import { isSupabaseConfigured } from '../lib/supabase';
 import { reverseGeocodeCoord, searchPlaces, PlaceSuggestion } from '../lib/thailandRegions';
 import { distanceKm, formatDuration, openGoogleMapsDirections } from '../lib/categories';
+import { validateCoordinates, routeCache } from '../lib/apiSecurity';
 
 interface RouteRestFinderProps {
   restrooms: RestroomPlace[];
@@ -88,18 +89,42 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
       let totalDur = 0;
       let routeGeo: any = null;
 
-      try {
-        const url = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${dest.lng},${dest.lat}?overview=full&geometries=geojson`;
-        const data = await (await fetch(url)).json();
-        if (data?.code === 'Ok' && data.routes?.length) {
-          const route = data.routes[0];
-          routeGeo = route.geometry;
-          coords = route.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]]);
-          totalDist = Math.round(route.distance / 1000);
-          totalDur = Math.round(route.duration / 60);
+      // Coordinate sanity check
+      if (!validateCoordinates(start.lat, start.lng) || !validateCoordinates(dest.lat, dest.lng)) {
+        setIsLoadingRoute(false);
+        return;
+      }
+
+      // Check route cache
+      const cacheKey = `${start.lat.toFixed(3)},${start.lng.toFixed(3)}->${dest.lat.toFixed(3)},${dest.lng.toFixed(3)}`;
+      const cachedRoute = routeCache.get(cacheKey);
+
+      if (cachedRoute) {
+        coords = cachedRoute.coords;
+        totalDist = cachedRoute.totalDist;
+        totalDur = cachedRoute.totalDur;
+        routeGeo = cachedRoute.routeGeo;
+      } else {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          const url = `https://router.project-osrm.org/route/v1/driving/${start.lng},${start.lat};${dest.lng},${dest.lat}?overview=full&geometries=geojson`;
+          const res = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeoutId);
+          const data = await res.json();
+          if (data?.code === 'Ok' && data.routes?.length) {
+            const route = data.routes[0];
+            routeGeo = route.geometry;
+            coords = route.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]]);
+            totalDist = Math.round(route.distance / 1000);
+            totalDur = Math.round(route.duration / 60);
+
+            // Save to in-memory route cache
+            routeCache.set(cacheKey, { coords, totalDist, totalDur, routeGeo });
+          }
+        } catch {
+          /* fall through to straight line */
         }
-      } catch {
-        /* fall through to straight line */
       }
 
       if (coords.length === 0) {

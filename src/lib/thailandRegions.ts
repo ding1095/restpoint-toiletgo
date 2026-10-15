@@ -110,11 +110,31 @@ export function getRegionIdByProvince(province: string): string {
   return 'central'; // Default fallback
 }
 
+import { 
+  sanitizeText, 
+  validateCoordinates, 
+  geocodeCache, 
+  geocodeRateLimiter 
+} from './apiSecurity';
+
 /**
- * Reverse Geocoding with OpenStreetMap Nominatim with fast fallback
+ * Reverse Geocoding with OpenStreetMap Nominatim with caching, validation & rate limiting
  */
 export async function reverseGeocodeCoord(lat: number, lng: number): Promise<string> {
   const fallback = `พิกัด (${lat.toFixed(4)}, ${lng.toFixed(4)})`;
+  
+  if (!validateCoordinates(lat, lng)) {
+    return fallback;
+  }
+
+  const cacheKey = `rev:${lat.toFixed(4)},${lng.toFixed(4)}`;
+  const cached = geocodeCache.get(cacheKey);
+  if (cached) return cached;
+
+  if (!geocodeRateLimiter.tryAcquire()) {
+    return fallback;
+  }
+
   try {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 2200);
@@ -137,7 +157,7 @@ export async function reverseGeocodeCoord(lat: number, lng: number): Promise<str
 
       // Building / amenity name
       if (data.name && !data.name.includes('Road') && !data.name.includes('Street')) {
-        parts.push(data.name);
+        parts.push(sanitizeText(data.name, 50));
       }
       
       // District / Suburb
@@ -145,17 +165,19 @@ export async function reverseGeocodeCoord(lat: number, lng: number): Promise<str
       const district = addr.city_district || addr.district || addr.county || addr.town;
       const city = addr.city || addr.state || addr.province;
 
-      if (subdistrict) parts.push(subdistrict);
-      if (district && district !== subdistrict) parts.push(district);
-      if (city && city !== district) parts.push(city);
+      if (subdistrict) parts.push(sanitizeText(subdistrict, 30));
+      if (district && district !== subdistrict) parts.push(sanitizeText(district, 30));
+      if (city && city !== district) parts.push(sanitizeText(city, 30));
 
+      let result = fallback;
       if (parts.length > 0) {
-        return parts.slice(0, 2).join(' ') + (city && !parts.includes(city) ? ` (${city})` : '');
+        result = parts.slice(0, 2).join(' ') + (city && !parts.includes(city) ? ` (${city})` : '');
+      } else if (data.display_name) {
+        result = sanitizeText(data.display_name.split(',').slice(0, 2).join(','), 60);
       }
 
-      if (data.display_name) {
-        return data.display_name.split(',').slice(0, 2).join(',');
-      }
+      geocodeCache.set(cacheKey, result);
+      return result;
     }
 
     return fallback;
@@ -172,26 +194,44 @@ export interface PlaceSuggestion {
 }
 
 /**
- * Forward geocoding (place search) restricted to Thailand via OpenStreetMap Nominatim
+ * Forward geocoding (place search) restricted to Thailand with caching & sanitization
  */
 export async function searchPlaces(query: string, signal?: AbortSignal): Promise<PlaceSuggestion[]> {
-  const q = query.trim();
-  if (q.length < 2) return [];
+  const cleanQ = sanitizeText(query, 80);
+  if (cleanQ.length < 2) return [];
+
+  const cacheKey = `search:${cleanQ.toLowerCase()}`;
+  const cached = geocodeCache.get(cacheKey);
+  if (cached) return cached;
+
+  if (!geocodeRateLimiter.tryAcquire()) {
+    return [];
+  }
+
   try {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(q)}&countrycodes=th&limit=6&accept-language=th`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cleanQ)}&countrycodes=th&limit=6&accept-language=th`;
     const res = await fetch(url, { signal, headers: { Accept: 'application/json' } });
     if (!res.ok) return [];
     const data = await res.json();
     if (!Array.isArray(data)) return [];
-    return data.map((d: any) => {
-      const parts = String(d.display_name || '').split(',').map((s: string) => s.trim());
-      return {
-        name: d.name || parts[0] || q,
+
+    const suggestions: PlaceSuggestion[] = [];
+    for (const d of data) {
+      const lat = parseFloat(d.lat);
+      const lng = parseFloat(d.lon);
+      if (!validateCoordinates(lat, lng)) continue;
+
+      const parts = String(d.display_name || '').split(',').map((s: string) => sanitizeText(s, 40));
+      suggestions.push({
+        name: sanitizeText(d.name || parts[0] || cleanQ, 50),
         detail: parts.slice(1, 4).join(', '),
-        lat: parseFloat(d.lat),
-        lng: parseFloat(d.lon),
-      };
-    });
+        lat,
+        lng,
+      });
+    }
+
+    geocodeCache.set(cacheKey, suggestions);
+    return suggestions;
   } catch {
     return [];
   }

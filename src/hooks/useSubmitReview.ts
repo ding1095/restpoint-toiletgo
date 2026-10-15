@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { ReviewItem } from '../types';
+import { sanitizeText, reviewRateLimiter } from '../lib/apiSecurity';
 
 export interface SubmitReviewPayload {
   toiletId: string;
@@ -15,23 +16,36 @@ export function useSubmitReview() {
   const [error, setError] = useState<string | null>(null);
 
   const submitReview = async (payload: SubmitReviewPayload): Promise<ReviewItem | null> => {
+    // 1. Rate limiting check
+    if (!reviewRateLimiter.tryAcquire()) {
+      const waitSec = Math.ceil(reviewRateLimiter.getTimeUntilNextSlot() / 1000);
+      const errMsg = `ส่งรีวิวถี่เกินไป กรุณารอ ${waitSec} วินาทีก่อนส่งอีกครั้ง`;
+      setError(errMsg);
+      return null;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
+    // 2. Input sanitization & boundary validation
+    const cleanUserName = sanitizeText(payload.userName, 50) || 'ผู้ใช้นิรนาม';
+    const cleanComment = sanitizeText(payload.comment, 500) || 'สะอาด สะดวก สบายใจ';
+    const cleanRating = Math.max(1, Math.min(5, Math.round(payload.cleanlinessRating)));
+
     const localItem: ReviewItem = {
       id: 'rev-' + Date.now(),
-      userName: payload.userName,
+      userName: cleanUserName,
       date: new Date().toISOString().split('T')[0],
-      overallRating: payload.cleanlinessRating,
+      overallRating: cleanRating,
       ratings: {
-        cleanliness: payload.cleanlinessRating,
+        cleanliness: cleanRating,
         facilities: 5,
         accessibility: 5,
         safety_privacy: 5,
         convenience: 5,
         value: 5,
       },
-      comment: payload.comment || 'สะอาด สะดวก สบายใจ',
+      comment: cleanComment,
       isVerifiedVisit: true,
     };
 
@@ -49,9 +63,9 @@ export function useSubmitReview() {
           .from('reviews')
           .insert({
             toilet_id: payload.toiletId,
-            user_name: payload.userName,
-            cleanliness_rating: Math.round(payload.cleanlinessRating),
-            comment: payload.comment || '',
+            user_name: cleanUserName,
+            cleanliness_rating: cleanRating,
+            comment: cleanComment,
             photos: payload.photos || [],
             is_verified_visit: true,
           })

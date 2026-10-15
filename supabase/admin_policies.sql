@@ -4,31 +4,14 @@
 -- Run this script in Supabase SQL Editor to enable Admin CRUD and Bulk Ingestion
 -- ==============================================================================
 
--- 1. Enable UPDATE for toilets (allows admin to update amenities, verification, etc.)
+-- 1. หมายเหตุความปลอดภัย: เพื่อความปลอดภัยของข้อมูล หลีกเลี่ยงการเปิด DELETE/UPDATE ตรงสู่ public anon role
+-- แนะนำให้รัน supabase/security_hardening.sql เพื่อใช้งาน RPC functions ที่มีการยืนยันรหัส Admin PIN
+-- สำหรับกรณีการพัฒนาหรือการทดสอบ สามารถเปิดใช้งานนโยบายด้านล่างได้:
+
 DROP POLICY IF EXISTS "Public update toilets" ON public.toilets;
-CREATE POLICY "Public update toilets" 
-ON public.toilets FOR UPDATE 
-USING (true)
-WITH CHECK (true);
-
--- 2. Enable DELETE for toilets (allows admin to remove spam or duplicate entries)
 DROP POLICY IF EXISTS "Public delete toilets" ON public.toilets;
-CREATE POLICY "Public delete toilets" 
-ON public.toilets FOR DELETE 
-USING (true);
-
--- 3. Enable UPDATE for reviews
 DROP POLICY IF EXISTS "Public update reviews" ON public.reviews;
-CREATE POLICY "Public update reviews" 
-ON public.reviews FOR UPDATE 
-USING (true)
-WITH CHECK (true);
-
--- 4. Enable DELETE for reviews
 DROP POLICY IF EXISTS "Public delete reviews" ON public.reviews;
-CREATE POLICY "Public delete reviews" 
-ON public.reviews FOR DELETE 
-USING (true);
 
 -- ==============================================================================
 -- 5. RPC FUNCTION: UPSERT TOILET WITH DEDUPLICATION (50-meter corridor / name match)

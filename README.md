@@ -3,7 +3,7 @@
 > **ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดและจุดแวะพักระหว่างเดินทาง**  
 > *Map-First Clean Restroom & Rest Stop Navigator for Thailand*
 
-[![Version](https://img.shields.io/badge/version-v1.0.3-emerald)](https://github.com/ding1095/restpoint-toiletgo/releases)
+[![Version](https://img.shields.io/badge/version-v1.1.0-emerald)](https://github.com/ding1095/restpoint-toiletgo/releases)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -48,6 +48,15 @@
 - ตารางบริหารจัดการห้องน้ำ ค้นหา กรองสถานะ และดำเนินการ CRUD (เพิ่ม/แก้ไข/ลบ)
 - ระบบดึงข้อมูลพิกัดห้องน้ำ ปั๊มน้ำมัน และห้างสรรพสินค้าอัตโนมัติจาก OpenStreetMap Overpass API
 - สถิติและ KPI ภาพรวม: จำนวนจุดทั้งหมด, จุดที่มีสายฉีดชำระ, จุดที่รองรับวีลแชร์ และคะแนนความสะอาดเฉลี่ย
+
+### 5. 🛡️ ความปลอดภัยและการป้องกัน API (Security & API Hardening)
+- **Input Sanitization & Anti-XSS:** กรองอักขระพิเศษและตัดแท็ก HTML เพื่อป้องกัน Cross-Site Scripting (XSS) ในชื่อ, ที่อยู่ และข้อความรีวิว
+- **Coordinate Boundary Validation:** ตรวจสอบพิกัดละติจูด/ลองจิจูดให้อยู่ในกรอบภูมิศาสตร์ประเทศไทย (5.5°-20.6°N, 97.2°-105.8°E) ป้องกันการส่งค่าพิกัดหลุดขอบเขตหรือค่าตัวเลขผิดพลาด
+- **Rate Limiting & Throttling:** ระบบจำกัดความถี่เพื่อป้องกันการสแปมรีวิวและการเพิ่มจุดซ้ำซ้อน
+- **In-Memory LRU Caching:** ลดการเรียกซ้ำซ้อนไปยัง OpenStreetMap Nominatim และ OSRM Routing เพื่อรักษาโควตา API ฟรี
+- **Cryptographic Admin Auth:** ป้องกันการดักจับรหัสผ่านแอดมินด้วย SHA-256 Web Crypto พร้อมระบบตัดสิทธิ์ชั่วคราว (Lockout) เมื่อใส่รหัสผ่านผิดเกิน 5 ครั้ง
+- **Supabase Database Hardening:** สคริปต์ `supabase/security_hardening.sql` ปิดช่องโหว่นโยบาย RLS แบบเปิดกว้าง และบังคับตรวจสอบความถูกต้องของข้อมูลก่อนบันทึก
+- **HTTP Security Headers:** รองรับ `X-Frame-Options` (DENY), `X-Content-Type-Options` (nosniff), `Referrer-Policy`, และ `Permissions-Policy` ผ่าน `vercel.json`
 
 ---
 

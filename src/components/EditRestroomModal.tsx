@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RestroomPlace, FacilityCategory, AccessStatus } from '../types';
 import { X, Save, MapPin, CheckCircle, AlertTriangle, ShieldCheck, Fuel, ShoppingBag, Utensils, Bus } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { sanitizeText, validateCoordinates } from '../lib/apiSecurity';
 
 interface EditRestroomModalProps {
   place: RestroomPlace | null;
@@ -70,21 +71,39 @@ export const EditRestroomModal: React.FC<EditRestroomModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaving(true);
     setSaveError(null);
+
+    const latNum = Number(formData.lat);
+    const lngNum = Number(formData.lng);
+    if (!validateCoordinates(latNum, lngNum)) {
+      setSaveError('พิกัดตำแหน่งไม่อยู่ในเขตประเทศไทย หรือรูปแบบไม่ถูกต้อง');
+      return;
+    }
+
+    const cleanName = sanitizeText(formData.name, 100);
+    if (!cleanName) {
+      setSaveError('กรุณาระบุชื่อสถานที่');
+      return;
+    }
+
+    const cleanNameEn = sanitizeText(formData.name_en, 100);
+    const cleanAddress = sanitizeText(formData.address, 200);
+    const cleanProvince = sanitizeText(formData.province, 50);
+
+    setIsSaving(true);
 
     try {
       if (isSupabaseConfigured) {
         // Update in Supabase
-        const wktPoint = `POINT(${formData.lng} ${formData.lat})`;
+        const wktPoint = `POINT(${lngNum} ${latNum})`;
         const { error } = await supabase
           .from('toilets')
           .update({
-            name: formData.name,
-            name_en: formData.name_en || null,
+            name: cleanName,
+            name_en: cleanNameEn || null,
             category: formData.category,
-            address: formData.address,
-            province: formData.province,
+            address: cleanAddress,
+            province: cleanProvince,
             location: wktPoint,
             has_bidet: formData.has_bidet,
             wheelchair_accessible: formData.wheelchair_accessible,

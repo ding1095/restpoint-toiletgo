@@ -7,6 +7,16 @@
 
 ทุกเวอร์ชันมี git tag ตรงกัน (เช่น `git checkout v1.0.1`)
 
+## v1.1.0 — 2026-10-15
+- **ยกระดับความปลอดภัยและป้องกัน API รัดกุมรอบด้าน (Security Hardening):**
+  - **Input Sanitization & Anti-XSS:** กรองและตัดแท็ก HTML/Scripts ที่อาจเป็นอันตราย และจำกัดความยาวของชื่อ, ที่อยู่, รีวิว
+  - **Coordinate Boundary Validation:** ตรวจสอบพิกัดละติจูด/ลองจิจูดให้อยู่ในขอบเขตประเทศไทยอย่างถูกต้อง ป้องกันค่า NaN และ Injection
+  - **Client-side Rate Limiting:** จำกัดความถี่การส่งรีวิว (1 ครั้ง/15 วินาที) และการเพิ่มจุดพักใหม่ (1 ครั้ง/20 วินาที) ป้องกันการสแปมฐานข้อมูล
+  - **In-Memory LRU Caching:** ระบบแคชผลลัพธ์การค้นหาสถานที่และเส้นทาง เพื่อลดภาระและป้องกันการโดนบล็อกโควตาจาก OpenStreetMap Nominatim และ OSRM
+  - **Cryptographic Admin Authentication:** ยืนยันรหัส PIN ผู้ดูแลระบบด้วยการแฮช SHA-256 (Web Crypto API) พร้อมระบบป้องกัน Brute-force Lockout (ระงับ 15 นาทีหากใส่ผิดเกิน 5 ครั้ง) และจัดเก็บ Session แบบปลอดภัย
+  - **Supabase Database RLS Hardening:** เพิ่มสคริปต์ `supabase/security_hardening.sql` ปิดช่องโหว่นโยบาย DELETE/UPDATE แบบสาธารณะ และเปลี่ยนเป็น Secure RPC functions พร้อมตรวจสิทธิ์
+  - **Production HTTP Security Headers:** เพิ่ม Security Headers ใน `vercel.json` และ Meta tags ใน `index.html` (X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)
+
 ## v1.0.3 — 2026-10-15
 - อัปเดตเอกสาร README.md ใหม่ทั้งหมดให้ตรงกับสถาปัตยกรรม UI/UX สไตล์ปี 2026, ฟังก์ชันสแกนเส้นทาง OSRM + Supabase PostGIS, โครงสร้างโปรเจกต์ และคู่มือการพัฒนา
 
