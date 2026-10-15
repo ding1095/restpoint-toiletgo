@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUpDown, MapPin, LocateFixed, Navigation, Loader2, Search, X } from 'lucide-react';
 import { RestroomPlace } from '../types';
-import { LeafletMap } from './LeafletMap';
+import { LeafletMap, MapFlyTarget } from './LeafletMap';
 import { SheetLayout, SheetSnap } from './SheetLayout';
 import { PlaceRow } from './PlaceRow';
 import { useRouteToilets } from '../hooks/useRouteToilets';
@@ -32,6 +32,7 @@ const POPULAR_PLACES: LocationPoint[] = [
   { name: 'พัทยา', lat: 12.9276, lng: 100.8771 },
   { name: 'หัวหิน', lat: 12.5684, lng: 99.9577 },
   { name: 'เขาใหญ่', lat: 14.4392, lng: 101.3724 },
+  { name: 'อยุธยา', lat: 14.3532, lng: 100.5684 },
   { name: 'เชียงใหม่', lat: 18.7883, lng: 98.9853 },
   { name: 'ขอนแก่น', lat: 16.4322, lng: 102.8236 },
   { name: 'ภูเก็ต', lat: 7.8844, lng: 98.3887 },
@@ -55,10 +56,11 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
   userLocation,
   onRequestUserLocation,
 }) => {
-  const [startPoint, setStartPoint] = useState<LocationPoint | null>(POPULAR_PLACES[0]);
-  const [destPoint, setDestPoint] = useState<LocationPoint | null>(POPULAR_PLACES[1]);
-  const [startQuery, setStartQuery] = useState(POPULAR_PLACES[0].name);
-  const [destQuery, setDestQuery] = useState(POPULAR_PLACES[1].name);
+  const [startPoint, setStartPoint] = useState<LocationPoint | null>(null);
+  const [destPoint, setDestPoint] = useState<LocationPoint | null>(null);
+  const [startQuery, setStartQuery] = useState('');
+  const [destQuery, setDestQuery] = useState('');
+  const [flyTarget, setFlyTarget] = useState<MapFlyTarget | null>(null);
 
   const [activeField, setActiveField] = useState<Field | null>(null);
   const [suggestions, setSuggestions] = useState<PlaceSuggestion[]>([]);
@@ -181,7 +183,9 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
   };
 
   useEffect(() => {
-    calculateRoute(startPoint, destPoint);
+    if (startPoint && destPoint) {
+      calculateRoute(startPoint, destPoint);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -190,11 +194,27 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
     if (field === 'start') {
       setStartPoint(point);
       setStartQuery(point.name);
-      calculateRoute(point, destPoint);
+      if (destPoint) {
+        calculateRoute(point, destPoint);
+      } else {
+        setRouteCoordinates([]);
+        setRouteDistanceKm(0);
+        setRouteDurationMin(0);
+        setStops([]);
+        setFlyTarget({ center: [point.lat, point.lng], zoom: 12, key: Date.now() });
+      }
     } else {
       setDestPoint(point);
       setDestQuery(point.name);
-      calculateRoute(startPoint, point);
+      if (startPoint) {
+        calculateRoute(startPoint, point);
+      } else {
+        setRouteCoordinates([]);
+        setRouteDistanceKm(0);
+        setRouteDurationMin(0);
+        setStops([]);
+        setFlyTarget({ center: [point.lat, point.lng], zoom: 12, key: Date.now() });
+      }
     }
     setActiveField(null);
     setSuggestions([]);
@@ -256,7 +276,9 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
     setDestPoint(startPoint);
     setStartQuery(destQuery);
     setDestQuery(startQuery);
-    calculateRoute(destPoint, startPoint);
+    if (destPoint && startPoint) {
+      calculateRoute(destPoint, startPoint);
+    }
   };
 
   // ---------- Search suggestions (debounced) ----------
@@ -311,9 +333,32 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
             setSnap('full');
             e.target.select();
           }}
-          placeholder={isStart ? 'จุดเริ่มต้น' : 'ไปที่ไหน?'}
+          placeholder={isStart ? 'จุดเริ่มต้น (เช่น ตำแหน่งฉัน, พิมพ์จังหวัด)' : 'ไปที่ไหน? (เช่น พัทยา, ชลบุรี, เชียงใหม่)'}
           className="flex-1 min-w-0 bg-transparent text-[15px] text-slate-900 placeholder-slate-400 outline-none"
         />
+        {value ? (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setValue('');
+              if (isStart) {
+                setStartPoint(null);
+              } else {
+                setDestPoint(null);
+              }
+              setRouteCoordinates([]);
+              setRouteDistanceKm(0);
+              setRouteDurationMin(0);
+              setStops([]);
+            }}
+            className="w-7 h-7 shrink-0 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-200 transition"
+            aria-label="ล้างข้อมูล"
+            title="ล้างข้อมูล"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={() => startPicking(field)}
@@ -383,7 +428,7 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
 
       {suggestions.length === 0 && !isSearching && (
         <>
-          <p className="px-3 pt-4 pb-1 text-[13px] font-medium text-slate-500">ยอดนิยม</p>
+          <p className="px-3 pt-4 pb-1 text-[13px] font-medium text-slate-500">จังหวัด / ยอดนิยม</p>
           {POPULAR_PLACES.map((p) =>
             suggestionItem(p.name, <span className="text-base">📍</span>, p.name, undefined, () => applyPoint(activeField, p))
           )}
@@ -421,45 +466,104 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
     </div>
   );
 
-  const stopsList =
-    stops.length === 0 && !isLoadingRoute ? (
-      <div className="text-center py-12 px-6">
-        <p className="text-4xl mb-3">🛣️</p>
-        <p className="font-semibold text-slate-900">ยังไม่พบห้องน้ำบนเส้นทางนี้</p>
-        <p className="text-sm text-slate-500 mt-1">ลองเปลี่ยนจุดหมาย หรือเลือกจุดบนแผนที่</p>
+  const stopsList = !startPoint || !destPoint ? (
+    <div className="py-6 px-4 text-center">
+      <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl shadow-xs">
+        🛣️
       </div>
-    ) : (
-      <div>
-        <div className="space-y-0.5">
-          {stops.map(({ restroom, km }) => (
-            <PlaceRow
-              key={restroom.id}
-              place={restroom}
-              lang={lang}
-              selected={selectedPlace?.id === restroom.id}
+      <h4 className="font-semibold text-slate-900 text-base">ระบุจุดเริ่มต้นและปลายทาง</h4>
+      <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
+        พิมพ์ชื่อจังหวัด สถานที่ หรือแตะไอคอนเพื่อปักหมุดบนแผนที่ เพื่อค้นหาห้องน้ำและจุดแวะพักตลอดเส้นทาง
+      </p>
+
+      {/* Quick shortcuts */}
+      <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+        <button
+          type="button"
+          onClick={() => useMyLocation('start')}
+          className="px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium inline-flex items-center gap-1.5 transition active:scale-95"
+        >
+          <LocateFixed className="w-3.5 h-3.5 text-blue-600" />
+          {userLocation ? 'ตำแหน่งของฉัน' : 'ใช้ GPS ของฉัน'}
+        </button>
+        <button
+          type="button"
+          onClick={() => startPicking(!startPoint ? 'start' : 'dest')}
+          className="px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium inline-flex items-center gap-1.5 transition active:scale-95"
+        >
+          <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+          ปักหมุดบนแผนที่
+        </button>
+      </div>
+
+      {/* Popular shortcuts */}
+      <div className="mt-6 text-left border-t border-slate-100 pt-4">
+        <p className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider mb-2.5 px-1">
+          หรือเลือกจุดหมายยอดนิยม
+        </p>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {POPULAR_PLACES.map((p) => (
+            <button
+              key={p.name}
+              type="button"
               onClick={() => {
-                onSelectRestroom(restroom);
-                setSnap('min');
+                if (!startPoint && userLocation) {
+                  setStartPoint({ name: 'ตำแหน่งของฉัน', ...userLocation });
+                  setStartQuery('ตำแหน่งของฉัน');
+                  applyPoint('dest', p);
+                } else if (!startPoint) {
+                  applyPoint('start', p);
+                } else {
+                  applyPoint('dest', p);
+                }
               }}
-              subtitle={`กม. ${km} · ${restroom.province}`}
-              trailing={
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openGoogleMapsDirections(restroom.coordinates.lat, restroom.coordinates.lng);
-                  }}
-                  className="w-10 h-10 shrink-0 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 flex items-center justify-center"
-                  aria-label="นำทาง"
-                >
-                  <Navigation className="w-4 h-4" />
-                </button>
-              }
-            />
+              className="px-3 py-2.5 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-emerald-800 text-left text-xs font-medium text-slate-700 flex items-center justify-between transition border border-slate-100/80 active:scale-95"
+            >
+              <span className="truncate">{p.name}</span>
+              <span className="text-slate-400 text-[10px]">เลือก</span>
+            </button>
           ))}
         </div>
       </div>
-    );
+    </div>
+  ) : stops.length === 0 && !isLoadingRoute ? (
+    <div className="text-center py-12 px-6">
+      <p className="text-4xl mb-3">🛣️</p>
+      <p className="font-semibold text-slate-900">ยังไม่พบห้องน้ำบนเส้นทางนี้</p>
+      <p className="text-sm text-slate-500 mt-1">ลองเปลี่ยนจุดหมาย หรือเลือกจุดบนแผนที่</p>
+    </div>
+  ) : (
+    <div>
+      <div className="space-y-0.5">
+        {stops.map(({ restroom, km }) => (
+          <PlaceRow
+            key={restroom.id}
+            place={restroom}
+            lang={lang}
+            selected={selectedPlace?.id === restroom.id}
+            onClick={() => {
+              onSelectRestroom(restroom);
+              setSnap('min');
+            }}
+            subtitle={`กม. ${km} · ${restroom.province}`}
+            trailing={
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openGoogleMapsDirections(restroom.coordinates.lat, restroom.coordinates.lng);
+                }}
+                className="w-10 h-10 shrink-0 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 flex items-center justify-center"
+                aria-label="นำทาง"
+              >
+                <Navigation className="w-4 h-4" />
+              </button>
+            }
+          />
+        ))}
+      </div>
+    </div>
+  );
 
   const mapRestrooms = stops.length > 0 ? stops.map((s) => s.restroom) : restrooms;
 
@@ -471,9 +575,15 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
       minContent={
         <div className="flex items-center justify-between w-full gap-3">
           <span className="text-[15px] font-semibold text-slate-900 truncate">
-            {isLoadingRoute ? 'กำลังคำนวณ…' : `${formatDuration(routeDurationMin)} · ${routeDistanceKm} กม.`}
+            {isLoadingRoute
+              ? 'กำลังค้นหาเส้นทาง…'
+              : routeDistanceKm > 0
+              ? `${formatDuration(routeDurationMin)} · ${routeDistanceKm} กม.`
+              : 'ค้นหาห้องน้ำระหว่างทาง'}
           </span>
-          <span className="text-sm text-emerald-700 font-medium shrink-0">{stops.length} จุดแวะ</span>
+          <span className="text-sm text-emerald-700 font-medium shrink-0">
+            {routeDistanceKm > 0 ? `${stops.length} จุดแวะ` : 'ระบุต้นทาง-ปลายทาง'}
+          </span>
         </div>
       }
       map={
@@ -497,6 +607,7 @@ export const RouteRestFinder: React.FC<RouteRestFinderProps> = ({
           }}
           onMarkerDragEnd={(type, coords) => applyCoordWithName(type, coords)}
           highlightedRestroomIds={stops.map((s) => s.restroom.id)}
+          flyTarget={flyTarget}
         />
       }
     >

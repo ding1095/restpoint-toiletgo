@@ -3,6 +3,7 @@ import { X, MapPin, Navigation, Sparkles, Loader2, AlertCircle } from 'lucide-re
 import confetti from 'canvas-confetti';
 import { RestroomPlace, FacilityCategory } from '../types';
 import { useSubmitToilet } from '../hooks/useSubmitToilet';
+import { reverseGeocodeCoord } from '../lib/thailandRegions';
 
 interface AddRestroomModalProps {
   isOpen: boolean;
@@ -22,7 +23,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
   const [name, setName] = useState('');
   const [category, setCategory] = useState<FacilityCategory>('gas_station');
   const [address, setAddress] = useState('');
-  const [province, setProvince] = useState('กรุงเทพมหานคร');
+  const [province, setProvince] = useState('');
   const [lat, setLat] = useState('13.7563');
   const [lng, setLng] = useState('100.5018');
   const [priceType, setPriceType] = useState<'free' | 'paid'>('free');
@@ -44,9 +45,23 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
   const handleUseCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          setLat(pos.coords.latitude.toFixed(6));
-          setLng(pos.coords.longitude.toFixed(6));
+        async (pos) => {
+          const latVal = pos.coords.latitude;
+          const lngVal = pos.coords.longitude;
+          setLat(latVal.toFixed(6));
+          setLng(lngVal.toFixed(6));
+          try {
+            const locName = await reverseGeocodeCoord(latVal, lngVal);
+            if (locName) {
+              setAddress((prev) => prev || locName);
+              const parts = locName.split(',').map((s) => s.trim());
+              if (parts.length > 1) {
+                setProvince((prev) => prev || parts[parts.length - 1]);
+              }
+            }
+          } catch {
+            /* ignore */
+          }
         },
         (err) => {
           alert('ไม่สามารถดึงตำแหน่งปัจจุบันได้: ' + err.message);
@@ -63,7 +78,7 @@ export const AddRestroomModal: React.FC<AddRestroomModalProps> = ({
       name: name.trim(),
       category,
       address: address.trim() || 'ริมถนนสายหลัก',
-      province: province.trim() || 'กรุงเทพมหานคร',
+      province: province.trim() || 'ไม่ระบุจังหวัด',
       lat: parseFloat(lat) || 13.7563,
       lng: parseFloat(lng) || 100.5018,
       floorZone: floorZone.trim(),

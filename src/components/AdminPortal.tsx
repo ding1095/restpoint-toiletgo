@@ -73,7 +73,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
     name_en: '',
     category: 'gas_station' as FacilityCategory,
     address: '',
-    province: 'กรุงเทพมหานคร',
+    province: '',
     lat: 13.7563,
     lng: 100.5018,
     opening_hours: '24 ชั่วโมง',

@@ -3,7 +3,7 @@
 > **ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดและจุดแวะพักระหว่างเดินทาง**  
 > *Map-First Clean Restroom & Rest Stop Navigator for Thailand*
 
-[![Version](https://img.shields.io/badge/version-v1.1.0-emerald)](https://github.com/ding1095/restpoint-toiletgo/releases)
+[![Version](https://img.shields.io/badge/version-v1.1.1-emerald)](https://github.com/ding1095/restpoint-toiletgo/releases)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
