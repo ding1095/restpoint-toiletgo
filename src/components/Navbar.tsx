@@ -62,9 +62,19 @@ export const Navbar: React.FC<NavbarProps> = ({
     <header className="relative z-30 h-14 shrink-0 bg-white border-b border-slate-100">
       <div className="h-full px-3 sm:px-4 flex items-center justify-between gap-2">
         {/* Brand */}
-        <button type="button" onClick={() => setActiveTab('route')} className="flex items-center gap-2 shrink-0">
-          <PooPooMascot size={30} mood="happy" />
-          <span className="hidden sm:inline text-[17px] font-semibold tracking-tight text-slate-900">Poo Poo</span>
+        <button type="button" onClick={() => setActiveTab('route')} className="flex items-center gap-2.5 shrink-0 text-left">
+          <PooPooMascot size={32} mood="happy" />
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-1.5">
+              <span className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 leading-tight">Poo Poo</span>
+              <span className="text-[10px] font-semibold text-amber-800 bg-amber-100/90 border border-amber-200/70 px-1.5 py-0.5 rounded-full inline-block leading-none">
+                ปู้ปู้ 💩✨
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 font-normal leading-tight hidden md:block mt-0.5">
+              ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดและจุดแวะพักระหว่างเดินทาง
+            </p>
+          </div>
         </button>
 
         {/* Mode switch */}
@@ -96,7 +106,18 @@ export const Navbar: React.FC<NavbarProps> = ({
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 top-12 w-60 p-1.5 bg-white rounded-2xl shadow-xl shadow-slate-900/10 ring-1 ring-slate-900/5 fade-up">
+            <div className="absolute right-0 top-12 w-64 p-1.5 bg-white rounded-2xl shadow-xl shadow-slate-900/10 ring-1 ring-slate-900/5 fade-up">
+              <div className="px-3 pt-2 pb-2.5 border-b border-slate-100 mb-1">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm font-bold text-slate-900">Poo Poo</span>
+                  <span className="text-[10px] font-semibold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded-full">
+                    ปู้ปู้ 💩✨
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 mt-1 leading-snug">
+                  ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดและจุดแวะพักระหว่างเดินทาง
+                </p>
+              </div>
               {menuItem(<Plus className="w-5 h-5" />, 'เพิ่มห้องน้ำ', onOpenAddModal)}
               {menuItem(<Heart className="w-5 h-5" />, 'รายการโปรด', onOpenFavorites, favoritesCount)}
               <div className="my-1 h-px bg-slate-100" />
