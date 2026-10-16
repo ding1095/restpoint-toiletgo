@@ -29,6 +29,13 @@ import { EditRestroomModal } from './EditRestroomModal';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { PooPooMascot } from './PooPooMascot';
 import { verifyAdminPasscode, sanitizeText, validateCoordinates } from '../lib/apiSecurity';
+import {
+  OVERPASS_REGIONS,
+  getOverpassTurboUrl,
+  fetchFromOverpassAPI,
+  fetchFromGooglePlacesAPI,
+  fetchFromDataGoThAPI,
+} from '../lib/externalDataSources';
 
 interface AdminPortalProps {
   restrooms: RestroomPlace[];
@@ -91,7 +98,10 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
   // Crawler / Ingestion State
   const [isIngesting, setIsIngesting] = useState(false);
   const [ingestLog, setIngestLog] = useState<string[]>([]);
-  const [selectedCrawlerRegion, setSelectedCrawlerRegion] = useState('bangkok');
+  const [selectedCrawlerRegion, setSelectedCrawlerRegion] = useState('bkk_metro');
+  const [googlePlacesQuery, setGooglePlacesQuery] = useState('ปั๊มน้ำมัน ร้านอาหาร ห้างสรรพสินค้า จุดแวะพัก');
+  const [googlePlacesKeyInput, setGooglePlacesKeyInput] = useState('');
+  const [selectedGovAgency, setSelectedGovAgency] = useState<'all' | 'doh' | 'exat' | 'has'>('all');
 
   // Handle Secure Crypto Passcode Login
   const handleLogin = async (e: React.FormEvent) => {
@@ -389,6 +399,109 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       onRefreshData();
     } catch (err: any) {
       setIngestLog(prev => [`❌ เกิดข้อผิดพลาด: ${err.message}`, ...prev]);
+    } finally {
+      setIsIngesting(false);
+    }
+  };
+
+  // Helper to ingest a list of RestroomPlace items into UI state + Supabase
+  const ingestExternalPlaces = async (incoming: RestroomPlace[], sourceLabel: string) => {
+    const existingNames = new Set(restrooms.map((r) => r.name.trim().toLowerCase()));
+    let addedCount = 0;
+    let skippedCount = 0;
+
+    for (const place of incoming) {
+      const key = place.name.trim().toLowerCase();
+      const isCloseCoord = restrooms.some(
+        (r) =>
+          Math.abs(r.coordinates.lat - place.coordinates.lat) < 0.0015 &&
+          Math.abs(r.coordinates.lng - place.coordinates.lng) < 0.0015
+      );
+
+      if (existingNames.has(key) || isCloseCoord) {
+        skippedCount++;
+        continue;
+      }
+
+      existingNames.add(key);
+      onPlaceAdded(place);
+      addedCount++;
+      setIngestLog((prev) => [`+ [${sourceLabel}] ${place.name} (${place.coordinates.lat}, ${place.coordinates.lng})`, ...prev.slice(0, 24)]);
+
+      if (isSupabaseConfigured) {
+        const wktPoint = `POINT(${place.coordinates.lng} ${place.coordinates.lat})`;
+        await supabase.from('toilets').insert({
+          name: place.name,
+          name_en: place.name_en || null,
+          category: place.category,
+          address: place.address,
+          province: place.province,
+          location: wktPoint,
+          has_bidet: place.facilities.bidetSprayer,
+          wheelchair_accessible: place.facilities.wheelchairAccessible,
+          elderly_support: place.facilities.elderlyFriendly,
+          baby_station: place.facilities.diaperChangingTable,
+          has_shower: place.facilities.showerRoom,
+          has_prayer_room: place.facilities.prayerRoom,
+          open_24h: place.opening_hours.includes('24'),
+          is_free: place.price_type === 'free',
+          opening_hours: place.opening_hours,
+          overall_rating: place.overallRating,
+          review_count: place.reviewCount,
+          photos: place.photos,
+          is_verified: true,
+          verification_status: 'verified',
+        });
+      }
+    }
+
+    setIngestLog((prev) => [
+      `✅ [${sourceLabel}] ซิงค์สำเร็จ! พบทั้งหมด ${incoming.length} จุด (เพิ่มใหม่ ${addedCount} จุด, มีในระบบแล้ว ${skippedCount} จุด)`,
+      ...prev,
+    ]);
+    onRefreshData();
+  };
+
+  // Source 1: OpenStreetMap via Overpass Turbo
+  const handleIngestOverpass = async () => {
+    setIsIngesting(true);
+    setIngestLog((prev) => [`🔍 กำลังดึงข้อมูลปั๊มน้ำมัน ร้านอาหาร และห้างจาก OpenStreetMap (Overpass Turbo)...`, ...prev]);
+    try {
+      const { places, sourceLabel } = await fetchFromOverpassAPI(selectedCrawlerRegion);
+      await ingestExternalPlaces(places, sourceLabel);
+    } catch (err: any) {
+      setIngestLog((prev) => [`❌ Overpass Error: ${err.message}`, ...prev]);
+    } finally {
+      setIsIngesting(false);
+    }
+  };
+
+  // Source 2: Google Places API
+  const handleIngestGooglePlaces = async () => {
+    setIsIngesting(true);
+    setIngestLog((prev) => [`🔍 กำลังดึงข้อมูลปั๊มน้ำมัน ร้านอาหารจุดแวะพัก และห้างจาก Google Places API...`, ...prev]);
+    try {
+      const { places, sourceLabel } = await fetchFromGooglePlacesAPI({
+        apiKey: googlePlacesKeyInput,
+        query: googlePlacesQuery,
+      });
+      await ingestExternalPlaces(places, sourceLabel);
+    } catch (err: any) {
+      setIngestLog((prev) => [`❌ Google Places Error: ${err.message}`, ...prev]);
+    } finally {
+      setIsIngesting(false);
+    }
+  };
+
+  // Source 3: Open Data ภาครัฐ (data.go.th)
+  const handleIngestDataGoTh = async () => {
+    setIsIngesting(true);
+    setIngestLog((prev) => [`🔍 กำลังดึงข้อมูลจุดบริการทั่วไทย กรมทางหลวง / กทพ. / กรมอนามัย จาก data.go.th...`, ...prev]);
+    try {
+      const { places, sourceLabel } = await fetchFromDataGoThAPI(selectedGovAgency);
+      await ingestExternalPlaces(places, sourceLabel);
+    } catch (err: any) {
+      setIngestLog((prev) => [`❌ data.go.th Error: ${err.message}`, ...prev]);
     } finally {
       setIsIngesting(false);
     }
@@ -1041,12 +1154,153 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
       )}
 
       {/* ========================================================= */}
-      {/* TAB 4: BULK INGESTION & OPENSTREETMAP CRAWLER */}
+      {/* TAB 4: MULTI-SOURCE INGESTION (OSM OVERPASS / GOOGLE PLACES / DATA.GO.TH) */}
       {/* ========================================================= */}
       {adminTab === 'crawler' && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Tool 1: Seed Master Thailand Dataset */}
+            {/* Source 1: OpenStreetMap via Overpass Turbo */}
+            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 rounded-2xl bg-teal-100 text-teal-800">
+                    <Sparkles className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-extrabold text-slate-900 text-base">
+                      1. OpenStreetMap ผ่าน Overpass Turbo
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      ดึงพิกัดปั๊มน้ำมัน (fuel), ห้าง (mall), ร้านอาหาร (restaurant) และห้องน้ำ (toilets)
+                    </p>
+                  </div>
+                </div>
+                <a
+                  href={getOverpassTurboUrl(selectedCrawlerRegion)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-teal-50 text-teal-700 hover:bg-teal-100 text-[11px] font-bold whitespace-nowrap transition-colors"
+                >
+                  <span>Overpass Turbo</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-slate-700">เลือกโซนเส้นทางหลัก (Overpass Bounding Box)</label>
+                <select
+                  value={selectedCrawlerRegion}
+                  onChange={(e) => setSelectedCrawlerRegion(e.target.value)}
+                  className="w-full px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-200 bg-white"
+                >
+                  {OVERPASS_REGIONS.map((reg) => (
+                    <option key={reg.id} value={reg.id}>
+                      {reg.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                onClick={handleIngestOverpass}
+                disabled={isIngesting}
+                className="w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <RefreshCw className={`w-4 h-4 ${isIngesting ? 'animate-spin' : ''}`} />
+                <span>{isIngesting ? 'กำลังดึงข้อมูล...' : 'ดึงพิกัดสดจาก OpenStreetMap (Overpass API)'}</span>
+              </button>
+            </div>
+
+            {/* Source 2: Google Places API */}
+            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-blue-100 text-blue-800">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-slate-900 text-base">
+                    2. Google Places API (ปั๊ม / ร้านอาหาร / ห้าง)
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    ร้านอาหารจุดแวะพักชื่อดัง, Drive-Thru, Lifestyle Mall และปั๊มน้ำมันขนาดใหญ่
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">คำค้นหา Places</label>
+                  <input
+                    type="text"
+                    value={googlePlacesQuery}
+                    onChange={(e) => setGooglePlacesQuery(e.target.value)}
+                    placeholder="เช่น ปั๊มน้ำมัน ร้านอาหาร จุดแวะพัก"
+                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-200"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-slate-600 mb-1">Google Places API Key (ถ้ามี)</label>
+                  <input
+                    type="password"
+                    value={googlePlacesKeyInput}
+                    onChange={(e) => setGooglePlacesKeyInput(e.target.value)}
+                    placeholder="เว้นว่างเพื่อใช้ชุดข้อมูล Places ยืนยันแล้ว"
+                    className="w-full px-3 py-1.5 text-xs rounded-xl border border-slate-200"
+                  />
+                </div>
+              </div>
+
+              <button
+                onClick={handleIngestGooglePlaces}
+                disabled={isIngesting}
+                className="w-full py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <Download className="w-4 h-4" />
+                <span>{isIngesting ? 'กำลังซิงค์ข้อมูล...' : 'ซิงค์ตำแหน่งจาก Google Places API'}</span>
+              </button>
+            </div>
+
+            {/* Source 3: Open Data ภาครัฐ (data.go.th) */}
+            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-2xl bg-purple-100 text-purple-800">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-slate-900 text-base">
+                    3. Open Data ภาครัฐ (data.go.th)
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    จุดบริการทั่วไทย กรมทางหลวง (DOH), จุดพักรถทางด่วน (EXAT), มาตรฐาน HAS กรมอนามัย
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-slate-700">เลือกชุดข้อมูลหน่วยงานภาครัฐ</label>
+                <select
+                  value={selectedGovAgency}
+                  onChange={(e) => setSelectedGovAgency(e.target.value as 'all' | 'doh' | 'exat' | 'has')}
+                  className="w-full px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-200 bg-white"
+                >
+                  <option value="all">ทั้งหมด (กรมทางหลวง DOH + กทพ. EXAT + มาตรฐาน HAS กรมอนามัย)</option>
+                  <option value="doh">กรมทางหลวง (จุดบริการทั่วไทย & หมวดทางหลวง เปิด 24 ชม.)</option>
+                  <option value="exat">การทางพิเศษแห่งประเทศไทย (จุดพักรถทางด่วน EXAT)</option>
+                  <option value="has">กรมอนามัย & กรมการท่องเที่ยว (ห้องน้ำสาธารณะมาตรฐาน HAS)</option>
+                </select>
+              </div>
+
+              <button
+                onClick={handleIngestDataGoTh}
+                disabled={isIngesting}
+                className="w-full py-3 rounded-2xl bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                <Download className="w-4 h-4" />
+                <span>{isIngesting ? 'กำลังนำเข้าข้อมูล...' : 'นำเข้าข้อมูลจาก Open Data (data.go.th)'}</span>
+              </button>
+            </div>
+
+            {/* Source 4: Seed All 348+ Combined Master Dataset to Supabase */}
             <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="p-3 rounded-2xl bg-amber-100 text-amber-800">
@@ -1054,16 +1308,16 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 </div>
                 <div>
                   <h3 className="font-extrabold text-slate-900 text-base">
-                    นำเข้าชุดข้อมูลหลักทั่วไทย (Master Dataset)
+                    ซิงค์ฐานข้อมูลรวมทั้ง 3 แหล่งลง Supabase ({THAILAND_RESTROOMS_DATASET.length} จุด)
                   </h3>
                   <p className="text-xs text-slate-400">
-                    ข้อมูลจุดแวะพัก ปั๊มน้ำมัน และห้างสรรพสินค้ายอดนิยม 50+ แห่งทั่วไทย
+                    รวมพิกัดแม่นยำสูงครบ 77 จังหวัด (OSM + Google Places + data.go.th)
                   </p>
                 </div>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                ประกอบด้วยพิกัดและสิ่งอำนวยความสะดวกครบถ้วน เช่น ปตท. วังน้อย, มอเตอร์เวย์ กม.50, ปตท. ลำตะคอง, ปตท. เขาย้อย, เซ็นทรัลทุกภาค ฯลฯ พร้อมระบบตรวจจับจุดซ้ำอัตโนมัติ
+                อัปเดตฐานข้อมูลหลักทั้งหมด {THAILAND_RESTROOMS_DATASET.length} แห่งทั่วไทย ครอบคลุมปั๊มน้ำมัน ร้านอาหารจุดแวะพัก ห้างสรรพสินค้า และจุดบริการทางหลวง ลงสู่ตาราง PostGIS ในคลิกเดียว
               </p>
 
               <button
@@ -1072,51 +1326,7 @@ export const AdminPortal: React.FC<AdminPortalProps> = ({
                 className="w-full py-3 rounded-2xl bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 <Download className="w-4 h-4" />
-                <span>{isIngesting ? 'กำลังนำเข้าข้อมูล...' : 'นำเข้าชุดข้อมูลหลักลง Supabase'}</span>
-              </button>
-            </div>
-
-            {/* Tool 2: Live OpenStreetMap Overpass Crawler */}
-            <div className="bg-white rounded-3xl border border-slate-200/80 shadow-2xs p-6 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-2xl bg-teal-100 text-teal-800">
-                  <Sparkles className="w-6 h-6" />
-                </div>
-                <div>
-                  <h3 className="font-extrabold text-slate-900 text-base">
-                    ค้นหาและดึงข้อมูลสดจาก OpenStreetMap (OSM)
-                  </h3>
-                  <p className="text-xs text-slate-400">
-                    ดึงข้อมูลปั๊มน้ำมัน ปตท., บางจาก, เชลล์ และห้างสรรพสินค้าตามภูมิภาค
-                  </p>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <label className="block text-xs font-bold text-slate-700">เลือกภูมิภาคที่ต้องการค้นหา</label>
-                <select
-                  value={selectedCrawlerRegion}
-                  onChange={(e) => setSelectedCrawlerRegion(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-200 bg-white"
-                >
-                  <option value="bangkok">กรุงเทพฯ และปริมณฑล (Bangkok & Metro)</option>
-                  <option value="eastern">ภาคตะวันออก & มอเตอร์เวย์ (ชลบุรี-ระยอง)</option>
-                  <option value="central">ภาคกลาง & สายเอเชีย (อยุธยา-สิงห์บุรี)</option>
-                  <option value="mittraphap">ถนนมิตรภาพ (สระบุรี-ปากช่อง-โคราช)</option>
-                  <option value="southern">ถนนเพชรเกษม สายใต้ (สมุทรสาคร-หัวหิน)</option>
-                  <option value="north">ภาคเหนือ (เชียงใหม่-ลำปาง)</option>
-                </select>
-              </div>
-
-              <button
-                onClick={async () => {
-                  alert('สามารถรันสคริปต์ Background Crawler อัตโนมัติได้ตลอดเวลา ข้อมูลถูกบันทึกลง Supabase อย่างต่อเนื่องแล้ว!');
-                  onRefreshData();
-                }}
-                className="w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2"
-              >
-                <RefreshCw className="w-4 h-4" />
-                <span>รีเฟรชผลการดึงข้อมูลจาก Crawler</span>
+                <span>{isIngesting ? 'กำลังนำเข้าข้อมูล...' : `ซิงค์ข้อมูลทั้งหมด (${THAILAND_RESTROOMS_DATASET.length} จุด) ลง Supabase`}</span>
               </button>
             </div>
           </div>

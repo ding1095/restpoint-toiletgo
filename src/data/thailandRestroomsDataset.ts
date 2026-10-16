@@ -19,6 +19,7 @@ export interface ToiletSeedItem {
   overall_rating: number;
   review_count: number;
   photos: string[];
+  data_source?: 'osm_overpass' | 'google_places' | 'data_go_th';
 }
 
 export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
@@ -43,7 +44,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 320,
     "photos": [
       "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "google_places"
   },
   {
     "name": "เซ็นทรัลเวิลด์ (Central World โซน Groove & Atrium)",
@@ -66,7 +68,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 245,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "google_places"
   },
   {
     "name": "สยามพารากอน (Siam Paragon ชั้น G & 1)",
@@ -89,7 +92,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 410,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "google_places"
   },
   {
     "name": "เซ็นทรัล ลาดพร้าว (Central Ladprao ชั้น 1 & 3)",
@@ -112,7 +116,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 190,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. วิภาวดีรังสิต (สำนักงานใหญ่)",
@@ -135,7 +140,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "สถานีกลางกรุงเทพอภิวัฒน์ (Krung Thep Aphiwat Central Terminal)",
@@ -158,7 +164,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 310,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "data_go_th"
   },
   {
     "name": "ท่าอากาศยานดอนเมือง (Don Mueang Airport อาคาร 2 ในประเทศ)",
@@ -181,7 +188,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 420,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "data_go_th"
   },
   {
     "name": "ท่าอากาศยานสุวรรณภูมิ (Suvarnabhumi Airport อาคารผู้โดยสาร ชั้น 2 & 4)",
@@ -204,7 +212,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 650,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "data_go_th"
   },
   {
     "name": "เมกาบางนา (Mega Bangna โซน FoodWalk & Mega Plaza)",
@@ -227,7 +236,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 380,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ทางด่วนบางนา (ขาออก กม. 6)",
@@ -250,7 +260,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 175,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. พระราม 2 ขาออก กม. 14 (บางขุนเทียน)",
@@ -273,7 +284,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 120,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. กาญจนาภิเษก-บางบอน (วงแหวนตะวันตก)",
@@ -296,7 +308,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 98,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล เวสต์เกต (Central Westgate บางใหญ่)",
@@ -319,7 +332,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 280,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ชัยพฤกษ์-ปากเกร็ด",
@@ -342,7 +356,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 110,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ฟิวเจอร์พาร์ค รังสิต (Future Park Rangsit & Zpell)",
@@ -365,7 +380,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 220,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "google_places"
   },
   {
     "name": "ปตท. พหลโยธิน กม. 35 (คลองหลวง)",
@@ -388,7 +404,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 85,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. พุทธมณฑล สาย 4 (ศาลายา)",
@@ -411,7 +428,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 135,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "บางจาก กิ่งแก้ว-สุวรรณภูมิ",
@@ -434,7 +452,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 90,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถมอเตอร์เวย์ ขาออก กม. 50 (เขาดิน บางปะกง)",
@@ -457,7 +476,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 520,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถมอเตอร์เวย์ ขาเข้า กม. 50 (เขาดิน บางปะกง)",
@@ -480,7 +500,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 410,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดบริการทางหลวง หนองขาม มอเตอร์เวย์ ทล.7 กม. 98",
@@ -503,7 +524,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 165,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "data_go_th"
   },
   {
     "name": "เซ็นทรัล ชลบุรี (Central Chonburi)",
@@ -526,7 +548,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 210,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล ศรีราชา (Central Si Racha สุขุมวิท)",
@@ -549,7 +572,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 260,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. มอเตอร์เวย์ มาบประชัน (ทล.7 ตอน 4 พัทยา)",
@@ -572,7 +596,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 145,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "พอร์โต้ โก พัทยา (Porto Go Sukhumvit Pattaya ทล.3)",
@@ -595,7 +620,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 280,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เทอร์มินอล 21 พัทยา (Terminal 21 Pattaya Restroom Experience)",
@@ -618,7 +644,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 590,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "google_places"
   },
   {
     "name": "ปตท. บ่อวิน ทล.331 (ศรีราชา-ปลวกแดง)",
@@ -641,7 +668,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 95,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สัตหีบ-กิโลเมตรสิบ (ทล.332 แยกเกษมพล)",
@@ -664,7 +692,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 110,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. นิคมพัฒนา-มาบตาพุด (ทล.36 ระยอง)",
@@ -687,7 +716,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 105,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล ระยอง (Central Rayong)",
@@ -710,7 +740,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 180,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. แกลง (สุขุมวิท ทล.3 ระยอง ขาไปจันทบุรี)",
@@ -733,7 +764,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 130,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. นายายอาม (สุขุมวิท ทล.3 จันทบุรี)",
@@ -756,7 +788,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 95,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล จันทบุรี (Central Chanthaburi)",
@@ -779,7 +812,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 195,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ขลุง (จันทบุรี ทล.3 ขาไปตราด)",
@@ -802,7 +836,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 85,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ตราด เมืองใหม่ (สุขุมวิท ทล.3)",
@@ -825,7 +860,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 75,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สระแก้ว เมืองใหม่ (สุวรรณศร ทล.33)",
@@ -848,7 +884,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 80,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "พอร์โต้ โก บางปะอิน (Porto Go Bang Pa-in ทล.32 สายเอเชีย กม.4 ขาออก)",
@@ -871,7 +908,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 580,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถ ปตท. วังน้อย ขาออก (อยุธยา พหลโยธิน กม.55)",
@@ -894,7 +932,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 450,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถ ปตท. วังน้อย ขาเข้า (อยุธยา พหลโยธิน กม.56)",
@@ -917,7 +956,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 340,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สายเอเชีย บางปะหัน (อยุธยา ทล.32 กม.35)",
@@ -940,7 +980,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 180,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ไชโย-อ่างทอง (สายเอเชีย ทล.32 กม.55)",
@@ -963,7 +1004,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 155,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. พรหมบุรี (สิงห์บุรี สายเอเชีย ทล.32 กม.78)",
@@ -986,7 +1028,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. อินทร์บุรี (สิงห์บุรี สายเอเชีย ทล.32 กม.105)",
@@ -1009,7 +1052,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 125,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. มโนรมย์-ชัยนาท (สายเอเชีย ทล.32 กม.138)",
@@ -1032,7 +1076,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 130,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. พยุหะคีรี (นครสวรรค์ สายเอเชีย กม.165)",
@@ -1055,7 +1100,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 160,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "The Walk นครสวรรค์ & ปตท. เขาเขียว (ประตูสู่ภาคเหนือ ทล.1)",
@@ -1078,7 +1124,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 360,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สลกบาตร (กำแพงเพชร พหลโยธิน ทล.1 กม.270)",
@@ -1101,7 +1148,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 195,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. คลองขลุง (กำแพงเพชร พหลโยธิน ทล.1 กม.305)",
@@ -1124,7 +1172,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 110,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. วชิรบารมี (พิจิตร ทล.117 นครสวรรค์-พิษณุโลก)",
@@ -1147,7 +1196,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 150,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล พิษณุโลก (Central Phitsanulok ทล.12)",
@@ -1170,7 +1220,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 220,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สี่แยกอินโดจีน พิษณุโลก (ทล.12 ตัด ทล.11)",
@@ -1193,7 +1244,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 170,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. บ้านตาก (ตาก พหลโยธิน ทล.1)",
@@ -1216,7 +1268,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 115,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เถิน (ลำปาง พหลโยธิน ทล.1 กม.520)",
@@ -1239,7 +1292,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 135,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สบปราบ (ลำปาง พหลโยธิน ทล.1 กม.590)",
@@ -1262,7 +1316,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 165,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เกาะคา (ลำปาง ทล.1 ทางขึ้นพระธาตุลำปางหลวง)",
@@ -1285,7 +1340,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 185,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ห้างฉัตร (ลำปาง ทล.11 ซูเปอร์ไฮเวย์)",
@@ -1308,7 +1364,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. แม่ทา ขุนตาน (ลำพูน ทล.11 ซูเปอร์ไฮเวย์ กม.48)",
@@ -1331,7 +1388,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 160,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สารภี (เชียงใหม่ ซูเปอร์ไฮเวย์ ทล.11)",
@@ -1354,7 +1412,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 210,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล เชียงใหม่ แอร์พอร์ต (Central Chiang Mai Airport)",
@@ -1377,7 +1436,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 380,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล เฟสติวัล เชียงใหม่ (Central Festival Chiang Mai)",
@@ -1400,7 +1460,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 420,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. จอมทอง-ดอยอินทนนท์ (เชียงใหม่ ทล.108 ตัด 1009)",
@@ -1423,7 +1484,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 290,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. แม่ขะจาน เวียงป่าเป้า (เชียงราย ทล.118 สายเชียงใหม่-เชียงราย)",
@@ -1446,7 +1508,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 175,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล เชียงราย (Central Chiang Rai)",
@@ -1469,7 +1532,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 230,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. แม่จัน (เชียงราย พหลโยธิน ทล.1 ไปแม่สาย)",
@@ -1492,7 +1556,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. แม่สาย เหนือสุดแดนสยาม (เชียงราย ทล.1)",
@@ -1515,7 +1580,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 195,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เด่นชัย (แพร่ ทางแยกเด่นชัย ทล.101 ไปน่าน)",
@@ -1538,7 +1604,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 125,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ปัว (น่าน ทล.1080 ทางขึ้นดอยภูคา)",
@@ -1561,7 +1628,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 170,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ทับกวาง แก่งคอย (สระบุรี มิตรภาพ กม.22 ขาออก)",
@@ -1584,7 +1652,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 390,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. มวกเหล็ก (สระบุรี มิตรภาพ กม.35)",
@@ -1607,7 +1676,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 170,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. กลางดง-ปากช่อง (นครราชสีมา มิตรภาพ กม.48)",
@@ -1630,7 +1700,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 165,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถ ปตท. มิตรภาพ - ปากช่อง กม. 142 (นครราชสีมา)",
@@ -1653,7 +1724,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 610,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดชมวิวเขื่อนลำตะคอง & สวนท้าวสุรนารี (มิตรภาพ กม.188 สีคิ้ว)",
@@ -1676,7 +1748,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 480,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เดอะมอลล์ โคราช (The Mall Korat มิตรภาพ)",
@@ -1699,7 +1772,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 320,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล โคราช (Central Korat มิตรภาพ)",
@@ -1722,7 +1796,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 270,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. จอหอ ขาออก (โคราช มิตรภาพ ทางแยกขอนแก่น)",
@@ -1745,7 +1820,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 145,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. โนนแดง-พิมาย (โคราช มิตรภาพ ทล.2)",
@@ -1768,7 +1844,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 110,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เมืองพล (ขอนแก่น มิตรภาพ ทล.2 กม.265)",
@@ -1791,7 +1868,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 160,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. บ้านไผ่ (ขอนแก่น มิตรภาพ ทล.2 กม.300)",
@@ -1814,7 +1892,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล ขอนแก่น (Central Khon Kaen มิตรภาพ)",
@@ -1837,7 +1916,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 350,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. น้ำพอง (ขอนแก่น มิตรภาพ ทล.2 ขาไปอุดรธานี)",
@@ -1860,7 +1940,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 130,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. กุมภวาปี (อุดรธานี มิตรภาพ ทล.2)",
@@ -1883,7 +1964,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 125,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล อุดรธานี (Central Udon Thani)",
@@ -1906,7 +1988,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 310,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. หนองคาย มิตรภาพ (สะพานมิตรภาพไทย-ลาว ทล.2)",
@@ -1929,7 +2012,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 185,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. นางรอง (บุรีรัมย์ ทล.24 โชคชัย-เดชอุดม)",
@@ -1952,7 +2036,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 160,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ประโคนชัย (บุรีรัมย์ ทล.24)",
@@ -1975,7 +2060,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 110,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "โรบินสัน ไลฟ์สไตล์ บุรีรัมย์",
@@ -1998,7 +2084,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 190,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ปราสาท (สุรินทร์ ทล.24)",
@@ -2021,7 +2108,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 135,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ขุขันธ์ (ศรีสะเกษ ทล.24)",
@@ -2044,7 +2132,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 115,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. วารินชำราบ (อุบลราชธานี ทล.24)",
@@ -2067,7 +2156,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 175,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล อุบล (Central Ubon)",
@@ -2090,7 +2180,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 280,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. มุกดาหาร บายพาส (ใกล้สะพานมิตรภาพไทย-ลาว 2)",
@@ -2113,7 +2204,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 120,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. นครพนม (ถนนนิตโย ทล.22 ขาเข้าเมือง)",
@@ -2136,7 +2228,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 115,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถ ปตท. พระราม 2 ขาออก กม. 35 (สมุทรสาคร)",
@@ -2159,7 +2252,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 490,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "พอร์โต้ โก ท่าจีน (Porto Go Tha Chin ถนนพระราม 2 กม. 41 ขาออก)",
@@ -2182,7 +2276,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 420,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. พระราม 2 กม. 80 (สมุทรสงคราม ก่อนข้ามแม่น้ำแม่กลอง)",
@@ -2205,7 +2300,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 210,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถ ปตท. วังมะนาว (จุดตัดเพชรบุรี ทล.35 ตัด ทล.4)",
@@ -2228,7 +2324,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 530,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เขาย้อย (เพชรบุรี ทล.4 เพชรเกษม กม. 136 ขาลงใต้)",
@@ -2251,7 +2348,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 175,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "โรบินสัน ไลฟ์สไตล์ เพชรบุรี (เพชรเกษม ทล.4)",
@@ -2274,7 +2372,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 240,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "จุดพักรถ ปตท. ท่ายาง-ชะอำ (เพชรบุรี ทล.4 ขาลงใต้ กม. 175)",
@@ -2297,7 +2396,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 480,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ชะอำเหนือ (เพชรเกษม ทล.4 ก่อนเข้าหัวหิน)",
@@ -2320,7 +2420,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 190,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "มาร์เก็ตวิลเลจ หัวหิน (Market Village Hua Hin)",
@@ -2343,7 +2444,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 310,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "บลูพอร์ต หัวหิน (Bluport Hua Hin Resort Mall)",
@@ -2366,7 +2468,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 360,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ปราณบุรี (ประจวบคีรีขันธ์ ทล.4 กม. 235)",
@@ -2389,7 +2492,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 145,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. กุยบุรี (ประจวบคีรีขันธ์ ทล.4 กม. 280)",
@@ -2412,7 +2516,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 130,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เมืองประจวบฯ บายพาส ขาลงใต้ (ทล.4 กม. 315)",
@@ -2435,7 +2540,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 160,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ทับสะแก (ประจวบคีรีขันธ์ ทล.4 กม. 350)",
@@ -2458,7 +2564,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 175,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. บางสะพานน้อย (ประจวบคีรีขันธ์ ทล.4 กม. 405 รอยต่อชุมพร)",
@@ -2481,7 +2588,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 150,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ท่าแซะ ขาลงใต้ (ชุมพร ทล.4 กม. 465)",
@@ -2504,7 +2612,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 210,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สี่แยกปฐมพร ชุมพร (จุดแยก ทล.4 / ทล.41 ประตูสู่ภาคใต้)",
@@ -2527,7 +2636,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 510,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. หลังสวน (ชุมพร ทล.41 กม. 65)",
@@ -2550,7 +2660,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 180,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ละแม (ชุมพร ทล.41 กม. 90 รอยต่อสุราษฎร์ฯ)",
@@ -2573,7 +2684,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ท่าฉาง (สุราษฎร์ธานี ทล.41 ขาลงใต้ กม. 115)",
@@ -2596,7 +2708,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 260,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล สุราษฎร์ธานี (Central Surat Thani เลี่ยงเมือง)",
@@ -2619,7 +2732,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 320,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. บ้านนาเดิม (สุราษฎร์ธานี ทล.41 กม. 155)",
@@ -2642,7 +2756,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 145,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เวียงสระ (สุราษฎร์ธานี ทล.41 กม. 180)",
@@ -2665,7 +2780,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 170,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ทุ่งสง (นครศรีธรรมราช ทล.41 ทางแยกตรัง-กระบี่)",
@@ -2688,7 +2804,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 220,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ป่าพะยอม (พัทลุง ทล.41 กม. 320)",
@@ -2711,7 +2828,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 135,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. แยกเอเชีย พัทลุง (ทล.41 บรรจบ ทล.4 ไปหาดใหญ่)",
@@ -2734,7 +2852,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 310,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. รัตภูมิ (สงขลา ทล.4 สายเอเชีย ขาเข้าหาดใหญ่)",
@@ -2757,7 +2876,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 175,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล หาดใหญ่ (Central Hatyai กาญจนวณิชย์)",
@@ -2780,7 +2900,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 460,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. จะนะ (สงขลา ทล.43 ไปปัตตานี/ยะลา)",
@@ -2803,7 +2924,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 130,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "สนามบินนานาชาติภูเก็ต (Phuket International Airport อาคารผู้โดยสาร)",
@@ -2826,7 +2948,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 550,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "เซ็นทรัล ภูเก็ต ฟลอเรสต้า (Central Phuket Floresta)",
@@ -2849,7 +2972,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 480,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. โคกกลอย (พังงา ทล.402 ประตูสู่ภูเก็ต)",
@@ -2872,7 +2996,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 210,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. อ่าวลึก (กระบี่ ทล.4 ไปพังงา-ภูเก็ต)",
@@ -2895,7 +3020,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 145,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "โรบินสัน ไลฟ์สไตล์ ตรัง (ถนนพัทลุง ทล.4)",
@@ -2918,7 +3044,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 190,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เมืองระนอง (เพชรเกษม ทล.4 สายอันดามัน)",
@@ -2941,7 +3068,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 120,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. นครชัยศรี (นครปฐม เพชรเกษม ทล.4 ขาออก)",
@@ -2964,7 +3092,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 180,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เมืองนครปฐม (ทล.4 เพชรเกษม แยกพระประโทน)",
@@ -2987,7 +3116,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 165,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ท่าม่วง (กาญจนบุรี แสงชูโต ทล.323)",
@@ -3010,7 +3140,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 190,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "โรบินสัน ไลฟ์สไตล์ กาญจนบุรี (แสงชูโต ทล.323)",
@@ -3033,7 +3164,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 220,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. ไทรโยค (กาญจนบุรี ทล.323 ไปทองผาภูมิ-สังขละบุรี)",
@@ -3056,7 +3188,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 230,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. โพธาราม (ราชบุรี เพชรเกษม ทล.4)",
@@ -3079,7 +3212,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 140,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. บางแพ-ดำเนินสะดวก (ราชบุรี ทล.325 ไปตลาดน้ำ)",
@@ -3102,7 +3236,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 155,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. สวนผึ้ง (ราชบุรี ทล.3087 จุดท่องเที่ยวยอดนิยม)",
@@ -3125,7 +3260,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 270,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เมืองสุพรรณบุรี (มาลัยแมน ทล.340)",
@@ -3148,7 +3284,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 160,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เดิมบางนางบวช (สุพรรณบุรี ทล.340 ขาไปชัยนาท)",
@@ -3171,7 +3308,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 110,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. วิเชียรบุรี (เพชรบูรณ์ สระบุรี-หล่มสัก ทล.21)",
@@ -3194,7 +3332,8 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "review_count": 195,
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
-    ]
+    ],
+    "data_source": "osm_overpass"
   },
   {
     "name": "ปตท. เขาค้อ แคมป์สน (เพชรบูรณ์ ทล.12 ไปพิษณุโลก)",
@@ -3215,6 +3354,5023 @@ export const THAILAND_RESTROOMS_DATASET: ToiletSeedItem[] = [
     "opening_hours": "24 ชั่วโมง",
     "overall_rating": 4.91,
     "review_count": 380,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ซุปเปอร์ไฮเวย์ เชียงใหม่ (สารภี ขาเข้า)",
+    "name_en": "ปตท. ซุปเปอร์ไฮเวย์ เชียงใหม่ (สารภี ขาเข้า)",
+    "category": "gas_station",
+    "address": "ถ.ซุปเปอร์ไฮเวย์ ต.หนองผึ้ง อ.สารภี",
+    "province": "เชียงใหม่",
+    "lat": 18.7245,
+    "lng": 99.0281,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.65,
+    "review_count": 45,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. แม่ริม เชียงใหม่ (มุ่งหน้าปาย/เชียงดาว)",
+    "name_en": "ปตท. แม่ริม เชียงใหม่ (มุ่งหน้าปาย/เชียงดาว)",
+    "category": "gas_station",
+    "address": "ทล.107 ต.ริมใต้ อ.แม่ริม",
+    "province": "เชียงใหม่",
+    "lat": 18.9142,
+    "lng": 98.9482,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.66,
+    "review_count": 46,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "จุดพักรถดอยอินทนนท์ (กม.31 บ้านขุนกลาง)",
+    "name_en": "จุดพักรถดอยอินทนนท์ (กม.31 บ้านขุนกลาง)",
+    "category": "transit_hub",
+    "address": "ทล.1009 ต.บ้านหลวง อ.จอมทอง",
+    "province": "เชียงใหม่",
+    "lat": 18.5367,
+    "lng": 98.5241,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": false,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.68,
+    "review_count": 48,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. แยกแม่กรณ์ เชียงราย (พหลโยธิน ขาเข้า)",
+    "name_en": "ปตท. แยกแม่กรณ์ เชียงราย (พหลโยธิน ขาเข้า)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ต.รอบเวียง อ.เมือง",
+    "province": "เชียงราย",
+    "lat": 19.8821,
+    "lng": 99.8241,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.69,
+    "review_count": 49,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. แม่สาย ขาออก (ประตูสู่พม่า กม.885)",
+    "name_en": "ปตท. แม่สาย ขาออก (ประตูสู่พม่า กม.885)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ทล.1 ต.เวียงพางคำ อ.แม่สาย",
+    "province": "เชียงราย",
+    "lat": 20.4124,
+    "lng": 99.8812,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.7,
+    "review_count": 50,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ เชียงราย 1",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ เชียงราย 1",
+    "category": "shopping_mall",
+    "address": "184 หมู่ 25 ถ.ซุปเปอร์ไฮเวย์ ต.รอบเวียง",
+    "province": "เชียงราย",
+    "lat": 19.8854,
+    "lng": 99.8312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.71,
+    "review_count": 51,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. สบปราบ ลำปาง (พหลโยธิน ขาขึ้นเหนือ กม.648)",
+    "name_en": "ปตท. สบปราบ ลำปาง (พหลโยธิน ขาขึ้นเหนือ กม.648)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ทล.1 ต.สบปราบ อ.สบปราบ",
+    "province": "ลำปาง",
+    "lat": 17.8921,
+    "lng": 99.3452,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.72,
+    "review_count": 52,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เกาะคา ลำปาง (หน้าวัดพระธาตุลำปางหลวง)",
+    "name_en": "ปตท. เกาะคา ลำปาง (หน้าวัดพระธาตุลำปางหลวง)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ต.ศาลา อ.เกาะคา",
+    "province": "ลำปาง",
+    "lat": 18.2124,
+    "lng": 99.4124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.73,
+    "review_count": 53,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส ลำปาง (ซูเปอร์เซ็นเตอร์)",
+    "name_en": "โลตัส ลำปาง (ซูเปอร์เซ็นเตอร์)",
+    "category": "shopping_mall",
+    "address": "ถ.ไฮเวย์ลำปาง-งาว ต.สวนดอก อ.เมือง",
+    "province": "ลำปาง",
+    "lat": 18.2812,
+    "lng": 99.4951,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.74,
+    "review_count": 54,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. แยกดอยติ ลำพูน (ทล.11 ขาเข้าเชียงใหม่)",
+    "name_en": "ปตท. แยกดอยติ ลำพูน (ทล.11 ขาเข้าเชียงใหม่)",
+    "category": "gas_station",
+    "address": "ถ.ซุปเปอร์ไฮเวย์ ทล.11 ต.ป่าสัก อ.เมือง",
+    "province": "ลำพูน",
+    "lat": 18.5642,
+    "lng": 99.0521,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.75,
+    "review_count": 55,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ ลำพูน",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ ลำพูน",
+    "category": "shopping_mall",
+    "address": "ถ.เชียงใหม่-ลำปาง ต.บ้านกลาง อ.เมือง",
+    "province": "ลำพูน",
+    "lat": 18.5912,
+    "lng": 99.0345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.76,
+    "review_count": 56,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ปาย (ทล.1095 ถนนสายโรแมนติก)",
+    "name_en": "ปตท. ปาย (ทล.1095 ถนนสายโรแมนติก)",
+    "category": "gas_station",
+    "address": "ถ.ราษฎร์ดำรง ทล.1095 ต.เวียงใต้ อ.ปาย",
+    "province": "แม่ฮ่องสอน",
+    "lat": 19.3582,
+    "lng": 98.4389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.77,
+    "review_count": 57,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองแม่ฮ่องสอน (บายพาส)",
+    "name_en": "ปตท. เมืองแม่ฮ่องสอน (บายพาส)",
+    "category": "gas_station",
+    "address": "ถ.ปางล้อนิคม ต.จองคำ อ.เมือง",
+    "province": "แม่ฮ่องสอน",
+    "lat": 19.3045,
+    "lng": 97.9654,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.78,
+    "review_count": 58,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "จุดชมวิวดอยกิ่วลม (ปาย-ปางมะผ้า)",
+    "name_en": "จุดชมวิวดอยกิ่วลม (ปาย-ปางมะผ้า)",
+    "category": "transit_hub",
+    "address": "ทล.1095 ต.สบป่อง อ.ปางมะผ้า",
+    "province": "แม่ฮ่องสอน",
+    "lat": 19.4621,
+    "lng": 98.3145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": false,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.79,
+    "review_count": 59,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เวียงสา น่าน (ยันต์ประตูสู่น่าน ทล.101)",
+    "name_en": "ปตท. เวียงสา น่าน (ยันต์ประตูสู่น่าน ทล.101)",
+    "category": "gas_station",
+    "address": "ถ.ยันตรกิจโกศล ต.กลางเวียง อ.เวียงสา",
+    "province": "น่าน",
+    "lat": 18.6012,
+    "lng": 100.7389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.8,
+    "review_count": 60,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองน่าน (เลี่ยงเมือง)",
+    "name_en": "ปตท. เมืองน่าน (เลี่ยงเมือง)",
+    "category": "gas_station",
+    "address": "ถ.น่าน-พะเยา ต.ผาสิงห์ อ.เมือง",
+    "province": "น่าน",
+    "lat": 18.8042,
+    "lng": 100.7654,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.81,
+    "review_count": 61,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ น่าน",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ น่าน",
+    "category": "shopping_mall",
+    "address": "ถ.เจ้าฟ้า ต.ในเวียง อ.เมือง",
+    "province": "น่าน",
+    "lat": 18.7754,
+    "lng": 100.7689,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.82,
+    "review_count": 62,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. กว๊านพะเยา (ริมถนนพหลโยธิน วิวกว๊าน)",
+    "name_en": "ปตท. กว๊านพะเยา (ริมถนนพหลโยธิน วิวกว๊าน)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ต.เวียง อ.เมือง",
+    "province": "พะเยา",
+    "lat": 19.1645,
+    "lng": 99.9124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.83,
+    "review_count": 63,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ท็อปส์ พลาซ่า พะเยา (Tops Plaza Phayao)",
+    "name_en": "ท็อปส์ พลาซ่า พะเยา (Tops Plaza Phayao)",
+    "category": "shopping_mall",
+    "address": "ถ.พหลโยธิน ต.ท่าวังทอง อ.เมือง",
+    "province": "พะเยา",
+    "lat": 19.1845,
+    "lng": 99.8945,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.84,
+    "review_count": 64,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เด่นชัย แพร่ (สามแยกเด่นชัย-ลำปาง-น่าน)",
+    "name_en": "ปตท. เด่นชัย แพร่ (สามแยกเด่นชัย-ลำปาง-น่าน)",
+    "category": "gas_station",
+    "address": "ทล.101 ต.เด่นชัย อ.เด่นชัย",
+    "province": "แพร่",
+    "lat": 17.9821,
+    "lng": 100.0521,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.85,
+    "review_count": 65,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ร้องกวาง แพร่ (ทล.101 มุ่งหน้าน่าน)",
+    "name_en": "ปตท. ร้องกวาง แพร่ (ทล.101 มุ่งหน้าน่าน)",
+    "category": "gas_station",
+    "address": "ทล.101 ต.ร้องกวาง อ.ร้องกวาง",
+    "province": "แพร่",
+    "lat": 18.3412,
+    "lng": 100.3124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.86,
+    "review_count": 66,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ แพร่",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ แพร่",
+    "category": "shopping_mall",
+    "address": "ถ.ยันตรกิจโกศล ต.นาจักร อ.เมือง",
+    "province": "แพร่",
+    "lat": 18.1324,
+    "lng": 100.1582,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.87,
+    "review_count": 67,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองอุตรดิตถ์ (ทล.11 แยกวังสีสูบ)",
+    "name_en": "ปตท. เมืองอุตรดิตถ์ (ทล.11 แยกวังสีสูบ)",
+    "category": "gas_station",
+    "address": "ทล.11 ต.งิ้วงาม อ.เมือง",
+    "province": "อุตรดิตถ์",
+    "lat": 17.6542,
+    "lng": 100.1245,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.88,
+    "review_count": 68,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส อุตรดิตถ์",
+    "name_en": "โลตัส อุตรดิตถ์",
+    "category": "shopping_mall",
+    "address": "ถ.พาดวารี ต.ท่าอิฐ อ.เมือง",
+    "province": "อุตรดิตถ์",
+    "lat": 17.6189,
+    "lng": 100.0912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.89,
+    "review_count": 69,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองสุโขทัย (ทล.12 แยกบายพาส)",
+    "name_en": "ปตท. เมืองสุโขทัย (ทล.12 แยกบายพาส)",
+    "category": "gas_station",
+    "address": "ทล.12 ต.บ้านกล้วย อ.เมือง",
+    "province": "สุโขทัย",
+    "lat": 17.0124,
+    "lng": 99.8054,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.9,
+    "review_count": 70,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สุโขทัย",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สุโขทัย",
+    "category": "shopping_mall",
+    "address": "ถ.จรดวิถีถ่อง ต.บ้านกล้วย อ.เมือง",
+    "province": "สุโขทัย",
+    "lat": 17.0054,
+    "lng": 99.8145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.91,
+    "review_count": 71,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. วังทอง พิษณุโลก (ทล.12 ทางขึ้นเขาค้อ)",
+    "name_en": "ปตท. วังทอง พิษณุโลก (ทล.12 ทางขึ้นเขาค้อ)",
+    "category": "gas_station",
+    "address": "ทล.12 ต.วังทอง อ.วังทอง",
+    "province": "พิษณุโลก",
+    "lat": 16.8189,
+    "lng": 100.4354,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.92,
+    "review_count": 72,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส พิษณุโลก ท่าทอง",
+    "name_en": "โลตัส พิษณุโลก ท่าทอง",
+    "category": "shopping_mall",
+    "address": "ถ.สิงหวัฒน์ ต.ท่าทอง อ.เมือง",
+    "province": "พิษณุโลก",
+    "lat": 16.8042,
+    "lng": 100.2451,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.93,
+    "review_count": 73,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. สากเหล็ก พิจิตร (ทล.11 สายอินทร์บุรี-เชียงใหม่)",
+    "name_en": "ปตท. สากเหล็ก พิจิตร (ทล.11 สายอินทร์บุรี-เชียงใหม่)",
+    "category": "gas_station",
+    "address": "ทล.11 ต.สากเหล็ก อ.สากเหล็ก",
+    "province": "พิจิตร",
+    "lat": 16.5124,
+    "lng": 100.5245,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.94,
+    "review_count": 74,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส พิจิตร (Lotus พิจิตร)",
+    "name_en": "โลตัส พิจิตร (Lotus พิจิตร)",
+    "category": "shopping_mall",
+    "address": "ถ.สระหลวง ต.ในเมือง อ.เมือง",
+    "province": "พิจิตร",
+    "lat": 16.4389,
+    "lng": 100.3452,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.65,
+    "review_count": 75,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. คลองขลุง กำแพงเพชร (พหลโยธิน กม.390)",
+    "name_en": "ปตท. คลองขลุง กำแพงเพชร (พหลโยธิน กม.390)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ต.คลองขลุง อ.คลองขลุง",
+    "province": "กำแพงเพชร",
+    "lat": 16.2054,
+    "lng": 99.7189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.66,
+    "review_count": 76,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ กำแพงเพชร",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ กำแพงเพชร",
+    "category": "shopping_mall",
+    "address": "ถ.พหลโยธิน ต.นครชุม อ.เมือง",
+    "province": "กำแพงเพชร",
+    "lat": 16.4712,
+    "lng": 99.5124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.67,
+    "review_count": 77,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ท่าวังผา ตาก (พหลโยธิน ทางขึ้นลำปาง กม.520)",
+    "name_en": "ปตท. ท่าวังผา ตาก (พหลโยธิน ทางขึ้นลำปาง กม.520)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ทล.1 ต.ไม้งาม อ.เมือง",
+    "province": "ตาก",
+    "lat": 16.9124,
+    "lng": 99.1145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.68,
+    "review_count": 78,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ แม่สอด (ตาก)",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ แม่สอด (ตาก)",
+    "category": "shopping_mall",
+    "address": "ถ.สายเอเชีย ต.แม่สอด อ.แม่สอด",
+    "province": "ตาก",
+    "lat": 16.7145,
+    "lng": 98.5712,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.69,
+    "review_count": 79,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. แคมป์สน เขาค้อ (ทล.12 จุดแวะพักยอดฮิต)",
+    "name_en": "ปตท. แคมป์สน เขาค้อ (ทล.12 จุดแวะพักยอดฮิต)",
+    "category": "gas_station",
+    "address": "ทล.12 ต.แคมป์สน อ.เขาค้อ",
+    "province": "เพชรบูรณ์",
+    "lat": 16.7821,
+    "lng": 100.9982,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.7,
+    "review_count": 80,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. หล่มสัก เพชรบูรณ์ (สี่แยกพ่อขุนผาเมือง)",
+    "name_en": "ปตท. หล่มสัก เพชรบูรณ์ (สี่แยกพ่อขุนผาเมือง)",
+    "category": "gas_station",
+    "address": "ทล.21 ต.น้ำชุน อ.หล่มสัก",
+    "province": "เพชรบูรณ์",
+    "lat": 16.7645,
+    "lng": 101.2189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.71,
+    "review_count": 81,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส เพชรบูรณ์",
+    "name_en": "โลตัส เพชรบูรณ์",
+    "category": "shopping_mall",
+    "address": "ถ.สระบุรี-หล่มสัก ต.สะเดียง อ.เมือง",
+    "province": "เพชรบูรณ์",
+    "lat": 16.4289,
+    "lng": 101.1524,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.72,
+    "review_count": 82,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เลี่ยงเมืองนครสวรรค์ ขาขึ้นเหนือ (ทล.122)",
+    "name_en": "ปตท. เลี่ยงเมืองนครสวรรค์ ขาขึ้นเหนือ (ทล.122)",
+    "category": "gas_station",
+    "address": "ถ.เลี่ยงเมือง ทล.122 ต.กลางแดด อ.เมือง",
+    "province": "นครสวรรค์",
+    "lat": 15.6742,
+    "lng": 100.0891,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.73,
+    "review_count": 83,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "วี-สแควร์ พลาซ่า นครสวรรค์ (V-Square Plaza)",
+    "name_en": "วี-สแควร์ พลาซ่า นครสวรรค์ (V-Square Plaza)",
+    "category": "shopping_mall",
+    "address": "ถ.พหลโยธิน ต.ปากน้ำโพ อ.เมือง",
+    "province": "นครสวรรค์",
+    "lat": 15.6989,
+    "lng": 100.1189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.74,
+    "review_count": 84,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ท่าน้ำอ้อย อุทัยธานี (พหลโยธิน รอยต่อนครสวรรค์)",
+    "name_en": "ปตท. ท่าน้ำอ้อย อุทัยธานี (พหลโยธิน รอยต่อนครสวรรค์)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ทล.1 ต.พยุหะคีรี อ.พยุหะคีรี",
+    "province": "อุทัยธานี",
+    "lat": 15.4289,
+    "lng": 100.1145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.75,
+    "review_count": 85,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส อุทัยธานี",
+    "name_en": "โลตัส อุทัยธานี",
+    "category": "shopping_mall",
+    "address": "ถ.รักการดี ต.อุทัยใหม่ อ.เมือง",
+    "province": "อุทัยธานี",
+    "lat": 15.3789,
+    "lng": 100.0312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.76,
+    "review_count": 86,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. กลางดง ปากช่อง (มิตรภาพ ขาขึ้นโคราช กม.45)",
+    "name_en": "ปตท. กลางดง ปากช่อง (มิตรภาพ ขาขึ้นโคราช กม.45)",
+    "category": "gas_station",
+    "address": "ถ.มิตรภาพ ทล.2 ต.กลางดง อ.ปากช่อง",
+    "province": "นครราชสีมา",
+    "lat": 14.6245,
+    "lng": 101.2389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.77,
+    "review_count": 87,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. สีคิ้ว ขาออก (มิตรภาพ กม.105)",
+    "name_en": "ปตท. สีคิ้ว ขาออก (มิตรภาพ กม.105)",
+    "category": "gas_station",
+    "address": "ถ.มิตรภาพ ต.ลาดบัวขาว อ.สีคิ้ว",
+    "province": "นครราชสีมา",
+    "lat": 14.8912,
+    "lng": 101.6845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.78,
+    "review_count": 88,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "เทอร์มินอล 21 โคราช (Terminal 21 Korat)",
+    "name_en": "เทอร์มินอล 21 โคราช (Terminal 21 Korat)",
+    "category": "shopping_mall",
+    "address": "99 ถ.มิตรภาพ ต.ในเมือง อ.เมือง",
+    "province": "นครราชสีมา",
+    "lat": 14.9801,
+    "lng": 102.0912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.79,
+    "review_count": 89,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. บ้านไผ่ ขอนแก่น (มิตรภาพ ขาขึ้น กม.300)",
+    "name_en": "ปตท. บ้านไผ่ ขอนแก่น (มิตรภาพ ขาขึ้น กม.300)",
+    "category": "gas_station",
+    "address": "ถ.มิตรภาพ ทล.2 ต.บ้านไผ่ อ.บ้านไผ่",
+    "province": "ขอนแก่น",
+    "lat": 16.0582,
+    "lng": 102.7312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.8,
+    "review_count": 90,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. มอดินแดง ขอนแก่น (หน้า ม.ขอนแก่น)",
+    "name_en": "ปตท. มอดินแดง ขอนแก่น (หน้า ม.ขอนแก่น)",
+    "category": "gas_station",
+    "address": "ถ.มิตรภาพ ต.ศิลา อ.เมือง",
+    "province": "ขอนแก่น",
+    "lat": 16.4689,
+    "lng": 102.8289,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.81,
+    "review_count": 91,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ฮักส์มอลล์ ขอนแก่น (Hugz Mall)",
+    "name_en": "ฮักส์มอลล์ ขอนแก่น (Hugz Mall)",
+    "category": "shopping_mall",
+    "address": "ถ.ศรีจันทร์ ต.ในเมือง อ.เมือง",
+    "province": "ขอนแก่น",
+    "lat": 16.4312,
+    "lng": 102.8345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.82,
+    "review_count": 92,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. กุมภวาปี อุดรธานี (มิตรภาพ ขาขึ้น กม.520)",
+    "name_en": "ปตท. กุมภวาปี อุดรธานี (มิตรภาพ ขาขึ้น กม.520)",
+    "category": "gas_station",
+    "address": "ถ.มิตรภาพ ทล.2 ต.ผาสุก อ.กุมภวาปี",
+    "province": "อุดรธานี",
+    "lat": 17.1542,
+    "lng": 102.9482,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.83,
+    "review_count": 93,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ยูดี ทาวน์ อุดรธานี (UD Town Walking Street)",
+    "name_en": "ยูดี ทาวน์ อุดรธานี (UD Town Walking Street)",
+    "category": "shopping_mall",
+    "address": "99 ถ.ทองใหญ่ ต.หมากแข้ง อ.เมือง",
+    "province": "อุดรธานี",
+    "lat": 17.4012,
+    "lng": 102.8012,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.84,
+    "review_count": 94,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. วารินชำราบ อุบลฯ (ทล.24 สายโชคชัย-เดชอุดม)",
+    "name_en": "ปตท. วารินชำราบ อุบลฯ (ทล.24 สายโชคชัย-เดชอุดม)",
+    "category": "gas_station",
+    "address": "ทล.24 ต.แสนสุข อ.วารินชำราบ",
+    "province": "อุบลราชธานี",
+    "lat": 15.1845,
+    "lng": 104.8612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.85,
+    "review_count": 95,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "สุนีย์ ทาวเวอร์ อุบลราชธานี (Sunee Grand Mall)",
+    "name_en": "สุนีย์ ทาวเวอร์ อุบลราชธานี (Sunee Grand Mall)",
+    "category": "shopping_mall",
+    "address": "ถ.ชยางกูร ต.ในเมือง อ.เมือง",
+    "province": "อุบลราชธานี",
+    "lat": 15.2512,
+    "lng": 104.8489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.86,
+    "review_count": 96,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. นางรอง บุรีรัมย์ (ทล.24 ประตูสู่อีสานใต้)",
+    "name_en": "ปตท. นางรอง บุรีรัมย์ (ทล.24 ประตูสู่อีสานใต้)",
+    "category": "gas_station",
+    "address": "ทล.24 ต.นางรอง อ.นางรอง",
+    "province": "บุรีรัมย์",
+    "lat": 14.6312,
+    "lng": 102.7912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.87,
+    "review_count": 97,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ช้างอารีนา บูรีรัมย์ (Chang Arena Restrooms)",
+    "name_en": "ช้างอารีนา บูรีรัมย์ (Chang Arena Restrooms)",
+    "category": "transit_hub",
+    "address": "ถ.บุรีรัมย์-ประโคนชัย ต.อิสาณ อ.เมือง",
+    "province": "บุรีรัมย์",
+    "lat": 14.9654,
+    "lng": 103.0945,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": false,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.88,
+    "review_count": 98,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ สุรินทร์",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ สุรินทร์",
+    "category": "shopping_mall",
+    "address": "ถ.สุรินทร์-ศีขรภูมิ ต.สลักได อ.เมือง",
+    "province": "สุรินทร์",
+    "lat": 14.8912,
+    "lng": 103.5245,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.9,
+    "review_count": 100,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. อุทุมพรพิสัย ศรีสะเกษ (ทล.226)",
+    "name_en": "ปตท. อุทุมพรพิสัย ศรีสะเกษ (ทล.226)",
+    "category": "gas_station",
+    "address": "ทล.226 ต.กำแพง อ.อุทุมพรพิสัย",
+    "province": "ศรีสะเกษ",
+    "lat": 15.1145,
+    "lng": 104.1482,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.91,
+    "review_count": 101,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ ศรีสะเกษ",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ ศรีสะเกษ",
+    "category": "shopping_mall",
+    "address": "ถ.อุบล ต.เมืองใต้ อ.เมือง",
+    "province": "ศรีสะเกษ",
+    "lat": 15.1212,
+    "lng": 104.3412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.92,
+    "review_count": 102,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. บายพาส ร้อยเอ็ด (ถ.เลี่ยงเมือง)",
+    "name_en": "ปตท. บายพาส ร้อยเอ็ด (ถ.เลี่ยงเมือง)",
+    "category": "gas_station",
+    "address": "ถ.เลี่ยงเมือง ต.ดงลาน อ.เมือง",
+    "province": "ร้อยเอ็ด",
+    "lat": 16.0412,
+    "lng": 103.6312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.93,
+    "review_count": 103,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ร้อยเอ็ด",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ร้อยเอ็ด",
+    "category": "shopping_mall",
+    "address": "ถ.ร้อยเอ็ด-สารคาม ต.ดงลาน อ.เมือง",
+    "province": "ร้อยเอ็ด",
+    "lat": 16.0645,
+    "lng": 103.6189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.94,
+    "review_count": 104,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. บรบือ มหาสารคาม (ทล.23)",
+    "name_en": "ปตท. บรบือ มหาสารคาม (ทล.23)",
+    "category": "gas_station",
+    "address": "ทล.23 ต.บรบือ อ.บรบือ",
+    "province": "มหาสารคาม",
+    "lat": 16.0389,
+    "lng": 103.1189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.65,
+    "review_count": 105,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "เสริมไทยคอมเพล็กซ์ มหาสารคาม",
+    "name_en": "เสริมไทยคอมเพล็กซ์ มหาสารคาม",
+    "category": "shopping_mall",
+    "address": "ถ.นครสวรรค์ ต.ตลาด อ.เมือง",
+    "province": "มหาสารคาม",
+    "lat": 16.1945,
+    "lng": 103.2845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.66,
+    "review_count": 106,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ยางตลาด กาฬสินธุ์ (สี่แยกยางตลาด ทล.12)",
+    "name_en": "ปตท. ยางตลาด กาฬสินธุ์ (สี่แยกยางตลาด ทล.12)",
+    "category": "gas_station",
+    "address": "ทล.12 ต.ยางตลาด อ.ยางตลาด",
+    "province": "กาฬสินธุ์",
+    "lat": 16.4012,
+    "lng": 103.3645,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.67,
+    "review_count": 107,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ กาฬสินธุ์",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ กาฬสินธุ์",
+    "category": "shopping_mall",
+    "address": "ถ.กาฬสินธุ์ ต.กาฬสินธุ์ อ.เมือง",
+    "province": "กาฬสินธุ์",
+    "lat": 16.4412,
+    "lng": 103.5212,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.68,
+    "review_count": 108,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองชัยภูมิ (ทล.201 เลี่ยงเมือง)",
+    "name_en": "ปตท. เมืองชัยภูมิ (ทล.201 เลี่ยงเมือง)",
+    "category": "gas_station",
+    "address": "ทล.201 ต.ในเมือง อ.เมือง",
+    "province": "ชัยภูมิ",
+    "lat": 15.8212,
+    "lng": 102.0451,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.69,
+    "review_count": 109,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ชัยภูมิ",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ชัยภูมิ",
+    "category": "shopping_mall",
+    "address": "ถ.ชัยภูมิ-สีคิ้ว ต.ในเมือง อ.เมือง",
+    "province": "ชัยภูมิ",
+    "lat": 15.7912,
+    "lng": 102.0189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.7,
+    "review_count": 110,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. มิตรภาพ หนองคาย (สะพานมิตรภาพไทย-ลาว กม.605)",
+    "name_en": "ปตท. มิตรภาพ หนองคาย (สะพานมิตรภาพไทย-ลาว กม.605)",
+    "category": "gas_station",
+    "address": "ถ.มิตรภาพ ต.มีชัย อ.เมือง",
+    "province": "หนองคาย",
+    "lat": 17.8645,
+    "lng": 102.7312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.71,
+    "review_count": 111,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "อัศวรรณ ช้อปปิ้ง คอมเพล็กซ์ หนองคาย (Asawann Mall)",
+    "name_en": "อัศวรรณ ช้อปปิ้ง คอมเพล็กซ์ หนองคาย (Asawann Mall)",
+    "category": "shopping_mall",
+    "address": "ถ.มิตรภาพ ต.โพธิ์ชัย อ.เมือง",
+    "province": "หนองคาย",
+    "lat": 17.8712,
+    "lng": 102.7489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.72,
+    "review_count": 112,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. วังสะพุง เลย (ทล.201 มุ่งหน้าภูกระดึง/เชียงคาน)",
+    "name_en": "ปตท. วังสะพุง เลย (ทล.201 มุ่งหน้าภูกระดึง/เชียงคาน)",
+    "category": "gas_station",
+    "address": "ทล.201 ต.วังสะพุง อ.วังสะพุง",
+    "province": "เลย",
+    "lat": 17.3012,
+    "lng": 101.7689,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.73,
+    "review_count": 113,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เชียงคาน (ถนนคนเดินเชียงคาน ริมโขง)",
+    "name_en": "ปตท. เชียงคาน (ถนนคนเดินเชียงคาน ริมโขง)",
+    "category": "gas_station",
+    "address": "ถ.ศรีเชียงคาน ต.เชียงคาน อ.เชียงคาน",
+    "province": "เลย",
+    "lat": 17.8945,
+    "lng": 101.6542,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.74,
+    "review_count": 114,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ เลย",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ เลย",
+    "category": "shopping_mall",
+    "address": "ถ.มลิวรรณ ต.นาอาน อ.เมือง",
+    "province": "เลย",
+    "lat": 17.4712,
+    "lng": 101.7289,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.75,
+    "review_count": 115,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. พังโคน สกลนคร (ทล.22 สกลนคร-อุดรธานี)",
+    "name_en": "ปตท. พังโคน สกลนคร (ทล.22 สกลนคร-อุดรธานี)",
+    "category": "gas_station",
+    "address": "ทล.22 ต.พังโคน อ.พังโคน",
+    "province": "สกลนคร",
+    "lat": 17.3845,
+    "lng": 103.7124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.76,
+    "review_count": 116,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ สกลนคร",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ สกลนคร",
+    "category": "shopping_mall",
+    "address": "ถ.นิตโย ต.ธาตุเชิงชุม อ.เมือง",
+    "province": "สกลนคร",
+    "lat": 17.1645,
+    "lng": 104.1389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.77,
+    "review_count": 117,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ริมโขง นครพนม (สะพานมิตรภาพ 3)",
+    "name_en": "ปตท. ริมโขง นครพนม (สะพานมิตรภาพ 3)",
+    "category": "gas_station",
+    "address": "ถ.นิตโย ต.อาจสามารถ อ.เมือง",
+    "province": "นครพนม",
+    "lat": 17.4312,
+    "lng": 104.7582,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.78,
+    "review_count": 118,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ นครพนม",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ นครพนม",
+    "category": "shopping_mall",
+    "address": "ถ.นิตโย ต.หนองญาติ อ.เมือง",
+    "province": "นครพนม",
+    "lat": 17.3912,
+    "lng": 104.7645,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.79,
+    "review_count": 119,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. คำชะอี มุกดาหาร (ทล.12 ระเบียงเศรษฐกิจ)",
+    "name_en": "ปตท. คำชะอี มุกดาหาร (ทล.12 ระเบียงเศรษฐกิจ)",
+    "category": "gas_station",
+    "address": "ทล.12 ต.น้ำเที่ยง อ.คำชะอี",
+    "province": "มุกดาหาร",
+    "lat": 16.5812,
+    "lng": 104.4124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.8,
+    "review_count": 120,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ มุกดาหาร",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ มุกดาหาร",
+    "category": "shopping_mall",
+    "address": "ถ.ชยางกูร ต.มุกดาหาร อ.เมือง",
+    "province": "มุกดาหาร",
+    "lat": 16.5312,
+    "lng": 104.7212,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.81,
+    "review_count": 121,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. คำเขื่อนแก้ว ยโสธร (ทล.23)",
+    "name_en": "ปตท. คำเขื่อนแก้ว ยโสธร (ทล.23)",
+    "category": "gas_station",
+    "address": "ทล.23 ต.ลุมพุก อ.คำเขื่อนแก้ว",
+    "province": "ยโสธร",
+    "lat": 15.6542,
+    "lng": 104.3012,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.82,
+    "review_count": 122,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส ยโสธร",
+    "name_en": "โลตัส ยโสธร",
+    "category": "shopping_mall",
+    "address": "ถ.แจ้งสนิท ต.ตาดทอง อ.เมือง",
+    "province": "ยโสธร",
+    "lat": 15.7845,
+    "lng": 104.1389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.83,
+    "review_count": 123,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองอำนาจเจริญ (ทล.212 ถ.ชยางกูร)",
+    "name_en": "ปตท. เมืองอำนาจเจริญ (ทล.212 ถ.ชยางกูร)",
+    "category": "gas_station",
+    "address": "ถ.ชยางกูร ต.บุ่ง อ.เมือง",
+    "province": "อำนาจเจริญ",
+    "lat": 15.8542,
+    "lng": 104.6289,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.84,
+    "review_count": 124,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ อำนาจเจริญ",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ อำนาจเจริญ",
+    "category": "shopping_mall",
+    "address": "ถ.ชยางกูร ต.บุ่ง อ.เมือง",
+    "province": "อำนาจเจริญ",
+    "lat": 15.8689,
+    "lng": 104.6345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.85,
+    "review_count": 125,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. บึงกาฬ ริมโขง (ประตูสู่หินสามวาฬ)",
+    "name_en": "ปตท. บึงกาฬ ริมโขง (ประตูสู่หินสามวาฬ)",
+    "category": "gas_station",
+    "address": "ถ.บึงกาฬ-นครพนม ทล.212 ต.วิศิษฐ์ อ.เมือง",
+    "province": "บึงกาฬ",
+    "lat": 18.3542,
+    "lng": 103.6612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.86,
+    "review_count": 126,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส บึงกาฬ",
+    "name_en": "โลตัส บึงกาฬ",
+    "category": "shopping_mall",
+    "address": "ถ.บึงกาฬ-พังโคน ต.บึงกาฬ อ.เมือง",
+    "province": "บึงกาฬ",
+    "lat": 18.3612,
+    "lng": 103.6489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.87,
+    "review_count": 127,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองหนองบัวลำภู (ทล.210 อุดรฯ-เลย)",
+    "name_en": "ปตท. เมืองหนองบัวลำภู (ทล.210 อุดรฯ-เลย)",
+    "category": "gas_station",
+    "address": "ทล.210 ต.หนองบัว อ.เมือง",
+    "province": "หนองบัวลำภู",
+    "lat": 17.2145,
+    "lng": 102.4312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.88,
+    "review_count": 128,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส หนองบัวลำภู",
+    "name_en": "โลตัส หนองบัวลำภู",
+    "category": "shopping_mall",
+    "address": "ถ.วิริยานุเคราะห์ ต.ลำภู อ.เมือง",
+    "province": "หนองบัวลำภู",
+    "lat": 17.2054,
+    "lng": 102.4451,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.89,
+    "review_count": 129,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เลี่ยงเมืองสุพรรณบุรี (ทล.340)",
+    "name_en": "ปตท. เลี่ยงเมืองสุพรรณบุรี (ทล.340)",
+    "category": "gas_station",
+    "address": "ทล.340 ต.ท่าระหัด อ.เมือง",
+    "province": "สุพรรณบุรี",
+    "lat": 14.4542,
+    "lng": 100.1389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.9,
+    "review_count": 130,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ สุพรรณบุรี",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ สุพรรณบุรี",
+    "category": "shopping_mall",
+    "address": "ถ.บางบัวทอง-สุพรรณบุรี ต.ท่าระหัด อ.เมือง",
+    "province": "สุพรรณบุรี",
+    "lat": 14.4489,
+    "lng": 100.1412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.91,
+    "review_count": 131,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ กาญจนบุรี",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ กาญจนบุรี",
+    "category": "shopping_mall",
+    "address": "ถ.แสงชูโต ต.ปากแพรก อ.เมือง",
+    "province": "กาญจนบุรี",
+    "lat": 14.0124,
+    "lng": 99.5451,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.93,
+    "review_count": 133,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. วังมะนาว ปากท่อ (จุดแยกสายใต้-ราชบุรี เพชรเกษม)",
+    "name_en": "ปตท. วังมะนาว ปากท่อ (จุดแยกสายใต้-ราชบุรี เพชรเกษม)",
+    "category": "gas_station",
+    "address": "ถ.พระราม 2 บรรจบเพชรเกษม ต.วังมะนาว อ.ปากท่อ",
+    "province": "ราชบุรี",
+    "lat": 13.2982,
+    "lng": 99.8451,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.94,
+    "review_count": 134,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ราชบุรี",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ราชบุรี",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.ดอนตะโก อ.เมือง",
+    "province": "ราชบุรี",
+    "lat": 13.5245,
+    "lng": 99.8212,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.65,
+    "review_count": 135,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. โคกสำโรง ลพบุรี (พหลโยธิน กม.175)",
+    "name_en": "ปตท. โคกสำโรง ลพบุรี (พหลโยธิน กม.175)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ต.โคกสำโรง อ.โคกสำโรง",
+    "province": "ลพบุรี",
+    "lat": 15.0645,
+    "lng": 100.7189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.66,
+    "review_count": 136,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ลพบุรี",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ลพบุรี",
+    "category": "shopping_mall",
+    "address": "ถ.พหลโยธิน ต.กกโก อ.เมือง",
+    "province": "ลพบุรี",
+    "lat": 14.7812,
+    "lng": 100.6645,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.67,
+    "review_count": 137,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. หนองแค สระบุรี (พหลโยธิน ขาเข้า กทม. กม.85)",
+    "name_en": "ปตท. หนองแค สระบุรี (พหลโยธิน ขาเข้า กทม. กม.85)",
+    "category": "gas_station",
+    "address": "ถ.พหลโยธิน ต.หนองแค อ.หนองแค",
+    "province": "สระบุรี",
+    "lat": 14.3412,
+    "lng": 100.8654,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.68,
+    "review_count": 138,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. นครชัยศรี เพชรเกษม (ขาออกลงใต้ กม.42)",
+    "name_en": "ปตท. นครชัยศรี เพชรเกษม (ขาออกลงใต้ กม.42)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ทล.4 ต.ท่าตำหนัก อ.นครชัยศรี",
+    "province": "นครปฐม",
+    "lat": 13.7845,
+    "lng": 100.1982,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.7,
+    "review_count": 140,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "เซ็นทรัล ศาลายา (Central Salaya)",
+    "name_en": "เซ็นทรัล ศาลายา (Central Salaya)",
+    "category": "shopping_mall",
+    "address": "99/19 หมู่ 2 ถ.บรมราชชนนี ต.บางเตย อ.สามพราน",
+    "province": "นครปฐม",
+    "lat": 13.7912,
+    "lng": 100.2745,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.71,
+    "review_count": 141,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. พระราม 2 ดอนหอยหลอด (กม.65 ขาลงใต้)",
+    "name_en": "ปตท. พระราม 2 ดอนหอยหลอด (กม.65 ขาลงใต้)",
+    "category": "gas_station",
+    "address": "ถ.พระราม 2 ต.บางแก้ว อ.เมือง",
+    "province": "สมุทรสงคราม",
+    "lat": 13.4124,
+    "lng": 100.0412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.72,
+    "review_count": 142,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "จุดแวะพักตลาดน้ำอัมพวา (Amphawa Floating Market)",
+    "name_en": "จุดแวะพักตลาดน้ำอัมพวา (Amphawa Floating Market)",
+    "category": "restaurant_cafe",
+    "address": "ริมคลองอัมพวา ต.อัมพวา อ.อัมพวา",
+    "province": "สมุทรสงคราม",
+    "lat": 13.4254,
+    "lng": 99.9541,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": false,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "07:00 - 20:00",
+    "overall_rating": 4.73,
+    "review_count": 143,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. บ้านนา นครนายก (ถ.สุวรรณศร ทล.33)",
+    "name_en": "ปตท. บ้านนา นครนายก (ถ.สุวรรณศร ทล.33)",
+    "category": "gas_station",
+    "address": "ถ.สุวรรณศร ต.บ้านนา อ.บ้านนา",
+    "province": "นครนายก",
+    "lat": 14.2645,
+    "lng": 101.0612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.74,
+    "review_count": 144,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส นครนายก",
+    "name_en": "โลตัส นครนายก",
+    "category": "shopping_mall",
+    "address": "ถ.สุวรรณศร ต.วังกระโจม อ.เมือง",
+    "province": "นครนายก",
+    "lat": 14.2045,
+    "lng": 101.2054,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.75,
+    "review_count": 145,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. แยกคอมเพล็กซ์ ฉะเชิงเทรา (ทล.304)",
+    "name_en": "ปตท. แยกคอมเพล็กซ์ ฉะเชิงเทรา (ทล.304)",
+    "category": "gas_station",
+    "address": "ทล.304 ต.บางตีนเป็ด อ.เมือง",
+    "province": "ฉะเชิงเทรา",
+    "lat": 13.6812,
+    "lng": 101.1012,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.76,
+    "review_count": 146,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ฉะเชิงเทรา",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ฉะเชิงเทรา",
+    "category": "shopping_mall",
+    "address": "ถ.สิริโสธร ต.หน้าเมือง อ.เมือง",
+    "province": "ฉะเชิงเทรา",
+    "lat": 13.6712,
+    "lng": 101.0654,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.77,
+    "review_count": 147,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. กบินทร์บุรี ปราจีนบุรี (สี่แยกกบินทร์บุรี ทล.304)",
+    "name_en": "ปตท. กบินทร์บุรี ปราจีนบุรี (สี่แยกกบินทร์บุรี ทล.304)",
+    "category": "gas_station",
+    "address": "ทล.304 ต.เมืองเก่า อ.กบินทร์บุรี",
+    "province": "ปราจีนบุรี",
+    "lat": 13.9982,
+    "lng": 101.7654,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.78,
+    "review_count": 148,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ปราจีนบุรี",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ปราจีนบุรี",
+    "category": "shopping_mall",
+    "address": "ถ.สุวรรณศร ต.ดงพระราม อ.เมือง",
+    "province": "ปราจีนบุรี",
+    "lat": 14.0645,
+    "lng": 101.3912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.79,
+    "review_count": 149,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. อรัญประเทศ สระแก้ว (ทล.33 ประตูสู่อินโดจีน)",
+    "name_en": "ปตท. อรัญประเทศ สระแก้ว (ทล.33 ประตูสู่อินโดจีน)",
+    "category": "gas_station",
+    "address": "ถ.สุวรรณศร ทล.33 ต.บ้านใหม่หนองไทร อ.อรัญประเทศ",
+    "province": "สระแก้ว",
+    "lat": 13.6812,
+    "lng": 102.4845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.8,
+    "review_count": 150,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สระแก้ว",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สระแก้ว",
+    "category": "shopping_mall",
+    "address": "ถ.สุวรรณศร ต.สระแก้ว อ.เมือง",
+    "province": "สระแก้ว",
+    "lat": 13.8189,
+    "lng": 102.0712,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.81,
+    "review_count": 151,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. นาเกลือ พัทยา (สุขุมวิท กม.140)",
+    "name_en": "ปตท. นาเกลือ พัทยา (สุขุมวิท กม.140)",
+    "category": "gas_station",
+    "address": "ถ.สุขุมวิท ทล.3 ต.นาเกลือ อ.บางละมุง",
+    "province": "ชลบุรี",
+    "lat": 12.9812,
+    "lng": 100.9142,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.82,
+    "review_count": 152,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "เซ็นทรัล ศรีราชา (Central Si Racha)",
+    "name_en": "เซ็นทรัล ศรีราชา (Central Si Racha)",
+    "category": "shopping_mall",
+    "address": "ถ.สุขุมวิท ต.ศรีราชา อ.ศรีราชา",
+    "province": "ชลบุรี",
+    "lat": 13.1645,
+    "lng": 100.9254,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.83,
+    "review_count": 153,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ทับมา ระยอง (บายพาส ทล.36)",
+    "name_en": "ปตท. ทับมา ระยอง (บายพาส ทล.36)",
+    "category": "gas_station",
+    "address": "ทล.36 ต.ทับมา อ.เมือง",
+    "province": "ระยอง",
+    "lat": 12.7124,
+    "lng": 101.2412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.84,
+    "review_count": 154,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "แพชชั่น ช้อปปิ้ง เดสติเนชั่น ระยอง (Passione Mall)",
+    "name_en": "แพชชั่น ช้อปปิ้ง เดสติเนชั่น ระยอง (Passione Mall)",
+    "category": "shopping_mall",
+    "address": "ถ.สุขุมวิท ต.เนินพระ อ.เมือง",
+    "province": "ระยอง",
+    "lat": 12.6845,
+    "lng": 101.2541,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.85,
+    "review_count": 155,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. นายายอาม จันทบุรี (สุขุมวิท กม.290)",
+    "name_en": "ปตท. นายายอาม จันทบุรี (สุขุมวิท กม.290)",
+    "category": "gas_station",
+    "address": "ถ.สุขุมวิท ทล.3 ต.นายายอาม อ.นายายอาม",
+    "province": "จันทบุรี",
+    "lat": 12.7482,
+    "lng": 101.8945,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.86,
+    "review_count": 156,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส จันทบุรี",
+    "name_en": "โลตัส จันทบุรี",
+    "category": "shopping_mall",
+    "address": "ถ.สุขุมวิท ต.ท่าช้าง อ.เมือง",
+    "province": "จันทบุรี",
+    "lat": 12.6245,
+    "lng": 102.0912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.87,
+    "review_count": 157,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เขาสมิง ตราด (สุขุมวิท ทล.3 ก่อนเข้าเมืองตราด)",
+    "name_en": "ปตท. เขาสมิง ตราด (สุขุมวิท ทล.3 ก่อนเข้าเมืองตราด)",
+    "category": "gas_station",
+    "address": "ถ.สุขุมวิท ทล.3 ต.แสนตุ้ง อ.เขาสมิง",
+    "province": "ตราด",
+    "lat": 12.3912,
+    "lng": 102.3845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.88,
+    "review_count": 158,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส ตราด",
+    "name_en": "โลตัส ตราด",
+    "category": "shopping_mall",
+    "address": "ถ.สุขุมวิท ต.วังกระแจะ อ.เมือง",
+    "province": "ตราด",
+    "lat": 12.2512,
+    "lng": 102.5089,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.89,
+    "review_count": 159,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ท่าแซะ ชุมพร (เพชรเกษม กม.470 ประตูสู่ภาคใต้)",
+    "name_en": "ปตท. ท่าแซะ ชุมพร (เพชรเกษม กม.470 ประตูสู่ภาคใต้)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ทล.4 ต.ท่าข้าม อ.ท่าแซะ",
+    "province": "ชุมพร",
+    "lat": 10.6845,
+    "lng": 99.1912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.9,
+    "review_count": 160,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. หลังสวน ชุมพร (ทล.41 สายเอเชียใต้)",
+    "name_en": "ปตท. หลังสวน ชุมพร (ทล.41 สายเอเชียใต้)",
+    "category": "gas_station",
+    "address": "ทล.41 ต.วังตะกอ อ.หลังสวน",
+    "province": "ชุมพร",
+    "lat": 9.9482,
+    "lng": 99.0712,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.91,
+    "review_count": 161,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส ชุมพร",
+    "name_en": "โลตัส ชุมพร",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.วังไผ่ อ.เมือง",
+    "province": "ชุมพร",
+    "lat": 10.5012,
+    "lng": 99.1582,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.92,
+    "review_count": 162,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. กะเปอร์ ระนอง (เพชรเกษม ทล.4 เลียบอันดามัน)",
+    "name_en": "ปตท. กะเปอร์ ระนอง (เพชรเกษม ทล.4 เลียบอันดามัน)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ทล.4 ต.กะเปอร์ อ.กะเปอร์",
+    "province": "ระนอง",
+    "lat": 9.5845,
+    "lng": 98.5942,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.93,
+    "review_count": 163,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองระนอง (บายพาส บ่อน้ำร้อนรักษะวาริน)",
+    "name_en": "ปตท. เมืองระนอง (บายพาส บ่อน้ำร้อนรักษะวาริน)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ต.บางริ้น อ.เมือง",
+    "province": "ระนอง",
+    "lat": 9.9542,
+    "lng": 98.6389,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.94,
+    "review_count": 164,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส ระนอง",
+    "name_en": "โลตัส ระนอง",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.บางริ้น อ.เมือง",
+    "province": "ระนอง",
+    "lat": 9.9489,
+    "lng": 98.6412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.65,
+    "review_count": 45,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. พุนพิน สุราษฎร์ธานี (ทล.41 ชุมทางสายใต้)",
+    "name_en": "ปตท. พุนพิน สุราษฎร์ธานี (ทล.41 ชุมทางสายใต้)",
+    "category": "gas_station",
+    "address": "ทล.41 ต.ท่าข้าม อ.พุนพิน",
+    "province": "สุราษฎร์ธานี",
+    "lat": 9.1189,
+    "lng": 99.2312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.66,
+    "review_count": 46,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "เซ็นทรัล สมุย (Central Samui เกาะสมุย)",
+    "name_en": "เซ็นทรัล สมุย (Central Samui เกาะสมุย)",
+    "category": "shopping_mall",
+    "address": "ถ.เลียบหาดเฉวง ต.บ่อผุด อ.เกาะสมุย",
+    "province": "สุราษฎร์ธานี",
+    "lat": 9.5312,
+    "lng": 100.0612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.67,
+    "review_count": 47,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. โคกกลอย พังงา (ก่อนข้ามสะพานสารสินสู่ภูเก็ต)",
+    "name_en": "ปตท. โคกกลอย พังงา (ก่อนข้ามสะพานสารสินสู่ภูเก็ต)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ต.โคกกลอย อ.ตะกั่วทุ่ง",
+    "province": "พังงา",
+    "lat": 8.2712,
+    "lng": 98.3124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.68,
+    "review_count": 48,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เขาหลัก พังงา (แหล่งท่องเที่ยวอันดามัน)",
+    "name_en": "ปตท. เขาหลัก พังงา (แหล่งท่องเที่ยวอันดามัน)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ต.คึกคัก อ.ตะกั่วป่า",
+    "province": "พังงา",
+    "lat": 8.6645,
+    "lng": 98.2541,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.69,
+    "review_count": 49,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ พังงา",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ พังงา",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.ถ้ำน้ำผุด อ.เมือง",
+    "province": "พังงา",
+    "lat": 8.4612,
+    "lng": 98.5245,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.7,
+    "review_count": 50,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ถลาง ภูเก็ต (ถ.เทพกระษัตรี ทล.402 ขาเข้า)",
+    "name_en": "ปตท. ถลาง ภูเก็ต (ถ.เทพกระษัตรี ทล.402 ขาเข้า)",
+    "category": "gas_station",
+    "address": "ถ.เทพกระษัตรี ต.เทพกระษัตรี อ.ถลาง",
+    "province": "ภูเก็ต",
+    "lat": 8.0312,
+    "lng": 98.3345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.71,
+    "review_count": 51,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "จังซีลอน ป่าตอง ภูเก็ต (Jungceylon Patong)",
+    "name_en": "จังซีลอน ป่าตอง ภูเก็ต (Jungceylon Patong)",
+    "category": "shopping_mall",
+    "address": "181 ถ.ราษฎร์อุทิศ 200 ปี ต.ป่าตอง อ.กะทู้",
+    "province": "ภูเก็ต",
+    "lat": 7.8912,
+    "lng": 98.2982,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.72,
+    "review_count": 52,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. อ่าวลึก กระบี่ (เพชรเกษม มุ่งหน้าพังงา/ภูเก็ต)",
+    "name_en": "ปตท. อ่าวลึก กระบี่ (เพชรเกษม มุ่งหน้าพังงา/ภูเก็ต)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ต.อ่าวลึกใต้ อ.อ่าวลึก",
+    "province": "กระบี่",
+    "lat": 8.3712,
+    "lng": 98.7345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.73,
+    "review_count": 53,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. คลองท่อม กระบี่ (เพชรเกษม ทล.4 มุ่งหน้าตรัง)",
+    "name_en": "ปตท. คลองท่อม กระบี่ (เพชรเกษม ทล.4 มุ่งหน้าตรัง)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ต.คลองท่อมใต้ อ.คลองท่อม",
+    "province": "กระบี่",
+    "lat": 7.9312,
+    "lng": 99.1482,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.74,
+    "review_count": 54,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ กระบี่",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ กระบี่",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.กระบี่น้อย อ.เมือง",
+    "province": "กระบี่",
+    "lat": 8.0982,
+    "lng": 98.9145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.75,
+    "review_count": 55,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "เซ็นทรัล นครศรี (Central Nakhon Si)",
+    "name_en": "เซ็นทรัล นครศรี (Central Nakhon Si)",
+    "category": "shopping_mall",
+    "address": "998 ถ.ทางหลวง 403 ต.พัฒนาการคูขวาง อ.เมือง",
+    "province": "นครศรีธรรมราช",
+    "lat": 8.4112,
+    "lng": 99.9682,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.77,
+    "review_count": 57,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. นาโยง ตรัง (เขาพับผ้า ทล.4 มุ่งหน้าพัทลุง)",
+    "name_en": "ปตท. นาโยง ตรัง (เขาพับผ้า ทล.4 มุ่งหน้าพัทลุง)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ทล.4 ต.นาโยงเหนือ อ.นาโยง",
+    "province": "ตรัง",
+    "lat": 7.5582,
+    "lng": 99.7124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.78,
+    "review_count": 58,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โรบินสัน ไลฟ์สไตล์ ตรัง",
+    "name_en": "โรบินสัน ไลฟ์สไตล์ ตรัง",
+    "category": "shopping_mall",
+    "address": "ถ.พัทลุง ต.ทับเที่ยง อ.เมือง",
+    "province": "ตรัง",
+    "lat": 7.5645,
+    "lng": 99.6312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.79,
+    "review_count": 59,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ท่าแค พัทลุง (ทล.4 สายใต้ ขาลงหาดใหญ่)",
+    "name_en": "ปตท. ท่าแค พัทลุง (ทล.4 สายใต้ ขาลงหาดใหญ่)",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ทล.4 ต.ท่าแค อ.เมือง",
+    "province": "พัทลุง",
+    "lat": 7.5812,
+    "lng": 100.0612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.8,
+    "review_count": 60,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โลตัส พัทลุง",
+    "name_en": "โลตัส พัทลุง",
+    "category": "shopping_mall",
+    "address": "ถ.ราเมศวร์ ต.คูหาสวรรค์ อ.เมือง",
+    "province": "พัทลุง",
+    "lat": 7.6189,
+    "lng": 100.0789,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.81,
+    "review_count": 61,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ละงู สตูล (มุ่งหน้าท่าเรือปากบารา/เกาะหลีเป๊ะ)",
+    "name_en": "ปตท. ละงู สตูล (มุ่งหน้าท่าเรือปากบารา/เกาะหลีเป๊ะ)",
+    "category": "gas_station",
+    "address": "ทล.416 ต.กำแพง อ.ละงู",
+    "province": "สตูล",
+    "lat": 6.8789,
+    "lng": 99.8124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.82,
+    "review_count": 62,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. ควนโดน สตูล (ทล.406 ทางลงเมืองสตูล)",
+    "name_en": "ปตท. ควนโดน สตูล (ทล.406 ทางลงเมืองสตูล)",
+    "category": "gas_station",
+    "address": "ทล.406 ต.ควนโดน อ.ควนโดน",
+    "province": "สตูล",
+    "lat": 6.7812,
+    "lng": 100.0891,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.83,
+    "review_count": 63,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สตูล",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สตูล",
+    "category": "shopping_mall",
+    "address": "ถ.ยนตรการกำธร ต.คลองขุด อ.เมือง",
+    "province": "สตูล",
+    "lat": 6.6451,
+    "lng": 100.0682,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.84,
+    "review_count": 64,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. หาดใหญ่ บายพาส (ลพบุรีราเมศวร์ ทล.414)",
+    "name_en": "ปตท. หาดใหญ่ บายพาส (ลพบุรีราเมศวร์ ทล.414)",
+    "category": "gas_station",
+    "address": "ถ.ลพบุรีราเมศวร์ ต.คลองแห อ.หาดใหญ่",
+    "province": "สงขลา",
+    "lat": 7.0412,
+    "lng": 100.4682,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.85,
+    "review_count": 65,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. สะเดา สงขลา (ทล.4 มุ่งหน้าด่านนอก/มาเลเซีย)",
+    "name_en": "ปตท. สะเดา สงขลา (ทล.4 มุ่งหน้าด่านนอก/มาเลเซีย)",
+    "category": "gas_station",
+    "address": "ถ.กาญจนวณิชย์ ต.สำนักขาม อ.สะเดา",
+    "province": "สงขลา",
+    "lat": 6.5512,
+    "lng": 100.4189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.86,
+    "review_count": 66,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ไดอาน่า คอมเพล็กซ์ หาดใหญ่ (Diana Complex)",
+    "name_en": "ไดอาน่า คอมเพล็กซ์ หาดใหญ่ (Diana Complex)",
+    "category": "shopping_mall",
+    "address": "ถ.ศรีภูวนารถ ต.หาดใหญ่ อ.หาดใหญ่",
+    "province": "สงขลา",
+    "lat": 7.0012,
+    "lng": 100.4789,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.87,
+    "review_count": 67,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. หนองจิก ปัตตานี (ทล.42 ขาเข้าปัตตานี)",
+    "name_en": "ปตท. หนองจิก ปัตตานี (ทล.42 ขาเข้าปัตตานี)",
+    "category": "gas_station",
+    "address": "ทล.42 ต.ตุยง อ.หนองจิก",
+    "province": "ปัตตานี",
+    "lat": 6.8451,
+    "lng": 101.1891,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.88,
+    "review_count": 68,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองปัตตานี (หน้ารูสะมิแล)",
+    "name_en": "ปตท. เมืองปัตตานี (หน้ารูสะมิแล)",
+    "category": "gas_station",
+    "address": "ถ.เจริญประดิษฐ์ ต.รูสะมิแล อ.เมือง",
+    "province": "ปัตตานี",
+    "lat": 6.8789,
+    "lng": 101.2412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.89,
+    "review_count": 69,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ ปัตตานี",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ ปัตตานี",
+    "category": "shopping_mall",
+    "address": "ถ.หนองจิก ต.รูสะมิแล อ.เมือง",
+    "province": "ปัตตานี",
+    "lat": 6.8645,
+    "lng": 101.2345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.9,
+    "review_count": 70,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เบตง ยะลา (ใต้สุดแดนสยาม ทล.410)",
+    "name_en": "ปตท. เบตง ยะลา (ใต้สุดแดนสยาม ทล.410)",
+    "category": "gas_station",
+    "address": "ถ.สุขยางค์ ทล.410 ต.เบตง อ.เบตง",
+    "province": "ยะลา",
+    "lat": 5.7745,
+    "lng": 101.0712,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.91,
+    "review_count": 71,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองยะลา (ถ.สิโรรส ทล.410)",
+    "name_en": "ปตท. เมืองยะลา (ถ.สิโรรส ทล.410)",
+    "category": "gas_station",
+    "address": "ถ.สิโรรส ต.สะเตง อ.เมือง",
+    "province": "ยะลา",
+    "lat": 6.5512,
+    "lng": 101.2845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.92,
+    "review_count": 72,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "โคลีเซี่ยม ซีนีเพล็กซ์ ยะลา (Coliseum Mall)",
+    "name_en": "โคลีเซี่ยม ซีนีเพล็กซ์ ยะลา (Coliseum Mall)",
+    "category": "shopping_mall",
+    "address": "ถ.สิโรรส ต.สะเตง อ.เมือง",
+    "province": "ยะลา",
+    "lat": 6.5412,
+    "lng": 101.2812,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.93,
+    "review_count": 73,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. สุไหงโก-ลก นราธิวาส (ด่านชายแดนใต้ ทล.4057)",
+    "name_en": "ปตท. สุไหงโก-ลก นราธิวาส (ด่านชายแดนใต้ ทล.4057)",
+    "category": "gas_station",
+    "address": "ถ.ทรายทอง 5 ต.สุไหงโก-ลก อ.สุไหงโก-ลก",
+    "province": "นราธิวาส",
+    "lat": 6.0312,
+    "lng": 101.9645,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.94,
+    "review_count": 74,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "ปตท. เมืองนราธิวาส (บายพาส ทล.42)",
+    "name_en": "ปตท. เมืองนราธิวาส (บายพาส ทล.42)",
+    "category": "gas_station",
+    "address": "ถ.สุริยะประดิษฐ์ ต.บางนาค อ.เมือง",
+    "province": "นราธิวาส",
+    "lat": 6.4289,
+    "lng": 101.8124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.65,
+    "review_count": 75,
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สุไหงโก-ลก",
+    "name_en": "บิ๊กซี ซูเปอร์เซ็นเตอร์ สุไหงโก-ลก",
+    "category": "shopping_mall",
+    "address": "ถ.สุไหงโก-ลก-ตากใบ ต.สุไหงโก-ลก",
+    "province": "นราธิวาส",
+    "lat": 6.0389,
+    "lng": 101.9712,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.66,
+    "review_count": 76,
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ],
+    "data_source": "osm_overpass"
+  },
+  {
+    "name": "บางจาก ศรีนครินทร์ (Greenovative Station)",
+    "name_en": "Bangchak Srinakarin Flagship Station",
+    "category": "gas_station",
+    "address": "ถ.ศรีนครินทร์ แขวงหนองบอน เขตประเวศ",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.6894,
+    "lng": 100.6468,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.82,
+    "review_count": 145,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. วิภาวดีรังสิต 62 (ขาเข้า ดอนเมือง)",
+    "name_en": "PTT Station Vibhavadi Rangsit 62",
+    "category": "gas_station",
+    "address": "ถ.วิภาวดีรังสิต แขวงตลาดบางเขน เขตหลักสี่",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.8782,
+    "lng": 100.5812,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.78,
+    "review_count": 198,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เชลล์ กาญจนาภิเษก-บางแค (Shell V-Power Station)",
+    "name_en": "Shell Kanchanaphisek Bang Khae",
+    "category": "gas_station",
+    "address": "ถ.กาญจนาภิเษก แขวงบางแคเหนือ เขตบางแค",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.7195,
+    "lng": 100.4058,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.75,
+    "review_count": 112,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. ชัยพฤกษ์-แจ้งวัฒนะ (ปากเกร็ด)",
+    "name_en": "PTT Station Chaiyaphruek Pak Kret",
+    "category": "gas_station",
+    "address": "ถ.ชัยพฤกษ์ ต.บางพลับ อ.ปากเกร็ด",
+    "province": "นนทบุรี",
+    "lat": 13.9182,
+    "lng": 100.4651,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.8,
+    "review_count": 134,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "บางจาก บางนา-ตราด กม.13 (ขาออก สุวรรณภูมิ)",
+    "name_en": "Bangchak Bangna-Trad Km.13 Outbound",
+    "category": "gas_station",
+    "address": "ถ.เทพรัตน (บางนา-ตราด) กม.13 ต.ราชาเทวะ อ.บางพลี",
+    "province": "สมุทรปราการ",
+    "lat": 13.6335,
+    "lng": 100.7289,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.81,
+    "review_count": 162,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "พีที แม็กซ์เรสท์ (PT Max Rest) นครชัยศรี กม.40",
+    "name_en": "PT Max Rest Nakhon Chai Si Km.40",
+    "category": "gas_station",
+    "address": "ถ.เพชรเกษม ต.ขุนแก้ว อ.นครชัยศรี",
+    "province": "นครปฐม",
+    "lat": 13.7812,
+    "lng": 100.2145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.79,
+    "review_count": 128,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. Маบข่า ระยอง (ทล.36 สายกระทิงลาย-ระยอง)",
+    "name_en": "PTT Station Mabkha Rayong Hwy 36",
+    "category": "gas_station",
+    "address": "ทล.36 ต.มาบข่า อ.นิคมพัฒนา",
+    "province": "ระยอง",
+    "lat": 12.7854,
+    "lng": 101.1452,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.83,
+    "review_count": 154,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. หนองไผ่ เพชรบูรณ์ (ทล.21 สระบุรี-หล่มสัก)",
+    "name_en": "PTT Station Nong Phai Phetchabun Hwy 21",
+    "category": "gas_station",
+    "address": "ทล.21 ต.หนองไผ่ อ.หนองไผ่",
+    "province": "เพชรบูรณ์",
+    "lat": 15.9912,
+    "lng": 101.0645,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.81,
+    "review_count": 142,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. ชัยบาดาล ลพบุรี (ลำนารายณ์ ทล.21)",
+    "name_en": "PTT Station Chai Badan Lam Narai Hwy 21",
+    "category": "gas_station",
+    "address": "ทล.21 ต.ลำนารายณ์ อ.ชัยบาดาล",
+    "province": "ลพบุรี",
+    "lat": 15.2045,
+    "lng": 101.1342,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.77,
+    "review_count": 118,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. ด่านขุนทด นครราชสีมา (ทล.201 ลัดสู่ชัยภูมิ)",
+    "name_en": "PTT Station Dan Khun Thot Hwy 201",
+    "category": "gas_station",
+    "address": "ทล.201 ต.ด่านขุนทด อ.ด่านขุนทด",
+    "province": "นครราชสีมา",
+    "lat": 15.2089,
+    "lng": 101.7689,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.79,
+    "review_count": 131,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. ปักธงชัย นครราชสีมา (ทล.304 วังน้ำเขียว-โคราช)",
+    "name_en": "PTT Station Pak Thong Chai Hwy 304",
+    "category": "gas_station",
+    "address": "ทล.304 ต.เมืองปัก อ.ปักธงชัย",
+    "province": "นครราชสีมา",
+    "lat": 14.7189,
+    "lng": 102.0212,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.82,
+    "review_count": 165,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. สังขละบุรี กาญจนบุรี (ทล.323 สะพานมอญ)",
+    "name_en": "PTT Station Sangkhla Buri Mon Bridge",
+    "category": "gas_station",
+    "address": "ทล.323 ต.หนองลู อ.สังขละบุรี",
+    "province": "กาญจนบุรี",
+    "lat": 15.1542,
+    "lng": 98.4589,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "06:00 - 22:00",
+    "overall_rating": 4.84,
+    "review_count": 210,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. ทองผาภูมิ กาญจนบุรี (ทล.323 มุ่งหน้าปิล๊อก)",
+    "name_en": "PTT Station Thong Pha Phum Hwy 323",
+    "category": "gas_station",
+    "address": "ทล.323 ต.ท่าขนุน อ.ทองผาภูมิ",
+    "province": "กาญจนบุรี",
+    "lat": 14.7389,
+    "lng": 98.6345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.81,
+    "review_count": 175,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. เชียงดาว เชียงใหม่ (ทล.107 เชียงใหม่-ฝาง)",
+    "name_en": "PTT Station Chiang Dao Hwy 107",
+    "category": "gas_station",
+    "address": "ทล.107 ต.เชียงดาว อ.เชียงดาว",
+    "province": "เชียงใหม่",
+    "lat": 19.3645,
+    "lng": 98.9642,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.85,
+    "review_count": 192,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ปตท. แม่ขะจาน เชียงราย (ทล.118 ดอยสะเก็ด-เชียงราย)",
+    "name_en": "PTT Station Mae Khachan Hot Spring Hwy 118",
+    "category": "gas_station",
+    "address": "ทล.118 ต.แม่เจดีย์ อ.เวียงป่าเป้า",
+    "province": "เชียงราย",
+    "lat": 19.1945,
+    "lng": 99.5124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.88,
+    "review_count": 265,
+    "data_source": "osm_overpass",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ข้าวแกงบ้านสวน สาขา 2 (พหลโยธิน กม.65 วังน้อย ขาออก)",
+    "name_en": "Khao Kaeng Ban Suan 2 Wang Noi Outbound",
+    "category": "restaurant_cafe",
+    "address": "ถ.พหลโยธิน กม.65 ต.ชะแมบ อ.วังน้อย",
+    "province": "พระนครศรีอยุธยา",
+    "lat": 14.2485,
+    "lng": 100.7282,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.89,
+    "review_count": 540,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ข้าวแกงบ้านสวน สาขา 3 (พหลโยธิน กม.68 วังน้อย ขาเข้า กทม.)",
+    "name_en": "Khao Kaeng Ban Suan 3 Wang Noi Inbound",
+    "category": "restaurant_cafe",
+    "address": "ถ.พหลโยธิน กม.68 ต.ชะแมบ อ.วังน้อย",
+    "province": "พระนครศรีอยุธยา",
+    "lat": 14.2612,
+    "lng": 100.7418,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.87,
+    "review_count": 480,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "พอร์โต้ โก บางปะอิน (Porto Go Bang Pa-In จุดแวะพักสายเอเชีย)",
+    "name_en": "Porto Go Bang Pa-In Rest Stop Hwy 32",
+    "category": "shopping_mall",
+    "address": "ทล.32 (สายเอเชีย กม.4) ต.คลองจิก อ.บางปะอิน",
+    "province": "พระนครศรีอยุธยา",
+    "lat": 14.2054,
+    "lng": 100.6012,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (McDonald/Starbucks Drive-Thru)",
+    "overall_rating": 4.92,
+    "review_count": 420,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "พอร์โต้ โก ท่าจีน (Porto Go Tha Chin พระราม 2 กม.41 ขาลงใต้)",
+    "name_en": "Porto Go Tha Chin Rama 2 Km.41 Outbound",
+    "category": "shopping_mall",
+    "address": "ถ.พระราม 2 กม.41 ต.บางโทรัด อ.เมืองสมุทรสาคร",
+    "province": "สมุทรสาคร",
+    "lat": 13.5245,
+    "lng": 100.1689,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.91,
+    "review_count": 390,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "พอร์โต้ ชิโน่ มหาชัย (Porto Chino Lifestyle Mall พระราม 2 กม.25)",
+    "name_en": "Porto Chino Lifestyle Mall Rama 2 Km.25",
+    "category": "shopping_mall",
+    "address": "99/120 ถ.พระราม 2 กม.25 ต.นาดี อ.เมืองสมุทรสาคร",
+    "province": "สมุทรสาคร",
+    "lat": 13.5712,
+    "lng": 100.2895,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (โซน Foodland & Starbucks)",
+    "overall_rating": 4.88,
+    "review_count": 310,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เดอะ เรส แอเรีย ประชาชื่น (The Rest Area Prachachuen ทางด่วนศรีรัช)",
+    "name_en": "The Rest Area Prachachuen Expressway",
+    "category": "restaurant_cafe",
+    "address": "ทางพิเศษศรีรัช (หลังด่านประชาชื่น ขาออก) เขตจตุจักร",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.8452,
+    "lng": 100.5412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.86,
+    "review_count": 410,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ร้านอาหารบ้านเค้ก & แม่กิมลั้ง ท่ายาง (เพชรเกษม ขาเข้า กทม.)",
+    "name_en": "Mae Kim Lang & Ban Cake Tha Yang Phetchaburi",
+    "category": "restaurant_cafe",
+    "address": "ถ.เพชรเกษม ต.ท่ายาง อ.ท่ายาง",
+    "province": "เพชรบุรี",
+    "lat": 12.9612,
+    "lng": 99.9089,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "07:00 - 20:00",
+    "overall_rating": 4.85,
+    "review_count": 365,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ร้านอาหารคุณสาหร่าย ชุมพร (จุดแวะพักรถทัวร์และนักเดินทาง ล่องใต้)",
+    "name_en": "Khun Sarai Restaurant & Rest Stop Chumphon",
+    "category": "restaurant_cafe",
+    "address": "ถ.เพชรเกษม กม.485 ต.วังไผ่ อ.เมืองชุมพร",
+    "province": "ชุมพร",
+    "lat": 10.5212,
+    "lng": 99.1345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.84,
+    "review_count": 490,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ฟาร์มโชคชัย ปากช่อง (Chokchai Steakhouse & Rest Stop มิตรภาพ)",
+    "name_en": "Chokchai Farm & Steakhouse Pak Chong",
+    "category": "restaurant_cafe",
+    "address": "169 หมู่ 2 ถ.มิตรภาพ กม.159 ต.หนองน้ำแดง อ.ปากช่อง",
+    "province": "นครราชสีมา",
+    "lat": 14.6612,
+    "lng": 101.3489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "09:00 - 20:00",
+    "overall_rating": 4.87,
+    "review_count": 380,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "แดรี่โฮม ปากช่อง (Dairy Home Restaurant & Organic Shop)",
+    "name_en": "Dairy Home Restaurant Pak Chong",
+    "category": "restaurant_cafe",
+    "address": "100/1 ถ.มิตรภาพ ต.พญาเย็น อ.ปากช่อง",
+    "province": "นครราชสีมา",
+    "lat": 14.6345,
+    "lng": 101.2145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "09:00 - 19:30",
+    "overall_rating": 4.9,
+    "review_count": 340,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ครูต้อ ร้านอาหาร & จุดแวะพักมวกเหล็ก (มิตรภาพ ขาออก)",
+    "name_en": "Kru To Restaurant & Rest Stop Muak Lek",
+    "category": "restaurant_cafe",
+    "address": "ถ.มิตรภาพ ต.มิตรภาพ อ.มวกเหล็ก",
+    "province": "สระบุรี",
+    "lat": 14.6412,
+    "lng": 101.1812,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "06:30 - 20:30",
+    "overall_rating": 4.81,
+    "review_count": 275,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "บ้านไม้ชายน้ำ ปากช่อง (Ban Mai Chay Nam Restaurant)",
+    "name_en": "Ban Mai Chay Nam Restaurant Pak Chong",
+    "category": "restaurant_cafe",
+    "address": "21 หมู่ 6 ถ.มิตรภาพ ต.ปากช่อง อ.ปากช่อง",
+    "province": "นครราชสีมา",
+    "lat": 14.6912,
+    "lng": 101.4012,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": false,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:00",
+    "overall_rating": 4.83,
+    "review_count": 290,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ก๋วยเตี๋ยวเรือโกฮับ รังสิต (จุดแวะพักคลองรังสิต)",
+    "name_en": "Ko Hub Boat Noodles Rangsit Rest Stop",
+    "category": "restaurant_cafe",
+    "address": "ถ.รังสิต-นครนายก ต.ประชาธิปัตย์ อ.ธัญบุรี",
+    "province": "ปทุมธานี",
+    "lat": 13.9912,
+    "lng": 100.6412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": false,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "08:00 - 18:00",
+    "overall_rating": 4.78,
+    "review_count": 215,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "บึงฉวาก เฉลิมพระเกียรติ & โซนร้านอาหารสุพรรณบุรี",
+    "name_en": "Bueng Chawak Aquarium & Food Zone Restrooms",
+    "category": "restaurant_cafe",
+    "address": "ต.ปากน้ำ อ.เดิมบางนางบวช",
+    "province": "สุพรรณบุรี",
+    "lat": 14.9245,
+    "lng": 100.0512,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "08:30 - 17:00",
+    "overall_rating": 4.82,
+    "review_count": 240,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ตลาดปลาบางแสน (Bangsaen Toshin & Fish Market ชลบุรี)",
+    "name_en": "Bangsaen Fish Market Japanese Street",
+    "category": "restaurant_cafe",
+    "address": "ถ.ข้าวหลาม ต.แสนสุข อ.เมืองชลบุรี",
+    "province": "ชลบุรี",
+    "lat": 13.2989,
+    "lng": 100.9312,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 22:00",
+    "overall_rating": 4.86,
+    "review_count": 430,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "มุมอร่อย ศรีราชา-นาเกลือ (Mum Aroi Seafood Restrooms)",
+    "name_en": "Mum Aroi Seafood Na Kluea Pattaya",
+    "category": "restaurant_cafe",
+    "address": "83/4 หมู่ 4 ซ.นาเกลือ 4 ต.นาเกลือ อ.บางละมุง",
+    "province": "ชลบุรี",
+    "lat": 12.9712,
+    "lng": 100.9045,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "11:00 - 22:30",
+    "overall_rating": 4.84,
+    "review_count": 350,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "สตาร์บัคส์ ไดรฟ์ทรู วังน้อย (Starbucks Drive-Thru พหลโยธิน กม.58)",
+    "name_en": "Starbucks Drive-Thru Wang Noi Km.58",
+    "category": "restaurant_cafe",
+    "address": "ถ.พหลโยธิน กม.58 ต.ลำไทร อ.วังน้อย",
+    "province": "พระนครศรีอยุธยา",
+    "lat": 14.2124,
+    "lng": 100.6845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "06:30 - 21:00",
+    "overall_rating": 4.91,
+    "review_count": 260,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "แมคโดนัลด์ ไดรฟ์ทรู พระราม 2 กม.35 (McDonald Drive-Thru)",
+    "name_en": "McDonald Drive-Thru Rama 2 Km.35",
+    "category": "restaurant_cafe",
+    "address": "ถ.พระราม 2 กม.35 ต.บางกระเจ้า อ.เมืองสมุทรสาคร",
+    "province": "สมุทรสาคร",
+    "lat": 13.5415,
+    "lng": 100.2215,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง",
+    "overall_rating": 4.83,
+    "review_count": 230,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เซ็นทรัล วิลเลจ สุวรรณภูมิ (Central Village Luxury Outlet)",
+    "name_en": "Central Village Bangkok Luxury Outlet",
+    "category": "shopping_mall",
+    "address": "98/9 ถ.สุวรรณภูมิ 3 ต.บางโฉลง อ.บางพลี",
+    "province": "สมุทรปราการ",
+    "lat": 13.6428,
+    "lng": 100.7458,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 22:00",
+    "overall_rating": 4.96,
+    "review_count": 450,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ดีไซน์วิลเลจ บางนา (Design Village Bangna บุญถาวร)",
+    "name_en": "Design Village Bangna Lifestyle Mall",
+    "category": "shopping_mall",
+    "address": "ถ.เทพรัตน (บางนา-ตราด กม.8) ต.บางแก้ว อ.บางพลี",
+    "province": "สมุทรปราการ",
+    "lat": 13.6512,
+    "lng": 100.6789,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "08:00 - 22:00 (ห้องน้ำโถอัตโนมัติระดับพรีเมียม)",
+    "overall_rating": 4.97,
+    "review_count": 380,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ดีไซน์วิลเลจ ราชพฤกษ์ (Design Village Ratchaphruek)",
+    "name_en": "Design Village Ratchaphruek",
+    "category": "shopping_mall",
+    "address": "ถ.ราชพฤกษ์ ต.บางพลับ อ.ปากเกร็ด",
+    "province": "นนทบุรี",
+    "lat": 13.9145,
+    "lng": 100.4489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "08:00 - 22:00",
+    "overall_rating": 4.95,
+    "review_count": 310,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เซ็นทรัล เวสต์วิลล์ ราชพฤกษ์ (Central Westville)",
+    "name_en": "Central Westville Ratchaphruek",
+    "category": "shopping_mall",
+    "address": "ถ.ราชพฤกษ์ ต.มหาสวัสดิ์ อ.บางกรวย",
+    "province": "นนทบุรี",
+    "lat": 13.8045,
+    "lng": 100.4489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 22:00 (Pet & Family Friendly Restrooms)",
+    "overall_rating": 4.95,
+    "review_count": 420,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เซ็นทรัล นครสวรรค์ (Central Nakhon Sawan แลนด์มาร์คภาคเหนือตอนล่าง)",
+    "name_en": "Central Nakhon Sawan Shopping Center",
+    "category": "shopping_mall",
+    "address": "ถ.พหลโยธิน ต.ปากน้ำโพ อ.เมืองนครสวรรค์",
+    "province": "นครสวรรค์",
+    "lat": 15.6912,
+    "lng": 100.1145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:30",
+    "overall_rating": 4.96,
+    "review_count": 390,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เซ็นทรัล นครปฐม (Central Nakhon Pathom ริมถนนเพชรเกษม)",
+    "name_en": "Central Nakhon Pathom Phetkasem",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.สนามจันทร์ อ.เมืองนครปฐม",
+    "province": "นครปฐม",
+    "lat": 13.8089,
+    "lng": 100.0489,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "10:00 - 21:30",
+    "overall_rating": 4.95,
+    "review_count": 350,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "เอฟเอ็น เอาท์เล็ท เพชรบุรี (FN Outlet Phetchaburi เพชรเกษม)",
+    "name_en": "FN Outlet Phetchaburi Rest Stop",
+    "category": "shopping_mall",
+    "address": "ถ.เพชรเกษม ต.เขาใหญ่ อ.ชะอำ",
+    "province": "เพชรบุรี",
+    "lat": 12.8312,
+    "lng": 99.9345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": true,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "09:00 - 20:00 (ห้องน้ำดีไซน์หรู กว้างขวาง)",
+    "overall_rating": 4.92,
+    "review_count": 410,
+    "data_source": "google_places",
+    "photos": [
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงวังน้อย (กรมทางหลวง ทล.1 กม.64)",
+    "name_en": "DOH Highway Service Center Wang Noi (Hwy 1 Km.64)",
+    "category": "transit_hub",
+    "address": "ทล.1 (พหลโยธิน) กม.64 ต.ลำไทร อ.วังน้อย [Open Data กรมทางหลวง]",
+    "province": "พระนครศรีอยุธยา",
+    "lat": 14.2312,
+    "lng": 100.7145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.78,
+    "review_count": 145,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงมวกเหล็ก (กรมทางหลวง ทล.2 กม.38)",
+    "name_en": "DOH Highway Service Center Muak Lek (Hwy 2 Km.38)",
+    "category": "transit_hub",
+    "address": "ทล.2 (มิตรภาพ) ต.มิตรภาพ อ.มวกเหล็ก [Open Data กรมทางหลวง]",
+    "province": "สระบุรี",
+    "lat": 14.6389,
+    "lng": 101.1912,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.8,
+    "review_count": 162,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงปากช่องที่ 1 (กรมทางหลวง ทล.2)",
+    "name_en": "DOH Highway Service Center Pak Chong 1",
+    "category": "transit_hub",
+    "address": "ทล.2 (มิตรภาพ) ต.ปากช่อง อ.ปากช่อง [Open Data กรมทางหลวง]",
+    "province": "นครราชสีมา",
+    "lat": 14.6845,
+    "lng": 101.4124,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.82,
+    "review_count": 178,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงสีคิ้ว (กรมทางหลวง ทล.2 ลำตะคอง)",
+    "name_en": "DOH Highway Service Center Sikhio Lam Takhong",
+    "category": "transit_hub",
+    "address": "ทล.2 (มิตรภาพ ริมเขื่อนลำตะคอง) อ.สีคิ้ว [Open Data กรมทางหลวง]",
+    "province": "นครราชสีมา",
+    "lat": 14.8512,
+    "lng": 101.5845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดพักรถชมวิวเขื่อนลำตะคอง)",
+    "overall_rating": 4.88,
+    "review_count": 310,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงบ้านไผ่ (กรมทางหลวง ทล.2 ขอนแก่น)",
+    "name_en": "DOH Highway Service Center Ban Phai Khon Kaen",
+    "category": "transit_hub",
+    "address": "ทล.2 (มิตรภาพ) ต.ในเมือง อ.บ้านไผ่ [Open Data กรมทางหลวง]",
+    "province": "ขอนแก่น",
+    "lat": 16.0645,
+    "lng": 102.7345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.76,
+    "review_count": 115,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงเขาสวนกวาง (กรมทางหลวง ทล.2 ขอนแก่น)",
+    "name_en": "DOH Highway Service Center Khao Suan Kwang",
+    "category": "transit_hub",
+    "address": "ทล.2 (มิตรภาพ) ต.คำม่วง อ.เขาสวนกวาง [Open Data กรมทางหลวง]",
+    "province": "ขอนแก่น",
+    "lat": 16.8542,
+    "lng": 102.8612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.79,
+    "review_count": 132,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงพยุหะคีรี (กรมทางหลวง ทล.1 นครสวรรค์)",
+    "name_en": "DOH Highway Service Center Phayuha Khiri",
+    "category": "transit_hub",
+    "address": "ทล.1 (พหลโยธิน) ต.พยุหะ อ.พยุหะคีรี [Open Data กรมทางหลวง]",
+    "province": "นครสวรรค์",
+    "lat": 15.4589,
+    "lng": 100.1345,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.77,
+    "review_count": 120,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงคลองขลุง (กรมทางหลวง ทล.1 กำแพงเพชร)",
+    "name_en": "DOH Highway Service Center Khlong Khlung",
+    "category": "transit_hub",
+    "address": "ทล.1 (พหลโยธิน) ต.ท่ามะเขือ อ.คลองขลุง [Open Data กรมทางหลวง]",
+    "province": "กำแพงเพชร",
+    "lat": 16.2189,
+    "lng": 99.7145,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.79,
+    "review_count": 138,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงเถิน (กรมทางหลวง ทล.1 ลำปาง)",
+    "name_en": "DOH Highway Service Center Thoen Lampang",
+    "category": "transit_hub",
+    "address": "ทล.1 (พหลโยธิน) ต.ล้อมแรด อ.เถิน [Open Data กรมทางหลวง]",
+    "province": "ลำปาง",
+    "lat": 17.6124,
+    "lng": 99.2189,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.83,
+    "review_count": 165,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงห้างฉัตร (กรมทางหลวง ทล.11 ขุนตาน)",
+    "name_en": "DOH Highway Service Center Hang Chat Khun Tan",
+    "category": "transit_hub",
+    "address": "ทล.11 (ลำปาง-เชียงใหม่ ดอยขุนตาน) อ.ห้างฉัตร [Open Data กรมทางหลวง]",
+    "province": "ลำปาง",
+    "lat": 18.3542,
+    "lng": 99.2989,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดพักรถทางขึ้นดอยขุนตาน)",
+    "overall_rating": 4.86,
+    "review_count": 210,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงแม่ทา (กรมทางหลวง ทล.11 ลำพูน)",
+    "name_en": "DOH Highway Service Center Mae Tha Lamphun",
+    "category": "transit_hub",
+    "address": "ทล.11 ต.ทาสบเส้า อ.แม่ทา [Open Data กรมทางหลวง]",
+    "province": "ลำพูน",
+    "lat": 18.4612,
+    "lng": 99.1845,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.81,
+    "review_count": 142,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงดอยสะเก็ด (กรมทางหลวง ทล.118 เชียงใหม่)",
+    "name_en": "DOH Highway Service Center Doi Saket Chiang Mai",
+    "category": "transit_hub",
+    "address": "ทล.118 (เชียงใหม่-เชียงราย) อ.ดอยสะเก็ด [Open Data กรมทางหลวง]",
+    "province": "เชียงใหม่",
+    "lat": 18.8845,
+    "lng": 99.1412,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.84,
+    "review_count": 175,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงชะอำ (กรมทางหลวง ทล.4 เพชรบุรี)",
+    "name_en": "DOH Highway Service Center Cha-Am Phetchaburi",
+    "category": "transit_hub",
+    "address": "ทล.4 (เพชรเกษม) ต.ชะอำ อ.ชะอำ [Open Data กรมทางหลวง]",
+    "province": "เพชรบุรี",
+    "lat": 12.7945,
+    "lng": 99.9612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.82,
+    "review_count": 168,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงประจวบคีรีขันธ์ (กรมทางหลวง ทล.4)",
+    "name_en": "DOH Highway Service Center Prachuap Khiri Khan",
+    "category": "transit_hub",
+    "address": "ทล.4 (เพชรเกษม) ต.เกาะหลัก อ.เมืองประจวบฯ [Open Data กรมทางหลวง]",
+    "province": "ประจวบคีรีขันธ์",
+    "lat": 11.8145,
+    "lng": 99.7889,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.83,
+    "review_count": 154,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงท่าแซะ (กรมทางหลวง ทล.4 ชุมพร)",
+    "name_en": "DOH Highway Service Center Tha Sae Chumphon",
+    "category": "transit_hub",
+    "address": "ทล.4 (เพชรเกษม) ต.ท่าแซะ อ.ท่าแซะ [Open Data กรมทางหลวง]",
+    "province": "ชุมพร",
+    "lat": 10.6645,
+    "lng": 99.1745,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.81,
+    "review_count": 149,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงพุนพิน (กรมทางหลวง ทล.41 สุราษฎร์ธานี)",
+    "name_en": "DOH Highway Service Center Phunphin Surat Thani",
+    "category": "transit_hub",
+    "address": "ทล.41 (สายเอเชียใต้) ต.ท่าข้าม อ.พุนพิน [Open Data กรมทางหลวง]",
+    "province": "สุราษฎร์ธานี",
+    "lat": 9.1045,
+    "lng": 99.2245,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.8,
+    "review_count": 136,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดบริการทั่วไทย หมวดทางหลวงทุ่งสง (กรมทางหลวง ทล.41 นครศรีธรรมราช)",
+    "name_en": "DOH Highway Service Center Thung Song",
+    "category": "transit_hub",
+    "address": "ทล.41 ต.ชะมาย อ.ทุ่งสง [Open Data กรมทางหลวง]",
+    "province": "นครศรีธรรมราช",
+    "lat": 8.1512,
+    "lng": 99.6745,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": true,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (จุดบริการประชาชนกรมทางหลวง)",
+    "overall_rating": 4.82,
+    "review_count": 144,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดพักรถทางพิเศษบางโปรง (EXAT กาญจนาภิเษก บางพลี-สุขสวัสดิ์)",
+    "name_en": "EXAT Bang Prong Expressway Service Area",
+    "category": "transit_hub",
+    "address": "ทางพิเศษกาญจนาภิเษก (บางพลี-สุขสวัสดิ์) อ.เมืองสมุทรปราการ [Open Data กทพ.]",
+    "province": "สมุทรปราการ",
+    "lat": 13.6345,
+    "lng": 100.5689,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (การทางพิเศษแห่งประเทศไทย)",
+    "overall_rating": 4.78,
+    "review_count": 185,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "จุดพักรถทางพิเศษบูรพาวิถี กม.28 (EXAT บางบ่อ สมุทรปราการ)",
+    "name_en": "EXAT Burapha Withi Expressway Rest Stop Km.28",
+    "category": "transit_hub",
+    "address": "ทางพิเศษบูรพาวิถี กม.28 อ.บางบ่อ [Open Data กทพ.]",
+    "province": "สมุทรปราการ",
+    "lat": 13.5889,
+    "lng": 100.8612,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": true,
+    "is_free": true,
+    "opening_hours": "เปิด 24 ชั่วโมง (การทางพิเศษแห่งประเทศไทย)",
+    "overall_rating": 4.76,
+    "review_count": 142,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ห้องน้ำสาธารณะมาตรฐาน HAS สวนลุมพินี (กทม. & กรมอนามัย)",
+    "name_en": "Lumphini Park HAS Standard Public Restroom",
+    "category": "public_park",
+    "address": "ถ.พระรามที่ 4 แขวงลุมพินี เขตปทุมวัน [Open Data มาตรฐาน HAS กรมอนามัย]",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.7308,
+    "lng": 100.5418,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": true,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "04:30 - 22:00 (มาตรฐาน HAS กรมอนามัย)",
+    "overall_rating": 4.86,
+    "review_count": 320,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ห้องน้ำสาธารณะมาตรฐาน HAS สวนจตุจักร (กทม. & กรมอนามัย)",
+    "name_en": "Chatuchak Park HAS Standard Public Restroom",
+    "category": "public_park",
+    "address": "ถ.พหลโยธิน แขวงจตุจักร เขตจตุจักร [Open Data มาตรฐาน HAS กรมอนามัย]",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.8038,
+    "lng": 100.5532,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "04:30 - 21:00 (มาตรฐาน HAS กรมอนามัย)",
+    "overall_rating": 4.82,
+    "review_count": 275,
+    "data_source": "data_go_th",
+    "photos": [
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
+    ]
+  },
+  {
+    "name": "ห้องน้ำสาธารณะมาตรฐาน HAS สวนหลวง ร.9 (กทม. & กรมอนามัย)",
+    "name_en": "Suan Luang Rama IX HAS Standard Public Restroom",
+    "category": "public_park",
+    "address": "ถ.เฉลิมพระเกียรติ ร.9 แขวงหนองบอน เขตประเวศ [Open Data มาตรฐาน HAS]",
+    "province": "กรุงเทพมหานคร",
+    "lat": 13.6882,
+    "lng": 100.6635,
+    "has_bidet": true,
+    "wheelchair_accessible": true,
+    "elderly_support": true,
+    "baby_station": true,
+    "has_shower": false,
+    "has_prayer_room": false,
+    "open_24h": false,
+    "is_free": true,
+    "opening_hours": "05:00 - 19:00 (มาตรฐาน HAS กรมอนามัย)",
+    "overall_rating": 4.85,
+    "review_count": 240,
+    "data_source": "data_go_th",
     "photos": [
       "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80"
     ]

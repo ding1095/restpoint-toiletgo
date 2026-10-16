@@ -730,10 +730,18 @@ function seedToRestroomPlace(seed: ToiletSeedItem, idx: number): RestroomPlace {
     photos: seed.photos && seed.photos.length ? seed.photos : [
       'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
     ],
-    verified_at: '2026-10-15',
-    source_type: 'authorized_source',
+    verified_at: '2026-10-16',
+    source_type: seed.data_source === 'data_go_th' ? 'agency' : 'authorized_source',
     report_status: 'normal',
-    badges: ['Verified Clean', 'Rest Stop', seed.has_bidet ? 'สายฉีดชำระ' : 'สะอาด'],
+    badges: [
+      seed.data_source === 'google_places'
+        ? 'Google Places'
+        : seed.data_source === 'data_go_th'
+        ? 'Open Data ภาครัฐ'
+        : 'OSM Overpass',
+      'Verified Clean',
+      seed.has_bidet ? 'สายฉีดชำระ' : 'สะอาด',
+    ],
     reviews: [
       {
         id: `rev-gen-${idx}`,

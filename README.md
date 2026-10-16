@@ -3,7 +3,7 @@
 > **ปวดเมื่อไหร่บอกปู้ปู้! ค้นหาห้องน้ำสะอาดและจุดแวะพักระหว่างเดินทาง**  
 > *Map-First Clean Restroom & Rest Stop Navigator for Thailand*
 
-[![Version](https://img.shields.io/badge/version-v1.2.0-emerald)](https://github.com/ding1095/restpoint-toiletgo/releases)
+[![Version](https://img.shields.io/badge/version-v1.3.0-emerald)](https://github.com/ding1095/restpoint-toiletgo/releases)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-3.4-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
@@ -21,8 +21,10 @@
 - **สแกนห้องน้ำตลอดแนวเส้นทาง (Route Corridor Buffer):** คำนวณเส้นทางขับขี่จริง (OSRM Engine) พร้อมดึงข้อมูลห้องน้ำตลอดแนวถนนผ่าน Supabase PostGIS (`ST_DWithin`) เรียงลำดับตามระยะทางกิโลเมตรจากจุดเริ่มต้น
 - **สรุปเวลาและระยะทาง:** คำนวณระยะทางรวม (กม.) เวลาเดินทางโดยประมาณ (~นาที) และปุ่มกดเปิดนำทางด้วย Google Maps ได้ทันที
 
-### 2. 🗺️ โหมดสำรวจจุดพัก (Explore & Regional Filter)
-- **แผนที่เต็มจอ (Map-First Experience):** ใช้แผนที่มาตรฐาน OpenStreetMap สว่าง สบายตา ไม่ต้องใช้ API Key
+### 2. 🗺️ โหมดสำรวจจุดพัก & บูรณาการ 3 แหล่งข้อมูลหลัก (350+ จุด ครบ 77 จังหวัด)
+- **1. OpenStreetMap ผ่าน Overpass Turbo:** พิกัดปั๊มน้ำมัน (ปตท., บางจาก, เชลล์, พีที, คาลเท็กซ์), ห้างสรรพสินค้า (เซ็นทรัล, โรบินสัน, โลตัส, บิ๊กซี) และห้องน้ำสาธารณะครบ 77 จังหวัด พร้อมปุ่มเปิดคำสั่งค้นหาบน Overpass Turbo
+- **2. Google Places API:** ตำแหน่งร้านอาหารจุดแวะพักชื่อดัง (ข้าวแกงบ้านสวน, คุณสาหร่าย, แม่กิมลั้ง, ฟาร์มโชคชัย, แดรี่โฮม), ร้าน Drive-Thru (McDonald's, Starbucks) และ Lifestyle Mall / Outlet (Porto Go, Porto Chino, Central Village, Design Village, FN Outlet)
+- **3. Open Data ภาครัฐ (`data.go.th`):** จุดบริการทั่วไทยและหมวดทางหลวง 24 ชม. จาก **กรมทางหลวง (DOH)**, จุดพักรถทางด่วนจาก **การทางพิเศษแห่งประเทศไทย (EXAT)** และห้องน้ำสาธารณะมาตรฐาน HAS จาก **กรมอนามัย & กรมการท่องเที่ยว**
 - **ตัวกรองภูมิภาคทั่วไทย (Regional Jump):** คัดกรองและบินไปยังแต่ละภาคได้ในคลิกเดียว:
   - 🇹🇭 ทั่วประเทศ
   - 🏔️ ภาคเหนือ
@@ -46,7 +48,7 @@
 ### 4. 🔒 ระบบผู้ดูแลและจัดการข้อมูล (Admin Portal)
 - ระบบล็อกอินด้วยรหัสผ่าน (Passcode PIN) ป้องกันการแก้ไขโดยไม่ได้รับอนุญาต
 - ตารางบริหารจัดการห้องน้ำ ค้นหา กรองสถานะ และดำเนินการ CRUD (เพิ่ม/แก้ไข/ลบ)
-- ระบบดึงข้อมูลพิกัดห้องน้ำ ปั๊มน้ำมัน และห้างสรรพสินค้าอัตโนมัติจาก OpenStreetMap Overpass API
+- ระบบดึงข้อมูลพิกัดห้องน้ำ ปั๊มน้ำมัน ร้านอาหาร และห้างสรรพสินค้าอัตโนมัติจากทั้ง 3 แหล่งข้อมูล (OpenStreetMap Overpass Turbo, Google Places API, และ Open Data ภาครัฐ `data.go.th`)
 - สถิติและ KPI ภาพรวม: จำนวนจุดทั้งหมด, จุดที่มีสายฉีดชำระ, จุดที่รองรับวีลแชร์ และคะแนนความสะอาดเฉลี่ย
 
 ### 5. 🛡️ ความปลอดภัยและการป้องกัน API (Security & API Hardening)

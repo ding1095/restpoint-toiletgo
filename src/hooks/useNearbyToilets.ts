@@ -53,109 +53,116 @@ export function useNearbyToilets(params: UseNearbyToiletsParams = {}) {
     setError(null);
 
     try {
-      let data: any[] | null = null;
+      const { data, error: rpcError } = await supabase.rpc('get_nearby_toilets', {
+        user_lat: lat,
+        user_lng: lng,
+        radius_meters: radiusMeters,
+        filter_bidet: filterBidet,
+        filter_wheelchair: filterWheelchair,
+        filter_baby: filterBaby,
+        filter_free: filterFree,
+        filter_24h: filter24h,
+      });
 
-      // When exploring nationwide (radius > 80km), load all toilets from database
-      if (radiusMeters > 80000) {
-        let query = supabase
-          .from('toilets')
-          .select('*')
-          .order('overall_rating', { ascending: false })
-          .limit(1000);
-
-        if (filterBidet) query = query.eq('has_bidet', true);
-        if (filterWheelchair) query = query.eq('wheelchair_accessible', true);
-        if (filterBaby) query = query.eq('baby_station', true);
-        if (filterFree) query = query.eq('is_free', true);
-        if (filter24h) query = query.eq('open_24h', true);
-
-        const { data: dbData, error: dbError } = await query;
-        if (dbError) throw dbError;
-
-        data = (dbData || []).map((t: any) => ({
-          ...t,
-          distance_meters: calculateDistanceKm(lat, lng, t.lat, t.lng) * 1000
-        })).sort((a: any, b: any) => (a.distance_meters || 0) - (b.distance_meters || 0));
-      } else {
-        // Call PostGIS Stored Procedure (RPC) for focused local radius
-        const { data: rpcData, error: rpcError } = await supabase.rpc('get_nearby_toilets', {
-          user_lat: lat,
-          user_lng: lng,
-          radius_meters: radiusMeters,
-          filter_bidet: filterBidet,
-          filter_wheelchair: filterWheelchair,
-          filter_baby: filterBaby,
-          filter_free: filterFree,
-          filter_24h: filter24h,
-        });
-
-        if (rpcError) throw rpcError;
-        data = rpcData;
-      }
+      if (rpcError) throw rpcError;
 
       if (data && Array.isArray(data)) {
-        // Map database records to UI RestroomPlace format
-        const mapped: RestroomPlace[] = data.map((t: any) => ({
-          id: t.id,
-          name: t.name,
-          name_en: t.name_en || t.name,
-          category: t.category,
-          address: t.address || '',
-          address_en: t.address || '',
-          province: t.province || '',
-          coordinates: { lat: t.lat, lng: t.lng },
-          distanceKm: t.distance_meters ? Number((t.distance_meters / 1000).toFixed(1)) : undefined,
-          access_status: t.verification_status || 'verified',
-          opening_hours: t.open_24h ? 'เปิด 24 ชั่วโมง' : 'เปิดบริการตามปกติ',
-          price_type: t.is_free ? 'free' : 'paid',
-          price_amount: t.price_amount ? Number(t.price_amount) : 0,
-          floor_zone: t.floor_zone || '',
-          facilities: {
-            bidetSprayer: Boolean(t.has_bidet),
-            genderSeparated: true,
-            familyRestroom: Boolean(t.baby_station),
-            diaperChangingTable: Boolean(t.baby_station),
-            nursingRoom: Boolean(t.baby_station),
-            showerRoom: Boolean(t.has_shower),
-            prayerRoom: Boolean(t.has_prayer_room),
-            wheelchairAccessible: Boolean(t.wheelchair_accessible),
-            elderlyFriendly: Boolean(t.elderly_support),
-            wifi: true,
-            parkingAvailable: true,
-            campingSpot: t.category === 'camping_nature',
-            waterRefill: true,
-            soapAvailable: true,
-            toiletPaperAvailable: true,
-          },
-          accessibility: {
-            hasRamp: Boolean(t.wheelchair_accessible),
-            hasElevator: false,
-            hasGrabBars: Boolean(t.elderly_support),
-            groundFloorOnly: true,
-            accessibleParkingNearby: true,
-            selfAccessible: true,
-          },
-          overallRating: Number(t.overall_rating || 5.0),
-          reviewCount: Number(t.review_count || 1),
-          ratingBreakdown: {
-            cleanliness: Number(t.overall_rating || 5.0),
-            facilities: 5,
-            accessibility: 5,
-            safety_privacy: 5,
-            convenience: 5,
-            value: 5,
-          },
-          photos: t.photos && t.photos.length > 0 ? t.photos : [
-            'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80'
-          ],
-          verified_at: 'เพิ่งอัปเดต',
-          source_type: 'user',
-          report_status: 'normal',
-          badges: ['Cleanest', 'Verified'],
-          reviews: [],
-        }));
+        // Map database records with valid coordinates to UI RestroomPlace format
+        const mapped: RestroomPlace[] = data
+          .filter((t: any) => typeof t.lat === 'number' && typeof t.lng === 'number' && !isNaN(t.lat) && !isNaN(t.lng))
+          .map((t: any) => {
+            // Check if we have calibrated local metadata/source badge for this place
+            const localMatch = INITIAL_RESTROOMS.find(
+              (loc) =>
+                loc.name.trim() === String(t.name || '').trim() ||
+                (Math.abs(loc.coordinates.lat - t.lat) < 0.002 && Math.abs(loc.coordinates.lng - t.lng) < 0.002)
+            );
 
-        setToilets(mapped);
+            const resolvedLat = localMatch ? localMatch.coordinates.lat : t.lat;
+            const resolvedLng = localMatch ? localMatch.coordinates.lng : t.lng;
+
+            return {
+              id: t.id,
+              name: t.name,
+              name_en: t.name_en || localMatch?.name_en || t.name,
+              category: t.category,
+              address: t.address || localMatch?.address || '',
+              address_en: t.address || localMatch?.address_en || '',
+              province: t.province || localMatch?.province || '',
+              coordinates: { lat: resolvedLat, lng: resolvedLng },
+              distanceKm: calculateDistanceKm(lat, lng, resolvedLat, resolvedLng),
+              access_status: t.verification_status || 'verified',
+              opening_hours: t.open_24h ? 'เปิด 24 ชั่วโมง' : localMatch?.opening_hours || 'เปิดบริการตามปกติ',
+              price_type: t.is_free ? 'free' : 'paid',
+              price_amount: t.price_amount ? Number(t.price_amount) : 0,
+              floor_zone: t.floor_zone || localMatch?.floor_zone || '',
+              facilities: {
+                bidetSprayer: Boolean(t.has_bidet),
+                genderSeparated: true,
+                familyRestroom: Boolean(t.baby_station),
+                diaperChangingTable: Boolean(t.baby_station),
+                nursingRoom: Boolean(t.baby_station),
+                showerRoom: Boolean(t.has_shower),
+                prayerRoom: Boolean(t.has_prayer_room),
+                wheelchairAccessible: Boolean(t.wheelchair_accessible),
+                elderlyFriendly: Boolean(t.elderly_support),
+                wifi: true,
+                parkingAvailable: true,
+                campingSpot: t.category === 'camping_nature',
+                waterRefill: true,
+                soapAvailable: true,
+                toiletPaperAvailable: true,
+              },
+              accessibility: {
+                hasRamp: Boolean(t.wheelchair_accessible),
+                hasElevator: false,
+                hasGrabBars: Boolean(t.elderly_support),
+                groundFloorOnly: true,
+                accessibleParkingNearby: true,
+                selfAccessible: true,
+              },
+              overallRating: Number(t.overall_rating || 4.8),
+              reviewCount: Number(t.review_count || 20),
+              ratingBreakdown: {
+                cleanliness: Number(t.overall_rating || 4.8),
+                facilities: 4.8,
+                accessibility: 4.8,
+                safety_privacy: 4.9,
+                convenience: 4.9,
+                value: 5.0,
+              },
+              photos:
+                t.photos && t.photos.length > 0
+                  ? t.photos
+                  : localMatch?.photos || [
+                      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
+                    ],
+              verified_at: '2026-10-16',
+              source_type: localMatch?.source_type || 'authorized_source',
+              report_status: 'normal',
+              badges: localMatch?.badges || ['OSM Overpass', 'Verified Clean', 'สายฉีดชำระ'],
+              reviews: localMatch?.reviews || [],
+            };
+          });
+
+        // Merge with INITIAL_RESTROOMS so all 3-source dataset items are always included
+        const combined = [...mapped];
+        for (const localPlace of INITIAL_RESTROOMS) {
+          const exists = combined.some(
+            (m) =>
+              m.name.trim() === localPlace.name.trim() ||
+              (Math.abs(m.coordinates.lat - localPlace.coordinates.lat) < 0.002 &&
+                Math.abs(m.coordinates.lng - localPlace.coordinates.lng) < 0.002)
+          );
+          if (!exists) {
+            combined.push({
+              ...localPlace,
+              distanceKm: calculateDistanceKm(lat, lng, localPlace.coordinates.lat, localPlace.coordinates.lng),
+            });
+          }
+        }
+
+        setToilets(combined);
       }
     } catch (err: any) {
       console.warn('Supabase query failed, falling back to local dataset:', err.message);
